@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ziba Seller Dashboard</title>
+
+<link rel="stylesheet" href="../css/seller.css">
+</head>
+
+<body>
+
+<div class="sidebar">
+
+    <h2>ZIBA</h2>
+
+    <ul>
+
+        <li class="active">🏠 Dashboard</li>
+
+        <li>📦 Products</li>
+
+        <li>➕ Add Product</li>
+
+        <li><a style="color: white;
+        text-decoration: none;" href="./seller-orders.html">📑 Orders</a></li>
+
+        <li>💰 Earnings</li>
+
+        <li>⚙ Settings</li>
+
+        <li id="logoutBtn">🚪 Logout</li>
+
+    </ul>
+
+</div>
+
+<div class="main">
+
+    <header>
+
+        <h1>Seller Dashboard</h1>
+
+        <p id="sellerName">Welcome Seller</p>
+
+    </header>
+
+    <div class="cards">
+
+        <div class="card">
+            <h2>Products</h2>
+            <h1 id="totalProducts">0</h1>
+        </div>
+
+        <div class="card">
+            <h2>Orders</h2>
+            <h1>0</h1>
+        </div>
+
+        <div class="card">
+            <h2>Earnings</h2>
+            <h1>₦0</h1>
+        </div>
+
+        <div class="card">
+            <h2>Plan</h2>
+            <h1 id="sellerPlan">Free</h1>
+        </div>
+
+    </div>
+
+    <div class="actions">
+
+        <button onclick="location.href='../html/post.html'">
+            ➕ Add Product
+        </button>
+
+        <button >
+          <a style="color: white;
+          text-decoration: none;" href="../html/manage-products.html">📦 Manage Products</a>  
+        </button>
+
+    </div>
+<section class="my-products">
+   <h2> My Products</h2>
+   <div id="productsContainer">
+    <p>Loading products...</p>
+   </div>
+</section>
+</div>
+
+<script type="module" src="../js/seller.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,164 @@
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:#f5f5f5;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    padding:20px;
+}
+
+.container{
+    width:100%;
+    max-width:1000px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    background:#fff;
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 15px 35px rgba(0,0,0,.1);
+}
+
+.left{
+    background:linear-gradient(to right, #FDBF2D, rgb(255, 162, 0));
+    color:#fff;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    padding:50px;
+    text-align:center;
+}
+
+.left h1{
+    font-size:40px;
+    margin-bottom:20px;
+}
+
+.left p{
+    font-size:18px;
+    line-height:1.8;
+}
+
+.right{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:50px;
+}
+
+form{
+    width:100%;
+    max-width:400px;
+}
+
+form h2{
+    margin-bottom:30px;
+    color:#222;
+    text-align:center;
+}
+
+form input[type=email],
+form input[type=password]{
+    width:100%;
+    padding:15px;
+    margin-bottom:18px;
+    border:1px solid #ddd;
+    border-radius:10px;
+    font-size:16px;
+    outline:none;
+}
+
+form input:focus{
+    border-color:#FDBF2D;
+}
+
+.passwordBox{
+    position:relative;
+}
+
+.passwordBox input{
+    margin-bottom:18px;
+}
+
+#togglePassword{
+    position:absolute;
+    right:15px;
+    top:16px;
+    cursor:pointer;
+    font-size:18px;
+}
+
+.options{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+    font-size:14px;
+}
+
+.options a{
+    text-decoration:none;
+    color:#FDBF2D;
+    font-weight:600;
+}
+
+button{
+    width:100%;
+    padding:15px;
+    border:none;
+    border-radius:10px;
+    background:#FDBF2D;
+    color:#fff;
+    font-size:17px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+button:hover{
+    background:#e6a800;
+}
+
+form p{
+    margin-top:20px;
+    text-align:center;
+}
+
+form p a{
+    color:#FDBF2D;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+@media(max-width:768px){
+
+.container{
+    grid-template-columns:1fr;
+}
+
+.left{
+    padding:40px 30px;
+}
+
+.left h1{
+    font-size:30px;
+}
+
+.right{
+    padding:35px 25px;
+}
+
+.options{
+    flex-direction:column;
+    gap:10px;
+    align-items:flex-start;
+}
+
+}

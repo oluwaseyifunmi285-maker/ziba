@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ziba | Register</title>
+
+<link rel="stylesheet" href="../css/register.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+</head>
+<body>
+
+<div class="container">
+
+    <div class="form-box">
+
+        <h1>Create Your Ziba Account</h1>
+        <p>Join as a Buyer or Seller</p>
+
+        <form id="signupForm">
+
+            <div  class="input-group">
+
+                <input id="fullName" type="text" placeholder="Full Name" required>
+
+                <input id="email" type="email" placeholder="Email Address" required>
+
+                <input id="phone" type="phone" placeholder="Phone Number" required>
+
+                <input id="password" type="password" placeholder="Password" required>
+
+                <input id="confirmPassword" type="password" placeholder="Confirm Password" required>
+
+                <select id="accountType" required>
+                    <option value="">Select Account Type</option>
+                    <option value="buyer">Buyer</option>
+                    <option value="seller">Seller</option>
+                </select>
+
+            </div>
+
+            <!-- Seller Fields -->
+
+            <div id="sellerFields" style="display:none;">
+
+                <input id="businessName" type="text" placeholder="Business Name">
+
+                <input id="businessCategory" type="text" placeholder="Business Category">
+
+                <input id="businessAddress" type="text" placeholder="Business Address">
+
+                <input id="cacNumber" type="text" placeholder="CAC Number (Optional)">
+
+            </div>
+
+            <button type="submit">
+                Create Account
+            </button>
+
+            <p>
+                Already have an account?
+                <a href="login.html">Login</a>
+            </p>
+
+        </form>
+
+    </div>
+
+</div>
+
+<script type="module" src="../js/register.js">
+</script>
+
+</body>
+</html>

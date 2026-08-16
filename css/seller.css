@@ -1,0 +1,167 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    display:flex;
+    min-height:100vh;
+    background:#f4f6f9;
+}
+
+/* Sidebar */
+
+.sidebar{
+    width:260px;
+    background:#111;
+    color:#fff;
+    padding:30px 20px;
+}
+
+.sidebar h2{
+    color:#FDBF2D;
+    text-align:center;
+    margin-bottom:40px;
+    font-size:30px;
+}
+.product-card img {
+    width: 180px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 12px;
+    display: block;
+}
+
+.sidebar ul{
+    list-style:none;
+}
+
+.sidebar ul li{
+    padding:16px;
+    margin:10px 0;
+    border-radius:10px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.sidebar ul li:hover,
+.sidebar ul li.active{
+    background:#FDBF2D;
+    color:#111;
+    font-weight:bold;
+}
+
+/* Main */
+
+.main{
+    flex:1;
+    padding:35px;
+}
+
+header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:35px;
+}
+
+header h1{
+    color:#222;
+}
+
+header p{
+    color:#777;
+    font-size:18px;
+}
+
+/* Cards */
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:20px;
+}
+
+.card{
+    background:#fff;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+    transition:.3s;
+}
+
+.card:hover{
+    transform:translateY(-6px);
+}
+
+.card h2{
+    color:#666;
+    margin-bottom:15px;
+    font-size:20px;
+}
+
+.card h1{
+    color:#FDBF2D;
+    font-size:38px;
+}
+
+/* Action Buttons */
+
+.actions{
+    margin-top:40px;
+    display:flex;
+    gap:20px;
+    flex-wrap:wrap;
+}
+
+.actions button{
+    padding:15px 30px;
+    border:none;
+    border-radius:10px;
+    background:#FDBF2D;
+    color:#fff;
+    font-size:17px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.actions button:hover{
+    background:#e0a500;
+    transform:translateY(-3px);
+}
+
+/* Mobile */
+
+@media(max-width:900px){
+
+body{
+    flex-direction:column;
+}
+
+.sidebar{
+    width:100%;
+}
+
+header{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:10px;
+}
+
+.actions{
+    flex-direction:column;
+}
+
+.actions button{
+    width:100%;
+}
+
+}
+@media (max-width: 600px) {
+    .product-card img {
+        width: 120px;
+        height: 100px;
+    }
+}

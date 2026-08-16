@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ziba Checkout</title>
+
+    <link rel="stylesheet" href="../css/checkout.css">
+
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+</head>
+<body>
+
+<div class="checkout-card">
+
+    <h1>Checkout</h1>
+
+    <div class="product">
+
+        <img id="productImage" src="" alt="Product">
+
+        <h2 id="productName">Product Name</h2>
+
+        <h3 id="productPrice">₦5000</h3>
+
+    </div>
+
+    <div class="buyer">
+
+        <input
+        type="text"
+        id="buyerName"
+        placeholder="Full Name"
+        required>
+
+        <input
+        type="email"
+        id="buyerEmail"
+        placeholder="Email Address"
+        required>
+
+    </div>
+
+    <button id="payBtn">
+
+        Pay Now
+
+    </button>
+
+</div>
+
+<script type="module" src="../js/checkout.js"></script>
+
+</body>
+</html>
+

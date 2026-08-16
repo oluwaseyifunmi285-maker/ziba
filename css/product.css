@@ -1,0 +1,182 @@
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:#f5f5f5;
+}
+
+/* Header */
+
+header{
+    background:#fff;
+    display:flex;
+    align-items:center;
+    gap:20px;
+    padding:18px 30px;
+    box-shadow:0 2px 10px rgba(0,0,0,.08);
+}
+
+.back{
+    color:#ff7a00;
+    font-size:24px;
+    text-decoration:none;
+}
+
+header h2{
+    color:#333;
+}
+
+/* Product Container */
+
+.product-container{
+    max-width:1200px;
+    margin:40px auto;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:40px;
+    padding:20px;
+}
+
+.image-box{
+    background:#fff;
+    border-radius:20px;
+    padding:20px;
+    box-shadow:0 5px 20px rgba(0,0,0,.08);
+}
+
+.image-box img{
+    width:100%;
+    border-radius:15px;
+    object-fit:cover;
+}
+
+/* Details */
+
+.details{
+    background:#fff;
+    border-radius:20px;
+    padding:30px;
+    box-shadow:0 5px 20px rgba(0,0,0,.08);
+}
+
+.details h1{
+    font-size:34px;
+    color:#222;
+    margin-bottom:15px;
+}
+
+.details h2{
+    color:#ff7a00;
+    font-size:32px;
+    margin-bottom:20px;
+}
+
+.details p{
+    color:#666;
+    line-height:1.8;
+    margin-bottom:15px;
+}
+
+/* Product Info */
+
+.info{
+    margin:25px 0;
+}
+
+.info p{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:17px;
+}
+
+.info i{
+    color:#ff7a00;
+}
+
+/* Buttons */
+
+.buttons{
+    display:flex;
+    gap:20px;
+    flex-wrap:wrap;
+    margin-top:30px;
+}
+
+.buttons button{
+    flex:1;
+    padding:15px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:17px;
+    transition:.3s;
+}
+
+#chatBtn{
+    background:#ff7a00;
+    color:#fff;
+}
+
+#chatBtn:hover{
+    background:#e66d00;
+}
+
+#saveBtn{
+    background:#fff;
+    border:2px solid #ff7a00;
+    color:#ff7a00;
+}
+
+#saveBtn:hover{
+    background:#ff7a00;
+    color:#fff;
+}
+.buy-btn {
+    width: 100%;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 10px;
+    background: #fdbf2d;
+    color: #000;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: 0.2s ease;
+}
+
+.buy-btn:hover {
+    transform: translateY(-2px);
+    opacity: 0.9;
+}
+/* Mobile */
+
+@media(max-width:900px){
+
+.product-container{
+    grid-template-columns:1fr;
+}
+
+.details h1{
+    font-size:28px;
+}
+
+.details h2{
+    font-size:26px;
+}
+
+.buttons{
+    flex-direction:column;
+}
+
+header{
+    padding:15px 20px;
+}
+
+}

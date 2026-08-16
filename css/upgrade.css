@@ -1,0 +1,349 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background: #f7f7f7;
+    display: flex;
+    justify-content: center;
+    padding: 40px 20px;
+    color: #222;
+}
+
+
+/* ==========================================
+   CONTAINER
+========================================== */
+
+.upgrade-container {
+    width: 100%;
+    max-width: 1200px;
+}
+
+
+/* ==========================================
+   HEADER
+========================================== */
+
+.upgrade-header {
+    text-align: center;
+    margin-bottom: 45px;
+}
+
+.ziba-logo {
+    display: inline-block;
+    font-size: 30px;
+    font-weight: 800;
+    color: #ff7a00;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+}
+
+.upgrade-header h1 {
+    font-size: 34px;
+    margin-bottom: 10px;
+    color: #222;
+}
+
+.upgrade-header p {
+    color: #777;
+    font-size: 16px;
+}
+
+
+/* ==========================================
+   PLANS
+========================================== */
+
+.plans {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+    align-items: stretch;
+}
+
+
+/* ==========================================
+   PLAN CARD
+========================================== */
+
+.plan {
+    position: relative;
+    background: #ffffff;
+    border: 1px solid #e7e7e7;
+    border-radius: 20px;
+    padding: 35px 28px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+    transition: 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.plan:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.10);
+}
+
+
+/* ==========================================
+   POPULAR PLAN
+========================================== */
+
+.plan.popular {
+    border: 2px solid #ff7a00;
+    transform: translateY(-8px);
+}
+
+.plan.popular:hover {
+    transform: translateY(-13px);
+}
+
+.popular-label {
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #ff7a00;
+    color: #fff;
+    padding: 7px 18px;
+    border-radius: 30px;
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+
+/* ==========================================
+   ICON
+========================================== */
+
+.plan-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 15px;
+    background: #fff2e6;
+    color: #ff7a00;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 25px;
+    margin-bottom: 20px;
+}
+
+.business-icon {
+    background: #fff2e6;
+    color: #ff7a00;
+}
+
+
+/* ==========================================
+   PLAN TITLE
+========================================== */
+
+.plan h2 {
+    font-size: 24px;
+    margin-bottom: 12px;
+}
+
+
+/* ==========================================
+   PRICE
+========================================== */
+
+.price {
+    font-size: 32px;
+    font-weight: 800;
+    color: #222;
+    margin-bottom: 10px;
+}
+
+.price span {
+    font-size: 14px;
+    color: #777;
+    font-weight: 400;
+}
+
+
+/* ==========================================
+   DESCRIPTION
+========================================== */
+
+.plan-description {
+    color: #777;
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 25px;
+}
+
+
+/* ==========================================
+   FEATURES
+========================================== */
+
+.plan ul {
+    list-style: none;
+    margin-bottom: 30px;
+    flex: 1;
+}
+
+.plan ul li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #555;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+.plan ul li i {
+    color: #ff7a00;
+    font-size: 14px;
+}
+
+
+/* ==========================================
+   BUTTON
+========================================== */
+
+.plan-btn {
+    width: 100%;
+    padding: 15px;
+    border-radius: 12px;
+    border: none;
+    background: #ff7a00;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.plan-btn:hover {
+    background: #e96d00;
+    transform: translateY(-2px);
+}
+
+.plan-btn:active {
+    transform: translateY(0);
+}
+
+
+/* ==========================================
+   CURRENT PLAN
+========================================== */
+
+.current-plan {
+    background: #eeeeee;
+    color: #777;
+    cursor: not-allowed;
+}
+
+.current-plan:hover {
+    background: #eeeeee;
+    transform: none;
+}
+
+
+/* ==========================================
+   DISABLED BUTTON
+========================================== */
+
+.plan-btn:disabled {
+    opacity: 0.8;
+}
+
+
+/* ==========================================
+   LOADING STATE
+========================================== */
+
+.plan-btn.loading {
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+
+/* ==========================================
+   SECURITY
+========================================== */
+
+.secure {
+    margin-top: 35px;
+    text-align: center;
+    color: #777;
+    font-size: 13px;
+}
+
+.secure i {
+    color: #2e7d32;
+    margin-right: 6px;
+}
+
+
+/* ==========================================
+   TABLET
+========================================== */
+
+@media (max-width: 950px) {
+
+    .plans {
+        grid-template-columns: 1fr;
+        max-width: 600px;
+        margin: auto;
+    }
+
+    .plan.popular {
+        transform: none;
+    }
+
+    .plan.popular:hover {
+        transform: translateY(-8px);
+    }
+
+}
+
+
+/* ==========================================
+   MOBILE
+========================================== */
+
+@media (max-width: 500px) {
+
+    body {
+        padding: 25px 15px;
+    }
+
+    .upgrade-header {
+        margin-bottom: 35px;
+    }
+
+    .upgrade-header h1 {
+        font-size: 26px;
+    }
+
+    .upgrade-header p {
+        font-size: 14px;
+    }
+
+    .ziba-logo {
+        font-size: 26px;
+    }
+
+    .plan {
+        padding: 28px 22px;
+    }
+
+    .plan h2 {
+        font-size: 22px;
+    }
+
+    .price {
+        font-size: 28px;
+    }
+
+}

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Edit Product | Ziba</title>
+
+<link rel="stylesheet" href="../css/edit-product.css">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+</head>
+
+<body>
+
+<header>
+
+<a href="manage-products.html" class="back-btn">
+<i class="fas fa-arrow-left"></i>
+</a>
+
+<h1>Edit Product</h1>
+
+</header>
+
+<div class="container">
+
+<form id="editProductForm">
+
+<div class="image-preview">
+
+<img id="previewImage"
+src="https://via.placeholder.com/500x300?text=Product+Image"
+alt="Product Image">
+
+</div>
+
+<div class="form-group">
+
+<label>Product Name</label>
+
+<input
+type="text"
+id="productName"
+placeholder="Enter product name"
+required>
+
+</div>
+
+<div class="form-group">
+
+<label>Price (₦)</label>
+
+<input
+type="number"
+id="price"
+placeholder="Enter price"
+required>
+
+</div>
+
+<div class="form-group">
+
+<label>Category</label>
+
+<select id="category" required>
+
+<option value="">Select Category</option>
+
+<option>Phones</option>
+<option>Electronics</option>
+<option>Fashion</option>
+<option>Vehicles</option>
+<option>Home</option>
+<option>Beauty</option>
+<option>Sports</option>
+<option>Books</option>
+<option>Others</option>
+
+</select>
+
+</div>
+
+<div class="form-group">
+
+<label>Location</label>
+
+<input
+type="text"
+id="location"
+placeholder="e.g. Lagos"
+required>
+
+</div>
+
+<div class="form-group">
+
+<label>Description</label>
+
+<textarea
+id="description"
+rows="6"
+placeholder="Describe your product..."
+required></textarea>
+
+</div>
+
+<div class="form-group">
+
+<label>Stock Quantity</label>
+
+<input
+type="number"
+id="stock"
+placeholder="Available quantity"
+required>
+
+</div>
+
+<button
+type="submit"
+class="save-btn">
+
+<i class="fas fa-save"></i>
+
+Update Product
+
+</button>
+
+</form>
+
+</div>
+
+<script type="module" src="../js/edit-product.js"></script>
+
+</body>
+</html>

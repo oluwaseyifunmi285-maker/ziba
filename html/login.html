@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Ziba | Login</title>
+
+    <link rel="stylesheet" href="../css/login.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="left">
+            <h1>Welcome Back 👋</h1>
+            <p>Login to continue buying and selling on Ziba.</p>
+        </div>
+
+        <div class="right">
+
+            <form id="loginForm">
+
+                <h2>Login</h2>
+
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="Email Address"
+                    autocomplete="email"
+                    required
+                >
+
+                <div class="passwordBox">
+
+                    <input
+                        type="password"
+                        id="password"
+                        placeholder="Password"
+                        autocomplete="current-password"
+                        required
+                    >
+
+                    <span id="togglePassword">👁</span>
+
+                </div>
+
+                <div class="options">
+
+                    <label>
+                        <input type="checkbox">
+                        Remember me
+                    </label>
+
+                    <a href="#">Forgot Password?</a>
+
+                </div>
+
+                <button type="submit">
+                    Login
+                </button>
+
+                <p>
+                    Don't have an account?
+                    <a href="register.html">Register</a>
+                </p>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <script type="module" src="../js/login.js"></script>
+
+</body>
+</html>

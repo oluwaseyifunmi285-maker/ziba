@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Add Product | Ziba</title>
+
+<link rel="stylesheet" href="../css/post.css">
+</head>
+<body>
+
+<div class="container">
+
+<h1>Add New Product</h1>
+
+<form id="productForm">
+
+<label>Product Name</label>
+<input type="text" id="name" required>
+
+<label>Description</label>
+<textarea id="description" rows="5" required></textarea>
+
+<label>Category</label>
+<select id="category" required>
+<option value="">Choose Category</option>
+<option>Fashion</option>
+<option>Electronics</option>
+<option>Beauty</option>
+<option>Phones</option>
+<option>Home</option>
+<option>Sports</option>
+<option>Food</option>
+<option>Others</option>
+</select>
+
+<label>Price (₦)</label>
+<input type="number" id="price" required>
+
+<label>Stock Quantity</label>
+<input type="number" id="stock" required>
+
+<label>Product Images</label>
+<input type="file" id="images" multiple accept="image/*">
+
+<button type="submit">
+Publish Product
+</button>
+
+</form>
+
+</div>
+
+<script type="module" src="../js/post.js"></script>
+
+</body>
+</html>

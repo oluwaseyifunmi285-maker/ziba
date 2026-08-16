@@ -1,0 +1,164 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Profile | Ziba</title>
+
+    <link rel="stylesheet" href="../css/profile.css">
+
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
+
+</head>
+
+<body>
+
+<header>
+
+    <a href="marketplace.html" class="back-btn">
+        <i class="fas fa-arrow-left"></i>
+    </a>
+
+    <h1>My Profile</h1>
+
+</header>
+
+<div class="profile-container">
+
+    <div class="profile-card">
+
+        <div class="profile-image">
+
+            <img id="profileImage"
+            src="https://via.placeholder.com/150?text=User"
+            alt="Profile">
+
+            <button id="changePhotoBtn">
+                <i class="fas fa-camera"></i>
+            </button>
+
+        </div>
+
+        <h2 id="displayName">Loading...</h2>
+
+        <p id="userEmail">loading@email.com</p>
+
+    </div>
+
+    <form id="profileForm">
+
+        <div class="form-group">
+
+            <label>Full Name</label>
+
+            <input
+            type="text"
+            id="fullName"
+            placeholder="Enter your full name">
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Email Address</label>
+
+            <input
+            type="email"
+            id="email"
+            readonly>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Phone Number</label>
+
+            <input
+            type="tel"
+            id="phone"
+            placeholder="08012345678">
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Location</label>
+
+            <input
+            type="text"
+            id="location"
+            placeholder="Lagos, Nigeria">
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Bio</label>
+
+            <textarea
+            id="bio"
+            rows="5"
+            placeholder="Tell people about yourself..."></textarea>
+
+        </div>
+
+        <button
+        type="submit"
+        class="save-btn">
+
+        <i class="fas fa-save"></i>
+
+        Save Changes
+
+        </button>
+
+    </form>
+
+    <div class="profile-actions">
+
+        <button class="my-products">
+
+            <i class="fas fa-box"></i>
+
+            My Products
+
+        </button>
+
+        <button class="wishlist">
+
+            <i class="fas fa-heart"></i>
+
+            Wishlist
+
+        </button>
+
+        <button class="messages">
+
+            <i class="fas fa-comments"></i>
+
+            Messages
+
+        </button>
+
+        <button class="logout" id="logoutBtn">
+
+            <i class="fas fa-sign-out-alt"></i>
+
+            Logout
+
+        </button>
+
+    </div>
+
+</div>
+
+<script type="module" src="../js/profile.js"></script>
+
+</body>
+
+</html>

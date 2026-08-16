@@ -1,0 +1,174 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Ziba Admin Dashboard</title>
+
+<link rel="stylesheet" href="../css/admin.css">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="sidebar">
+
+    <div class="logo">
+        <h2>ZIBA</h2>
+        <p>Admin Panel</p>
+    </div>
+
+    <ul>
+
+        <li class="active">
+            <a href="#">
+                <i class="fas fa-chart-line"></i>
+                Dashboard
+            </a>
+        </li>
+
+        <li>
+            <a href="#">
+                <i class="fas fa-users"></i>
+                Users
+            </a>
+        </li>
+
+        <li>
+            <a href="#">
+                <i class="fas fa-box"></i>
+                Products
+            </a>
+        </li>
+
+        <li>
+            <a href="#">
+                <i class="fas fa-comments"></i>
+                Chats
+            </a>
+        </li>
+
+        <li>
+            <a href="#">
+                <i class="fas fa-flag"></i>
+                Reports
+            </a>
+        </li>
+
+        <li>
+            <a href="#">
+                <i class="fas fa-cog"></i>
+                Settings
+            </a>
+        </li>
+
+        <li>
+            <a href="#" id="logoutBtn">
+                <i class="fas fa-sign-out-alt"></i>
+                Logout
+            </a>
+        </li>
+
+    </ul>
+
+</div>
+
+<div class="main-content">
+
+<header>
+
+<h1>Welcome, Admin 👋</h1>
+
+</header>
+
+<div class="cards">
+
+<div class="card">
+
+<i class="fas fa-users"></i>
+
+<h2 id="totalUsers">0</h2>
+
+<p>Total Users</p>
+
+</div>
+
+<div class="card">
+
+<i class="fas fa-box-open"></i>
+
+<h2 id="totalProducts">0</h2>
+
+<p>Total Products</p>
+
+</div>
+
+<div class="card">
+
+<i class="fas fa-comments"></i>
+
+<h2 id="totalChats">0</h2>
+
+<p>Total Chats</p>
+
+</div>
+
+<div class="card">
+
+<i class="fas fa-store"></i>
+
+<h2 id="activeSellers">0</h2>
+
+<p>Active Sellers</p>
+
+</div>
+
+</div>
+
+<section class="recent-products">
+
+<h2>Latest Products</h2>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Image</th>
+
+<th>Name</th>
+
+<th>Seller</th>
+
+<th>Price</th>
+
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+<tbody id="productTable">
+
+</tbody>
+
+</table>
+
+</section>
+
+</div>
+
+<script type="module" src="../js/admin.js"></script>
+
+</body>
+
+</html>

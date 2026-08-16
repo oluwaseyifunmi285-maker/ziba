@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ziba Marketplace</title>
+
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <style>
+        
+/* ==========================
+   GOOGLE FONT & RESET
+========================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+    scroll-behavior:smooth;
+}
+
+body{
+    background:#ffffff;
+    color:#222;
+    overflow-x:hidden;
+}
+
+img{
+    max-width:100%;
+    display:block;
+}
+
+a{
+    text-decoration:none;
+}
+
+ul{
+    list-style:none;
+}
+
+section{
+    padding:80px 8%;
+}
+
+/* ==========================
+        NAVBAR
+========================== */
+
+.navbar{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    background:#fff;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:18px 8%;
+    box-shadow:0 8px 25px rgba(0,0,0,.08);
+    z-index:1000;
+    transition:.3s;
+}
+
+.logo img{
+    width:140px;
+}
+
+.nav-links{
+    display:flex;
+    gap:35px;
+}
+
+.nav-links a{
+    color:#222;
+    font-size:16px;
+    font-weight:500;
+    transition:.3s;
+    position:relative;
+}
+
+.nav-links a:hover{
+    color:#FDBF2D;
+}
+
+.nav-links a::after{
+    content:"";
+    position:absolute;
+    left:0;
+    bottom:-6px;
+    width:0;
+    height:3px;
+    background:#FDBF2D;
+    transition:.3s;
+}
+
+.nav-links a:hover::after{
+    width:100%;
+}
+
+.nav-btn{
+    display:flex;
+    gap:15px;
+}
+
+.login-btn{
+    color:#222;
+    padding:10px 22px;
+    border:2px solid #FDBF2D;
+    border-radius:30px;
+    transition:.3s;
+}
+
+.login-btn:hover{
+    background:#FDBF2D;
+}
+
+.signup-btn{
+    background:#FDBF2D;
+    color:#000;
+    padding:10px 25px;
+    border-radius:30px;
+    transition:.3s;
+}
+
+.signup-btn:hover{
+    transform:translateY(-3px);
+    box-shadow:0 10px 20px rgba(253,191,45,.35);
+}
+
+.menu-btn{
+    display:none;
+    font-size:28px;
+    cursor:pointer;
+}
+
+/* ==========================
+        HERO
+========================== */
+
+.hero{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:60px;
+    padding-top:120px;
+}
+
+.hero-text{
+    flex:1;
+}
+
+.hero-text h1{
+    font-size:60px;
+    line-height:1.2;
+    margin-bottom:20px;
+    color:#111;
+}
+
+.hero-text h1 span{
+    color:#FDBF2D;
+}
+
+.hero-text p{
+    font-size:18px;
+    color:#666;
+    margin-bottom:35px;
+    max-width:600px;
+}
+
+.hero-buttons{
+    display:flex;
+    gap:20px;
+    margin-bottom:35px;
+}
+
+.start-btn{
+    background:#FDBF2D;
+    color:#000;
+    padding:15px 32px;
+    border-radius:40px;
+    font-weight:600;
+    transition:.3s;
+}
+
+.start-btn:hover{
+    transform:translateY(-4px);
+    box-shadow:0 15px 30px rgba(253,191,45,.4);
+}
+
+.browse-btn{
+    border:2px solid #FDBF2D;
+    color:#222;
+    padding:15px 32px;
+    border-radius:40px;
+    transition:.3s;
+}
+
+.browse-btn:hover{
+    background:#FDBF2D;
+}
+
+/* ==========================
+      SEARCH BOX
+========================== */
+
+.search-box{
+    width:100%;
+    max-width:600px;
+    display:flex;
+    overflow:hidden;
+    border-radius:60px;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+    background:#fff;
+}
+
+.search-box input{
+    flex:1;
+    border:none;
+    outline:none;
+    padding:18px 25px;
+    font-size:16px;
+}
+
+.search-box button{
+    width:70px;
+    border:none;
+    background:#FDBF2D;
+    cursor:pointer;
+    font-size:20px;
+}
+
+/* ==========================
+      HERO IMAGE
+========================== */
+
+.hero-image{
+    flex:1;
+    display:flex;
+    justify-content:center;
+}
+
+.hero-image img{
+    width:100%;
+    max-width:550px;
+    animation:float 4s ease-in-out infinite;
+}
+
+@keyframes float{
+    0%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-15px);
+    }
+
+    100%{
+        transform:translateY(0);
+    }
+}
+
+/* ==========================
+        STATS
+========================== */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:25px;
+    text-align:center;
+    margin-top:40px;
+}
+
+.stat{
+    background:#fff;
+    padding:35px;
+    border-radius:20px;
+    box-shadow:0 8px 25px rgba(0,0,0,.08);
+    transition:.3s;
+}
+
+.stat:hover{
+    transform:translateY(-8px);
+}
+
+.stat h2{
+    font-size:35px;
+    color:#FDBF2D;
+}
+
+.stat p{
+    margin-top:10px;
+    color:#555;
+}
+
+
+/* ==========================
+      CATEGORIES SECTION
+========================== */
+
+.categories{
+    background:#f8f9fc;
+    text-align:center;
+}
+
+.categories h2{
+    font-size:40px;
+    margin-bottom:50px;
+    color:#222;
+}
+
+.category-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(350px,1fr));
+    gap:30px;
+}
+
+.card{
+    background:#fff;
+    padding:40px 25px;
+    border-radius:20px;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+    transition:.4s;
+    cursor:pointer;
+}
+
+.card:hover{
+    transform:translateY(-10px);
+    background:#FDBF2D;
+    color:#fff;
+}
+
+.card i{
+    font-size:50px;
+    margin-bottom:20px;
+    color:#FDBF2D;
+    transition:.4s;
+}
+
+.card:hover i{
+    color:#fff;
+}
+
+.card h3{
+    font-size:22px;
+}
+
+/* ==========================
+      FEATURED PRODUCTS
+========================== */
+
+.featured{
+    text-align:center;
+}
+
+.featured h2{
+    font-size:40px;
+    margin-bottom:50px;
+}
+
+.product-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    gap:35px;
+}
+
+.product-card{
+    background:#fff;
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 12px 30px rgba(0,0,0,.08);
+    transition:.4s;
+}
+
+.product-card:hover{
+    transform:translateY(-10px);
+}
+
+.product-card img{
+    width:100%;
+    height:250px;
+    object-fit:cover;
+}
+
+.product-card h3{
+    margin-top:20px;
+    font-size:24px;
+}
+
+.product-card p{
+    color:#FDBF2D;
+    font-size:22px;
+    font-weight:600;
+    margin:15px 0;
+}
+
+.product-card button{
+    margin-bottom:25px;
+    border:none;
+    background:#FDBF2D;
+    color:#000;
+    padding:14px 30px;
+    border-radius:40px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.product-card button:hover{
+    background:#000;
+    color:#fff;
+}
+
+/* ==========================
+        ABOUT SECTION
+========================== */
+
+.about{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:70px;
+}
+
+.about-image{
+    flex:1;
+}
+
+.about-image img{
+    width:100%;
+    border-radius:20px;
+}
+
+.about-text{
+    flex:1;
+}
+
+.about-text h2{
+    font-size:42px;
+    margin-bottom:25px;
+}
+
+.about-text p{
+    color:#666;
+    line-height:1.8;
+    margin-bottom:25px;
+}
+
+.about-text ul li{
+    margin-bottom:18px;
+    font-size:18px;
+    font-weight:500;
+}
+/* ==========================
+      TESTIMONIAL
+========================== */
+
+.testimonial{
+    background:#f8f9fc;
+    text-align:center;
+}
+
+.testimonial h2{
+    font-size:40px;
+    margin-bottom:50px;
+}
+
+.testimonial-card{
+    max-width:650px;
+    margin:auto;
+    background:#fff;
+    padding:40px;
+    border-radius:20px;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+.testimonial-card img{
+    width:100px;
+    height:100px;
+    border-radius:50%;
+    object-fit:cover;
+    margin:auto;
+    margin-bottom:20px;
+    border:5px solid #FDBF2D;
+}
+
+.testimonial-card p{
+    color:#666;
+    font-size:18px;
+    line-height:1.7;
+    margin-bottom:20px;
+}
+
+.testimonial-card h4{
+    color:#FDBF2D;
+}
+
+/* ==========================
+      CONTACT SECTION
+========================== */
+
+.contact{
+    text-align:center;
+    background:#FDBF2D;
+}
+
+.contact h2{
+    font-size:42px;
+    color:#111;
+    margin-bottom:30px;
+}
+
+.contact a{
+    display:inline-block;
+    background:#000;
+    color:#fff;
+    padding:16px 40px;
+    border-radius:50px;
+    transition:.3s;
+}
+
+.contact a:hover{
+    transform:translateY(-5px);
+}
+
+/* ==========================
+      FOOTER
+========================== */
+
+footer{
+    background:#111;
+    color:#fff;
+    text-align:center;
+    padding:40px 8%;
+}
+
+.socials{
+    margin-top:20px;
+}
+
+.socials i{
+    width:45px;
+    height:45px;
+    line-height:45px;
+    border-radius:50%;
+    background:#222;
+    margin:0 8px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.socials i:hover{
+    background:#FDBF2D;
+    color:#000;
+    transform:translateY(-5px);
+}
+
+/* ==========================
+      BACK TO TOP BUTTON
+========================== */
+
+#topBtn{
+    position:fixed;
+    right:25px;
+    bottom:25px;
+    width:55px;
+    height:55px;
+    border:none;
+    border-radius:50%;
+    background:#FDBF2D;
+    color:#000;
+    font-size:20px;
+    cursor:pointer;
+    display:none;
+    box-shadow:0 10px 25px rgba(0,0,0,.2);
+    transition:.3s;
+    z-index:999;
+}
+
+#topBtn:hover{
+    transform:scale(1.1);
+}
+
+/* ==========================
+      MOBILE RESPONSIVE
+========================== */
+
+@media(max-width:991px){
+.hero-image img{
+    width:110%;
+    height: 90%;
+    margin-top: 49px;
+    max-width:550px;
+    animation:float 4s ease-in-out infinite;
+}
+    .hero,
+    .about{
+        flex-direction:column;
+        text-align:center;
+    }
+
+    .hero-text h1{
+        font-size:45px;
+    }
+
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .nav-links{
+        position:absolute
+    }
+}
+    </style>
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<nav class="navbar">
+
+    <div class="logo">
+        <img src="../asset/ziba-logo.png" alt="">
+    </div>
+
+    <ul class="nav-links">
+
+        <li><a href="#">Home</a></li>
+
+        <li><a href="#categories">Categories</a></li>
+
+        <li><a href="#featured">Products</a></li>
+
+        <li><a href="#about">About</a></li>
+
+        <li><a href="#contact">Contact</a></li>
+
+    </ul>
+
+    <div class="nav-btn">
+
+        <a href="login.html" class="login-btn">
+            Login
+        </a>
+
+        <a href="register.html" class="signup-btn">
+            Sign Up
+        </a>
+
+    </div>
+
+    <div class="menu-btn">
+        <i class="fa-solid fa-bars"></i>
+    </div>
+
+</nav>
+
+<!-- ================= HERO ================= -->
+
+<section class="hero">
+
+<div class="hero-text">
+
+<h1>
+Buy & Sell <span>Anything</span> Across Nigeria
+</h1>
+
+<p>
+
+Discover trusted sellers and buyers on Ziba Marketplace.
+Fast, secure and simple product (New & Used).
+
+</p>
+
+<div class="hero-buttons">
+
+<a href="./register.html" class="start-btn">
+
+Get Started
+
+</a>
+
+<a href="#featured" class="browse-btn">
+
+Browse Products
+
+</a>
+
+</div>
+
+<div class="search-box">
+
+<input type="text"
+placeholder="Search products...">
+
+<button>
+
+<i class="fa-solid fa-magnifying-glass"></i>
+
+</button>
+
+</div>
+
+</div>
+
+<div class="hero-image">
+
+<img src="../asset/marketplace.png" alt="Marketplace">
+
+</div>
+
+</section>
+
+<!-- ================= STATS ================= -->
+
+<section class="stats">
+
+<div class="stat">
+
+<h2>50K+</h2>
+
+<p>Products</p>
+
+</div>
+
+<div class="stat">
+
+<h2>10K+</h2>
+
+<p>Users</p>
+
+</div>
+
+<div class="stat">
+
+<h2>36</h2>
+
+<p>States</p>
+
+</div>
+
+<div class="stat">
+
+<h2>99%</h2>
+
+<p>Safe Trading</p>
+
+</div>
+
+</section>
+
+<!-- ================= CATEGORIES ================= -->
+
+<section id="categories" class="categories">
+
+<h2>
+
+Popular Categories
+
+</h2>
+
+<div class="category-grid">
+
+<div class="card">
+
+<i class="fa-solid fa-mobile-screen"></i>
+
+<h3>Electronics</h3>
+
+</div>
+
+<div class="card">
+
+<i class="fa-solid fa-shirt"></i>
+
+<h3>Fashion</h3>
+
+</div>
+
+<div class="card">
+
+<i class="fa-solid fa-car"></i>
+
+<h3>Vehicles</h3>
+
+</div>
+
+<div class="card">
+
+<i class="fa-solid fa-house"></i>
+
+<h3>Property</h3>
+
+</div>
+
+<div class="card">
+
+<i class="fa-solid fa-briefcase"></i>
+
+<h3>Jobs</h3>
+
+</div>
+
+<div class="card">
+
+<i class="fa-solid fa-couch"></i>
+
+<h3>Furniture</h3>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ================= FEATURED PRODUCTS ================= -->
+
+<section id="featured" class="featured">
+
+<h2>
+
+Featured Products
+
+</h2>
+
+<div class="product-grid">
+
+<div class="product-card">
+
+<img src="../asset/product1.jpg">
+
+<h3>iPhone 15 Pro</h3>
+
+<p>₦1,250,000</p>
+
+<button type="submit">
+<a href="#"></a>
+View Details
+
+</button>
+
+</div>
+
+<div class="product-card">
+
+<img src="../asset/product2.jpg">
+
+<h3>Infinix hot 60pro</h3>
+
+<p>₦350,000</p>
+
+<button>
+<a href="register.html"></a>
+View Details
+
+</button>
+
+</div>
+
+<div class="product-card">
+
+<img src="../asset/product3.jpg">
+
+<h3> Hisense Tv</h3>
+
+<p>₦400,000</p>
+
+<button>
+<a href="register.html"></a>
+View Details
+
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ================= ABOUT ================= -->
+
+<section id="about" class="about">
+
+<div class="about-image">
+
+<img src="../asset/woman.png">
+
+</div>
+
+<div class="about-text">
+
+<h2>
+
+Why Choose Ziba?
+
+</h2>
+
+<p>
+
+Buy and sell with confidence using secure messaging,
+verified sellers, and thousands of products.
+
+</p>
+
+<ul>
+
+<li>✔ Trusted Sellers</li>
+
+<li>✔ Secure Messaging</li>
+
+<li>✔ Fast Search</li>
+
+<li>✔ Easy Posting</li>
+
+</ul>
+
+</div>
+
+</section>
+
+<!-- ================= TESTIMONIAL ================= -->
+
+<section class="testimonial">
+
+<h2>
+
+What Our Users Say
+
+</h2>
+
+<div class="testimonial-card">
+
+<img src="../asset/suit.png">
+
+<p>
+
+"Ziba helped me sell my laptop in just one day."
+
+</p>
+
+<h4>
+
+— David
+
+</h4>
+
+</div>
+
+</section>
+
+<!-- ================= CONTACT ================= -->
+
+<section id="contact" class="contact">
+
+<h2>
+
+Ready to Start Selling?
+
+</h2>
+
+<a href="./register.html">
+
+Create Free Account
+
+</a>
+
+</section>
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+<p>
+
+© 2026 Ziba Marketplace.
+All Rights Reserved.
+
+</p>
+
+<div class="socials">
+    <i class="fab fa-whatsapp">
+        <a href="https://chat.whatsapp.com/E9LAXVVhh24JXIn2N1vZJ9"></a>
+    </i>
+
+
+<i class="fab fa-instagram">
+    <a href="https://www.instagram.com/davidvisuals04?igsh=MXV1cjM4OGZrZG51Yg=="></a>
+</i>
+
+
+<i class="fab fa-linkedin">
+    <a href="https://ng.linkedin.com/in/david-agbon-452a89420"></a>
+</i>
+
+
+</div>
+
+</footer>
+
+<button id="topBtn">
+
+<i class="fa-solid fa-arrow-up"></i>
+
+</button>
+
+<script src="script.js"></script>
+
+</body>
+</html>
