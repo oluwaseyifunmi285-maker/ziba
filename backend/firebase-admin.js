@@ -20,12 +20,19 @@ const serviceAccount = {
     client_x509_cert_url:
         process.env.FIREBASE_CLIENT_X509_CERT_URL
 };
-
+console.log("Firebase project:", serviceAccount.project_id);
+console.log("Firebase account:", serviceAccount.client_email);
 const app = initializeApp({
     credential: cert(serviceAccount)
 });
 
 const db = getFirestore(app);
+db.collection("test").doc("render-test").set({
+    message: "Render can access Firestore",
+    createdAt: new Date()
+})
+.then(() => console.log("✅ Firestore write successful"))
+.catch(error => console.error("❌ Firestore write failed:", error.message));
 
 console.log("Firebase Admin connected");
 
