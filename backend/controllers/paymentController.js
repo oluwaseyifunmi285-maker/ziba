@@ -118,9 +118,14 @@ export const initializePayment = async (req, res) => {
             error.message
         );
 
+        // res.status(500).json({
+        //     status: false,
+        //     message: "Payment verification failed"
+        // });
         res.status(500).json({
-            status: false,
-            message: "Payment verification failed"
-        });
+    status: false,
+    message: "Payment verification failed",
+    error: error.response?.data || error.message
+});
     }
 };
