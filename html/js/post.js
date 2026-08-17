@@ -27,7 +27,7 @@ onAuthStateChanged(auth, (user) => {
         const category = document.getElementById("category").value;
         const price = Number(document.getElementById("price").value);
         const stock = Number(document.getElementById("stock").value);
-
+const location = document.getElementById("location").value.trim();
         try {
             const files = document.getElementById("images").files;
 
@@ -49,21 +49,21 @@ for (let file of files) {
     const data = await response.json();
     imageUrls.push(data.secure_url);
 }
-            await addDoc(collection(db, "products"), {
+          await addDoc(collection(db, "products"), {
 
-                sellerId: user.uid,
-                productName,
-                description,
-                category,
-                price,
-                stock,
+    sellerId: user.uid,
+    productName,
+    description,
+    category,
+    price,
+    stock,
+    location,
 
-                imageUrls: imageUrls,
+    imageUrls: imageUrls,
 
-                createdAt: serverTimestamp()
+    createdAt: serverTimestamp()
 
-            });
-
+});
             alert("Product added successfully!");
 
             form.reset();
