@@ -93,23 +93,27 @@ form.addEventListener("submit", async (e) => {
 
         /* Send user to correct dashboard */
 
-        if (userData.accountType === "seller") {
+     if (userData.role === "admin") {
 
-            window.location.href =
-                "seller-dashboard.html";
+    window.location.href =
+        "admin-dashboard.html";
 
-        } else if (userData.accountType === "buyer") {
+} else if (userData.accountType === "seller") {
 
-            window.location.href =
-                "buyer-dashboard.html";
+    window.location.href =
+        "seller-dashboard.html";
 
-        } else {
+} else if (userData.accountType === "buyer") {
 
-            window.location.href =
-                "index.html";
+    window.location.href =
+        "buyer-dashboard.html";
 
-        }
+} else {
 
+    window.location.href =
+        "index.html";
+
+}
     } catch (error) {
 
         console.error("Login error:", error);
