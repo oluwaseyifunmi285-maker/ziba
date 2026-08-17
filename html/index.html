@@ -620,6 +620,55 @@ footer{
         position:absolute
     }
 }
+/* Mobile menu button */
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 28px;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+
+    .navbar {
+        position: relative;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        flex-direction: column;
+        padding: 15px 0;
+        margin: 0;
+        background: white;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        z-index: 999;
+    }
+
+    .nav-links.active {
+        display: flex;
+    }
+
+    .nav-links li {
+        width: 100%;
+        text-align: center;
+    }
+
+    .nav-links li a {
+        display: block;
+        padding: 14px 20px;
+    }
+}
     </style>
 </head>
 
@@ -630,10 +679,15 @@ footer{
 <nav class="navbar">
 
     <div class="logo">
-       <img src="asset/ziba-logo.png" alt="">
+        <img src="asset/ziba-logo.png" alt="Ziba">
     </div>
 
-    <ul class="nav-links">
+    <!-- Mobile menu button -->
+    <button class="menu-toggle" id="menuToggle" aria-label="Open navigation">
+        ☰
+    </button>
+
+    <ul class="nav-links" id="navLinks">
 
         <li><a href="#">Home</a></li>
 
@@ -646,6 +700,7 @@ footer{
         <li><a href="#contact">Contact</a></li>
 
     </ul>
+
 
     <div class="nav-btn">
 
@@ -1013,7 +1068,22 @@ All Rights Reserved.
 
 </button>
 
-<script src="script.js"></script>
+<script>
+    const menuToggle = document.getElementById("menuToggle");
+const navLinks = document.getElementById("navLinks");
+
+menuToggle.addEventListener("click", () => {
+
+    navLinks.classList.toggle("active");
+
+    if (navLinks.classList.contains("active")) {
+        menuToggle.textContent = "✕";
+    } else {
+        menuToggle.textContent = "☰";
+    }
+
+});
+</script>
 
 </body>
 </html>
