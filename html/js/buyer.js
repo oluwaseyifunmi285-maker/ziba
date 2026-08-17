@@ -43,7 +43,7 @@ async function loadProducts() {
                     <p class="price">₦${product.price}</p>
 
                     <p class="location">${product.location}</p>
-<p class="location">${product.location || "Location not provided"}</p>
+
                     <button class="viewBtn"
                     onclick="window.location.href='product.html?id=${doc.id}'">
 
