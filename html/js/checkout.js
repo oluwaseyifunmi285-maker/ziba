@@ -37,8 +37,7 @@ async function loadProduct() {
 
         if (!productSnap.exists()) {
 
-            checkoutProduct.innerHTML =
-                "<p>Product not found.</p>";
+           productName.textContent = "Product not found.";
 
             return;
         }
@@ -59,8 +58,7 @@ productPrice.textContent =
 
         console.error("Checkout product error:", error);
 
-        checkoutProduct.innerHTML =
-            "<p>Unable to load product.</p>";
+        productName.textContent = "Unable to load product.";
     }
 }
 
@@ -115,7 +113,7 @@ const sellerId = product.sellerId;
 
 
         const response = await fetch(
-            "http://localhost:3000/api/payment/initialize",
+    "https://ziba-backend-wkzv.onrender.com/api/payment/initialize",
             {
                 method: "POST",
 
