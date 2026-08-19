@@ -252,301 +252,312 @@ export const initializePayment = async (req, res) => {
 // =====================================================
 // VERIFY PAYMENT
 // =====================================================
-
-export const verifyPayment = async (
-    req,
-    res
-) => {
-
+export const verifyPayment = async (req, res) => {
     try {
 
-        const {
-            reference
-        } = req.params;
+        const { reference } = req.params;
 
+        // ==========================================
+        // VERIFY PAYMENT WITH PAYSTACK
+        // ==========================================
 
-        // =================================================
-        // VERIFY WITH PAYSTACK
-        // =================================================
-
-        const response =
-            await axios.get(
-
-                `https://api.paystack.co/transaction/verify/${reference}`,
-
-                {
-
-                    headers: {
-
-                        Authorization:
-                            `Bearer ${process.env.PAYSTACK_SECRET_KEY}`
-
-                    }
-
+        const response = await axios.get(
+            `https://api.paystack.co/transaction/verify/${reference}`,
+            {
+                headers: {
+                    Authorization:
+                        `Bearer ${process.env.PAYSTACK_SECRET_KEY}`
                 }
+            }
+        );
 
-            );
-
-
-        const transaction =
-            response.data.data;
+        const transaction = response.data.data;
 
 
-        // =================================================
-        // CHECK SUCCESS
-        // =================================================
+        // ==========================================
+        // CHECK PAYMENT STATUS
+        // ==========================================
 
-        if (
-            transaction.status !==
-            "success"
-        ) {
+        if (transaction.status !== "success") {
 
-            return res.json({
-
+            return res.status(400).json({
                 status: false,
-
-                message:
-                    "Payment was not successful."
-
+                message: "Payment was not successful."
             });
 
         }
 
 
-        // =================================================
-        // GET METADATA
-        // =================================================
+        // ==========================================
+        // PAYMENT INFORMATION
+        // ==========================================
 
         const metadata =
             transaction.metadata || {};
 
+        const buyerId =
+            metadata.buyerId || null;
 
-        // =================================================
-        // UPGRADE PAYMENT
-        // =================================================
+        const sellerId =
+            metadata.sellerId || null;
 
-        if (
-            metadata.paymentType ===
-            "upgrade"
-        ) {
+        const productId =
+            metadata.productId || "";
 
-            const userId =
-                metadata.userId;
+        const productName =
+            metadata.productName || "";
 
+        const buyerName =
+            metadata.buyerName || "";
 
-            const plan =
-                String(
-                    metadata.plan || ""
-                ).toLowerCase();
-
-
-            if (!userId || !plan) {
-
-                return res.status(400).json({
-
-                    status: false,
-
-                    message:
-                        "Upgrade information is missing."
-
-                });
-
-            }
+        const amount =
+            transaction.amount / 100;
 
 
-            // =============================================
-            // DETERMINE PLAN DURATION
-            // =============================================
+        // ==========================================
+        // SELLER IS REQUIRED
+        // ==========================================
 
-            let durationMilliseconds;
+        if (!sellerId) {
 
-
-            switch (plan) {
-
-                case "daily":
-
-                    durationMilliseconds =
-                        24 *
-                        60 *
-                        60 *
-                        1000;
-
-                    break;
-
-
-                case "weekly":
-
-                    durationMilliseconds =
-                        7 *
-                        24 *
-                        60 *
-                        60 *
-                        1000;
-
-                    break;
-
-
-                case "monthly":
-
-                    durationMilliseconds =
-                        30 *
-                        24 *
-                        60 *
-                        60 *
-                        1000;
-
-                    break;
-
-
-                default:
-
-                    return res.status(400).json({
-
-                        status: false,
-
-                        message:
-                            "Invalid plan."
-
-                    });
-
-            }
-
-
-            // =============================================
-            // EXPIRATION DATE
-            // =============================================
-
-            const planExpiresAt =
-                new Date(
-                    Date.now() +
-                    durationMilliseconds
-                );
-
-
-            // =============================================
-            // UPDATE USER
-            // =============================================
-
-            await db
-                .collection("users")
-                .doc(userId)
-                .update({
-
-                    plan,
-
-                    isPremium:
-                        true,
-
-                    planExpiresAt,
-
-                    lastPaymentReference:
-                        transaction.reference,
-
-                    lastPaymentAmount:
-                        transaction.amount / 100,
-
-                    updatedAt:
-                        new Date()
-
-                });
-
-
-            console.log(
-                "✅ Plan activated:",
-                userId,
-                plan
-            );
-
-
-            return res.json({
-
-                status: true,
-
-                type:
-                    "upgrade",
-
+            return res.status(400).json({
+                status: false,
                 message:
-                    "Payment verified and account upgraded.",
-
-                plan,
-
-                planExpiresAt,
-
-                reference:
-                    transaction.reference
-
+                    "Seller information is missing from this payment."
             });
 
         }
 
 
-        // =================================================
-        // PRODUCT PAYMENT
-        // =================================================
+        // ==========================================
+        // PREVENT DUPLICATE PAYMENT PROCESSING
+        // ==========================================
+
+        const existingPayment =
+            await db
+                .collection("payments")
+                .doc(reference)
+                .get();
+
+
+        if (existingPayment.exists) {
+
+            const existingData =
+                existingPayment.data();
+
+            return res.json({
+                status: true,
+                message:
+                    "Payment has already been processed.",
+                orderId:
+                    existingData.orderId || null
+            });
+
+        }
+
+
+        // ==========================================
+        // REFERENCES
+        // ==========================================
+
+        const sellerRef =
+            db.collection("users").doc(sellerId);
 
         const orderRef =
-            db
-                .collection("orders")
-                .doc();
+            db.collection("orders").doc();
+
+        const paymentRef =
+            db.collection("payments").doc(reference);
 
 
-        await orderRef.set({
+        // ==========================================
+        // FIRESTORE TRANSACTION
+        // ==========================================
 
-            buyerId:
-                metadata.buyerId ||
-                null,
+        const result =
+            await db.runTransaction(
+                async (transactionDb) => {
 
-            buyerName:
-                metadata.buyerName ||
-                "",
-
-            buyerEmail:
-                transaction.customer?.email ||
-                "",
-
-            sellerId:
-                metadata.sellerId ||
-                null,
-
-            productId:
-                metadata.productId ||
-                "",
-
-            productName:
-                metadata.productName ||
-                "",
-
-            amount:
-                transaction.amount /
-                100,
-
-            paymentReference:
-                transaction.reference,
-
-            paymentStatus:
-                "paid",
-
-            orderStatus:
-                "pending",
-
-            createdAt:
-                new Date()
-
-        });
+                    // Get seller first
+                    const sellerSnap =
+                        await transactionDb.get(
+                            sellerRef
+                        );
 
 
-        return res.json({
+                    if (!sellerSnap.exists) {
+
+                        throw new Error(
+                            "Seller account not found."
+                        );
+
+                    }
+
+
+                    const sellerData =
+                        sellerSnap.data();
+
+
+                    // Current seller balance
+                    const currentBalance =
+                        Number(
+                            sellerData.availableBalance ||
+                            sellerData.walletBalance ||
+                            sellerData.balance ||
+                            0
+                        );
+
+
+                    // ==================================
+                    // NEW BALANCE
+                    // ==================================
+
+                    const newBalance =
+                        currentBalance + amount;
+
+
+                    // ==================================
+                    // UPDATE SELLER BALANCE
+                    // ==================================
+
+                    transactionDb.update(
+                        sellerRef,
+                        {
+                            availableBalance:
+                                newBalance
+                        }
+                    );
+
+
+                    // ==================================
+                    // CREATE ORDER
+                    // ==================================
+
+                    transactionDb.set(
+                        orderRef,
+                        {
+                            buyerId:
+                                buyerId,
+
+                            buyerName:
+                                buyerName,
+
+                            buyerEmail:
+                                transaction.customer?.email ||
+                                "",
+
+                            sellerId:
+                                sellerId,
+
+                            productId:
+                                productId,
+
+                            productName:
+                                productName,
+
+                            amount:
+                                amount,
+
+                            paymentReference:
+                                transaction.reference,
+
+                            paymentStatus:
+                                "paid",
+
+                            orderStatus:
+                                "pending",
+
+                            createdAt:
+                                new Date()
+                        }
+                    );
+
+
+                    // ==================================
+                    // SAVE PAYMENT RECORD
+                    // ==================================
+
+                    transactionDb.set(
+                        paymentRef,
+                        {
+                            reference:
+                                reference,
+
+                            buyerId:
+                                buyerId,
+
+                            sellerId:
+                                sellerId,
+
+                            productId:
+                                productId,
+
+                            amount:
+                                amount,
+
+                            status:
+                                "success",
+
+                            type:
+                                "product",
+
+                            orderId:
+                                orderRef.id,
+
+                            createdAt:
+                                new Date()
+                        }
+                    );
+
+
+                    return {
+                        orderId:
+                            orderRef.id,
+
+                        sellerBalance:
+                            newBalance
+                    };
+
+                }
+            );
+
+
+        // ==========================================
+        // SUCCESS
+        // ==========================================
+
+        console.log(
+            "✅ Payment processed successfully"
+        );
+
+        console.log(
+            "Seller:",
+            sellerId
+        );
+
+        console.log(
+            "Amount:",
+            amount
+        );
+
+        console.log(
+            "New seller balance:",
+            result.sellerBalance
+        );
+
+
+        res.json({
 
             status: true,
 
-            type:
-                "product",
-
             message:
-                "Payment verified and order created.",
+                "Payment verified successfully.",
 
             orderId:
-                orderRef.id
+                result.orderId,
+
+            sellerBalance:
+                result.sellerBalance
 
         });
 
@@ -554,16 +565,13 @@ export const verifyPayment = async (
     } catch (error) {
 
         console.error(
-
-            "Payment verification error:",
-
+            "❌ Payment verification error:",
             error.response?.data ||
             error.message
-
         );
 
 
-        return res.status(500).json({
+        res.status(500).json({
 
             status: false,
 
@@ -577,5 +585,4 @@ export const verifyPayment = async (
         });
 
     }
-
 };
