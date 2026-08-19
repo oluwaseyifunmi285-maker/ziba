@@ -3,7 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 
 import paymentRoutes
-    from "./routes/paymentRoutes.js";
+from "./routes/payment.js";
 
 import bankAccountRoutes
     from "./routes/bankAccount.js";
