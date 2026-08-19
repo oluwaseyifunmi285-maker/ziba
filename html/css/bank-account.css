@@ -1,0 +1,271 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background: #f4f6f9;
+    color: #222;
+}
+
+
+/* ================= HEADER ================= */
+
+.header {
+    height: 70px;
+
+    background: #111;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 0 25px;
+}
+
+.logo {
+    color: #FDBF2D;
+
+    font-size: 27px;
+
+    font-weight: 800;
+
+    text-decoration: none;
+}
+
+.back-btn {
+    color: #fff;
+
+    text-decoration: none;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    font-size: 14px;
+}
+
+.back-btn:hover {
+    color: #FDBF2D;
+}
+
+
+/* ================= CONTAINER ================= */
+
+.container {
+    min-height: calc(100vh - 70px);
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 30px 15px;
+}
+
+
+/* ================= CARD ================= */
+
+.bank-card {
+    width: 100%;
+
+    max-width: 500px;
+
+    background: #fff;
+
+    padding: 35px;
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 8px 30px rgba(0,0,0,.08);
+}
+
+
+/* ================= ICON ================= */
+
+.bank-icon {
+    width: 60px;
+
+    height: 60px;
+
+    border-radius: 15px;
+
+    background: #fff5d6;
+
+    color: #d89f00;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 25px;
+
+    margin-bottom: 20px;
+}
+
+
+/* ================= TITLE ================= */
+
+.bank-card h1 {
+    font-size: 28px;
+
+    margin-bottom: 8px;
+}
+
+.description {
+    color: #777;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+
+    margin-bottom: 25px;
+}
+
+
+/* ================= FORM ================= */
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    margin-bottom: 8px;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+
+    height: 50px;
+
+    border: 1px solid #ddd;
+
+    border-radius: 10px;
+
+    padding: 0 14px;
+
+    font-size: 15px;
+
+    outline: none;
+
+    background: #fff;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #FDBF2D;
+
+    box-shadow:
+        0 0 0 3px rgba(253,191,45,.15);
+}
+
+
+/* ================= ACCOUNT NAME ================= */
+
+.account-name-box {
+    background: #f7f7f7;
+
+    border-radius: 10px;
+
+    padding: 14px;
+
+    margin-bottom: 18px;
+}
+
+.account-name-box span {
+    display: block;
+
+    color: #777;
+
+    font-size: 12px;
+
+    margin-bottom: 5px;
+}
+
+.account-name-box strong {
+    font-size: 15px;
+}
+
+
+/* ================= STATUS ================= */
+
+#statusMessage {
+    font-size: 14px;
+
+    margin-bottom: 15px;
+
+    min-height: 20px;
+}
+
+
+/* ================= BUTTON ================= */
+
+#saveBankBtn {
+    width: 100%;
+
+    height: 52px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: #FDBF2D;
+
+    color: #111;
+
+    font-size: 15px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: .3s;
+}
+
+#saveBankBtn:hover {
+    background: #eaae19;
+}
+
+#saveBankBtn:disabled {
+    opacity: .6;
+
+    cursor: not-allowed;
+}
+
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 600px) {
+
+    .header {
+        padding: 0 15px;
+    }
+
+    .bank-card {
+        padding: 25px 20px;
+    }
+
+    .bank-card h1 {
+        font-size: 24px;
+    }
+
+}

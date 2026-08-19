@@ -7,158 +7,166 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>My Profile | Ziba</title>
+    <title>Ziba Profile</title>
 
     <link rel="stylesheet" href="./css/profile.css">
 
     <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
 </head>
 
 <body>
 
-<header>
+<header class="profile-header">
 
-    <a href="marketplace.html" class="back-btn">
+    <a href="javascript:history.back()" class="back-btn">
         <i class="fas fa-arrow-left"></i>
     </a>
 
-    <h1>My Profile</h1>
+    <h2>My Profile</h2>
 
 </header>
 
-<div class="profile-container">
 
-    <div class="profile-card">
+<main class="profile-container">
 
-        <div class="profile-image">
+    <!-- PROFILE PICTURE -->
 
-            <img id="profileImage"
-            src="https://via.placeholder.com/150?text=User"
-            alt="Profile">
+    <section class="profile-card">
 
-            <button id="changePhotoBtn">
+        <div class="profile-picture-container">
+
+            <div class="profile-picture">
+
+                <img
+                    id="profileImage"
+                    src=""
+                    alt="Profile Picture"
+                >
+
+                <div id="profileInitial">
+                    ?
+                </div>
+
+            </div>
+
+            <label for="profileImageInput" class="camera-btn">
+
                 <i class="fas fa-camera"></i>
-            </button>
 
-        </div>
-
-        <h2 id="displayName">Loading...</h2>
-
-        <p id="userEmail">loading@email.com</p>
-
-    </div>
-
-    <form id="profileForm">
-
-        <div class="form-group">
-
-            <label>Full Name</label>
+            </label>
 
             <input
-            type="text"
-            id="fullName"
-            placeholder="Enter your full name">
+                type="file"
+                id="profileImageInput"
+                accept="image/*"
+                hidden
+            >
 
         </div>
 
+
+        <h1 id="profileName">
+            Loading...
+        </h1>
+
+        <p id="profileEmail">
+            Loading...
+        </p>
+
+        <span id="accountType" class="account-type">
+            Loading...
+        </span>
+
+    </section>
+
+
+    <!-- PROFILE INFORMATION -->
+
+    <section class="profile-info">
+
+        <h2>Personal Information</h2>
+
+
         <div class="form-group">
 
-            <label>Email Address</label>
+            <label for="fullName">
+                Full Name
+            </label>
 
             <input
-            type="email"
-            id="email"
-            readonly>
+                type="text"
+                id="fullName"
+                placeholder="Enter your full name"
+            >
 
         </div>
 
+
         <div class="form-group">
 
-            <label>Phone Number</label>
+            <label>
+                Email Address
+            </label>
 
             <input
-            type="tel"
-            id="phone"
-            placeholder="08012345678">
+                type="email"
+                id="email"
+                disabled
+            >
 
         </div>
 
+
         <div class="form-group">
 
-            <label>Location</label>
+            <label>
+                Account Type
+            </label>
 
             <input
-            type="text"
-            id="location"
-            placeholder="Lagos, Nigeria">
+                type="text"
+                id="accountTypeInput"
+                disabled
+            >
 
         </div>
 
-        <div class="form-group">
 
-            <label>Bio</label>
+        <button id="saveBtn" class="save-btn">
 
-            <textarea
-            id="bio"
-            rows="5"
-            placeholder="Tell people about yourself..."></textarea>
+            <i class="fas fa-save"></i>
 
-        </div>
-
-        <button
-        type="submit"
-        class="save-btn">
-
-        <i class="fas fa-save"></i>
-
-        Save Changes
+            Save Changes
 
         </button>
 
-    </form>
+    </section>
 
-    <div class="profile-actions">
 
-        <button class="my-products">
+    <!-- ACCOUNT ACTIONS -->
 
-            <i class="fas fa-box"></i>
+    <section class="account-actions">
 
-            My Products
+        <h2>Account</h2>
 
-        </button>
+        <button id="logoutBtn" class="logout-btn">
 
-        <button class="wishlist">
-
-            <i class="fas fa-heart"></i>
-
-            Wishlist
-
-        </button>
-
-        <button class="messages">
-
-            <i class="fas fa-comments"></i>
-
-            Messages
-
-        </button>
-
-        <button class="logout" id="logoutBtn">
-
-            <i class="fas fa-sign-out-alt"></i>
+            <i class="fas fa-right-from-bracket"></i>
 
             Logout
 
         </button>
 
-    </div>
+    </section>
 
-</div>
+</main>
+
 
 <script type="module" src="./js/profile.js"></script>
 
 </body>
 
 </html>
+```

@@ -669,6 +669,197 @@ footer{
         padding: 14px 20px;
     }
 }
+/* ==========================
+   MOBILE FIX - ZIBA
+========================== */
+
+@media (max-width: 768px) {
+
+    html,
+    body {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
+    section {
+        padding: 60px 20px;
+        width: 100%;
+    }
+
+    /* NAVBAR */
+    .navbar {
+        width: 100%;
+        padding: 15px 20px;
+    }
+
+    .logo img {
+        width: 110px;
+    }
+
+    .nav-btn {
+        display: none;
+    }
+
+    /* HERO */
+    .hero {
+        width: 100%;
+        min-height: auto;
+        padding: 110px 20px 60px;
+        gap: 35px;
+        overflow: hidden;
+    }
+
+    .hero-text {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .hero-text h1 {
+        width: 100%;
+        max-width: 100%;
+        font-size: clamp(34px, 10vw, 45px);
+        line-height: 1.15;
+        overflow-wrap: normal;
+        word-break: normal;
+    }
+
+    .hero-text p {
+        width: 100%;
+        max-width: 100%;
+        font-size: 16px;
+        line-height: 1.6;
+    }
+
+    /* BUTTONS */
+    .hero-buttons {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        align-items: stretch;
+    }
+
+    .start-btn,
+    .browse-btn {
+        width: 100%;
+        text-align: center;
+        padding: 15px 20px;
+    }
+
+    /* SEARCH */
+    .search-box {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .search-box input {
+        min-width: 0;
+        width: 100%;
+        padding: 16px;
+    }
+
+    .search-box button {
+        flex-shrink: 0;
+        width: 60px;
+    }
+
+    /* HERO IMAGE */
+    .hero-image {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .hero-image img {
+        width: 100%;
+        height: auto;
+        max-width: 100%;
+        margin-top: 0;
+    }
+
+    /* STATS */
+    .stats {
+        width: 100%;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+
+    .stat {
+        padding: 25px 10px;
+    }
+
+    .stat h2 {
+        font-size: 28px;
+    }
+
+    /* CATEGORIES */
+    .category-grid {
+        width: 100%;
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .card {
+        width: 100%;
+        min-width: 0;
+    }
+
+    /* PRODUCTS */
+    .product-grid {
+        width: 100%;
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+
+    .product-card {
+        width: 100%;
+        min-width: 0;
+    }
+
+    /* ABOUT */
+    .about {
+        width: 100%;
+        gap: 35px;
+    }
+
+    .about-image,
+    .about-text {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .about-text h2 {
+        font-size: 34px;
+    }
+
+    /* TESTIMONIAL */
+    .testimonial-card {
+        width: 100%;
+        padding: 25px 20px;
+    }
+
+    .testimonial h2 {
+        font-size: 32px;
+    }
+
+    /* CONTACT */
+    .contact h2 {
+        font-size: 34px;
+        line-height: 1.2;
+    }
+
+    /* FOOTER */
+    footer {
+        width: 100%;
+        padding: 50px 20px;
+        text-align: center;
+    }
+
+    footer p {
+        font-size: 16px;
+        line-height: 1.6;
+    }
+}
     </style>
 </head>
 

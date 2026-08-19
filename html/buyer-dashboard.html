@@ -3,121 +3,253 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Ziba Buyer Dashboard</title>
 
     <link rel="stylesheet" href="./css/buyer.css">
 
     <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
 
 <body>
 
+<!-- ================= HEADER ================= -->
+
 <header>
 
-<div class="logo">
-    <span>Ziba</span>
-</div>
+    <div class="logo">
+        <span>Ziba</span>
+    </div>
 
-<div class="search">
+    <!-- MAIN NAVIGATION -->
 
-<input type="text" placeholder="Search products...">
+    <nav class="main-nav">
 
-<button>
-<i class="fas fa-search"></i>
-</button>
+        <a href="buyer-dashboard.html" class="active">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
 
-</div>
+        <a href="marketplace.html">
+            <i class="fas fa-store"></i>
+            <span>Marketplace</span>
+        </a>
+<a href="community.html">
 
-<div class="profile">
+    <i class="fas fa-users"></i>
 
-<img src="https://via.placeholder.com/45" alt="Profile">
+    <span>Community</span>
 
-</div>
+</a>
+        <a href="chat.html">
+            <i class="fas fa-comments"></i>
+            <span>Messages</span>
+        </a>
+
+        <a href="my-orders.html">
+            <i class="fas fa-box"></i>
+            <span>My Orders</span>
+        </a>
+
+        <a href="create-post.html">
+            <i class="fas fa-plus-circle"></i>
+            <span>Create Post</span>
+        </a>
+
+    </nav>
+
+
+    <!-- SEARCH -->
+
+    <div class="search">
+
+        <input
+            type="text"
+            placeholder="Search products..."
+        >
+
+        <button>
+            <i class="fas fa-search"></i>
+        </button>
+
+    </div>
+
+
+    <!-- PROFILE -->
+
+    <a href="profile.html" class="profile">
+
+        <img
+            src="https://via.placeholder.com/45"
+            alt="Profile"
+        >
+
+    </a>
 
 </header>
 
 
+<!-- ================= WELCOME ================= -->
+
 <section class="welcome">
 
-<h2>Welcome Back 👋</h2>
+    <div>
 
-<p>Find amazing products from trusted sellers.</p>
+        <h2>Welcome Back 👋</h2>
+
+        <p>
+            Find amazing products from trusted sellers.
+        </p>
+
+    </div>
+
+    <a href="upgrade.html" class="upgrade-btn">
+        <i class="fas fa-crown"></i>
+        Upgrade
+    </a>
 
 </section>
 
+
+<!-- ================= CATEGORIES ================= -->
 
 <section class="categories">
 
-<div class="category">
-<i class="fas fa-mobile-alt"></i>
-<p>Phones</p>
-</div>
+    <div class="category">
 
-<div class="category">
-<i class="fas fa-laptop"></i>
-<p>Laptops</p>
-</div>
+        <i class="fas fa-mobile-alt"></i>
 
-<div class="category">
-<i class="fas fa-tshirt"></i>
-<p>Fashion</p>
-</div>
+        <p>Phones</p>
 
-<div class="category">
-<i class="fas fa-couch"></i>
-<p>Furniture</p>
-</div>
+    </div>
 
-<div class="category">
-<i class="fas fa-car"></i>
-<p>Vehicles</p>
-</div>
 
-<div class="category">
-<i class="fas fa-ellipsis-h"></i>
-<p>More</p>
-</div>
+    <div class="category">
+
+        <i class="fas fa-laptop"></i>
+
+        <p>Laptops</p>
+
+    </div>
+
+
+    <div class="category">
+
+        <i class="fas fa-tshirt"></i>
+
+        <p>Fashion</p>
+
+    </div>
+
+
+    <div class="category">
+
+        <i class="fas fa-couch"></i>
+
+        <p>Furniture</p>
+
+    </div>
+
+
+    <div class="category">
+
+        <i class="fas fa-car"></i>
+
+        <p>Vehicles</p>
+
+    </div>
+
+
+    <div class="category">
+
+        <i class="fas fa-ellipsis-h"></i>
+
+        <p>More</p>
+
+    </div>
 
 </section>
 
+
+<!-- ================= PRODUCTS ================= -->
 
 <section class="products">
 
-<h2>Latest Products</h2>
+    <div class="section-heading">
 
-<div id="productContainer" class="product-grid">
+        <h2>Latest Products</h2>
 
-</div>
+        <a href="marketplace.html">
+            View All
+            <i class="fas fa-arrow-right"></i>
+        </a>
+
+    </div>
+
+
+    <div
+        id="productContainer"
+        class="product-grid"
+    >
+
+    </div>
 
 </section>
 
 
-<nav class="bottom-nav">
+<!-- ================= MOBILE NAVIGATION ================= -->
 
-<a href="buyer-dashboard.html">
-<i class="fas fa-home"></i>
-<p>Home</p>
+<div class="mobile-nav">
+
+    <a href="buyer-dashboard.html" class="active">
+
+        <i class="fas fa-home"></i>
+
+        <span>Home</span>
+
+    </a>
+
+
+    <a href="marketplace.html">
+
+        <i class="fas fa-store"></i>
+
+        <span>Market</span>
+
+    </a>
+
+<a href="community.html">
+
+    <i class="fas fa-users"></i>
+
+    <span>Community</span>
+
 </a>
+    <a href="chat.html">
 
-<a href="marketplace.html">
-<i class="fas fa-store"></i>
-<p>Market</p>
-</a>
+        <i class="fas fa-comments"></i>
 
-<a href="chat.html">
-<i class="fas fa-comments"></i>
-<p>Chat</p>
-</a>
+        <span>Chat</span>
 
-<a href="profile.html">
-<i class="fas fa-user"></i>
-<p>Profile</p>
-</a>
+    </a>
 
-</nav>
 
-<script type="module" src="./js/buyer.js"></script>
+    <a href="profile.html">
+
+        <i class="fas fa-user"></i>
+
+        <span>Profile</span>
+
+    </a>
+
+</div>
+
+
+<script
+    type="module"
+    src="./js/buyer.js">
+</script>
 
 </body>
 </html>

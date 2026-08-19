@@ -1,4 +1,23 @@
-import { db } from "./firebase-config.js";
+import { auth, db } from "./firebase-config.js";
+
+import {
+    onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
+
+onAuthStateChanged(auth, (user) => {
+
+    if (user) {
+
+        console.log("BUYER UID:", user.uid);
+        console.log("BUYER EMAIL:", user.email);
+
+    } else {
+
+        console.log("NO USER LOGGED IN");
+
+    }
+
+});
 
 import {
     collection,

@@ -1,0 +1,281 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Ziba Payment Verification</title>
+
+    <link rel="stylesheet"
+          href="./css/admin-payments.css">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
+
+</head>
+
+<body>
+
+<!-- ================= SIDEBAR ================= -->
+
+<aside class="sidebar">
+
+    <div class="logo">
+
+        <h2>ZIBA</h2>
+
+        <p>Admin Panel</p>
+
+    </div>
+
+    <ul>
+
+        <li>
+            <a href="./admin.html">
+                <i class="fas fa-chart-line"></i>
+                Dashboard
+            </a>
+        </li>
+
+        <li>
+            <a href="#">
+                <i class="fas fa-users"></i>
+                Users
+            </a>
+        </li>
+
+        <li>
+            <a href="./admin-community.html">
+                <i class="fas fa-users"></i>
+                Community
+            </a>
+        </li>
+
+        <li>
+            <a href="#">
+                <i class="fas fa-box"></i>
+                Products
+            </a>
+        </li>
+
+        <li class="active">
+            <a href="./admin-payments.html">
+                <i class="fas fa-money-bill-transfer"></i>
+                Payments
+            </a>
+        </li>
+
+        <li>
+            <a href="./chat.html">
+                <i class="fas fa-comments"></i>
+                Chats
+            </a>
+        </li>
+
+        <li>
+            <a href="#">
+                <i class="fas fa-flag"></i>
+                Reports
+            </a>
+        </li>
+
+        <li>
+            <a href="#">
+                <i class="fas fa-cog"></i>
+                Settings
+            </a>
+        </li>
+
+        <li>
+            <a href="#" id="logoutBtn">
+                <i class="fas fa-sign-out-alt"></i>
+                Logout
+            </a>
+        </li>
+
+    </ul>
+
+</aside>
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="main-content">
+
+    <header class="page-header">
+
+        <div>
+
+            <h1>
+                Payment Verification
+            </h1>
+
+            <p>
+                Review seller-confirmed payments before releasing funds.
+            </p>
+
+        </div>
+
+        <button
+            id="refreshBtn"
+            class="refresh-btn">
+
+            <i class="fas fa-sync-alt"></i>
+
+            Refresh
+
+        </button>
+
+    </header>
+
+
+    <!-- ================= STATS ================= -->
+
+    <section class="stats">
+
+        <div class="stat-card">
+
+            <div class="stat-icon pending">
+
+                <i class="fas fa-clock"></i>
+
+            </div>
+
+            <div>
+
+                <h3 id="pendingCount">
+                    0
+                </h3>
+
+                <p>
+                    Pending Verification
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon money">
+
+                <i class="fas fa-naira-sign"></i>
+
+            </div>
+
+            <div>
+
+                <h3 id="pendingAmount">
+                    ₦0
+                </h3>
+
+                <p>
+                    Pending Amount
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon verified">
+
+                <i class="fas fa-circle-check"></i>
+
+            </div>
+
+            <div>
+
+                <h3>
+                    Admin Review
+                </h3>
+
+                <p>
+                    Required
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= INFORMATION ================= -->
+
+    <section class="notice">
+
+        <i class="fas fa-shield-halved"></i>
+
+        <div>
+
+            <strong>
+                Payment verification
+            </strong>
+
+            <p>
+                The seller has already confirmed that payment was received.
+                Verify the transaction before the seller can process the order.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= PAYMENTS ================= -->
+
+    <section class="payments-section">
+
+        <div class="section-header">
+
+            <div>
+
+                <h2>
+                    Payments Awaiting Verification
+                </h2>
+
+                <p>
+                    Review each payment carefully before approving it.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div id="paymentsContainer">
+
+            <div class="loading">
+
+                <i class="fas fa-spinner fa-spin"></i>
+
+                <p>
+                    Loading payments...
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<script
+    type="module"
+    src="./js/admin-payments.js">
+</script>
+
+</body>
+
+</html>

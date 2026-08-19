@@ -9,131 +9,541 @@ import {
 import {
     doc,
     getDoc,
-    setDoc
+    updateDoc
 } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
 
-const displayName = document.getElementById("displayName");
-const userEmail = document.getElementById("userEmail");
 
-const fullName = document.getElementById("fullName");
-const email = document.getElementById("email");
-const phone = document.getElementById("phone");
-const location = document.getElementById("location");
-const bio = document.getElementById("bio");
+// ===============================
+// ELEMENTS
+// ===============================
 
-const profileForm = document.getElementById("profileForm");
-const logoutBtn = document.getElementById("logoutBtn");
+const profileName =
+    document.getElementById("profileName");
+
+const profileEmail =
+    document.getElementById("profileEmail");
+
+const accountType =
+    document.getElementById("accountType");
+
+const fullName =
+    document.getElementById("fullName");
+
+const email =
+    document.getElementById("email");
+
+const accountTypeInput =
+    document.getElementById("accountTypeInput");
+
+const saveBtn =
+    document.getElementById("saveBtn");
+
+const logoutBtn =
+    document.getElementById("logoutBtn");
+
+const profileImage =
+    document.getElementById("profileImage");
+
+const profileInitial =
+    document.getElementById("profileInitial");
+
+const profileImageInput =
+    document.getElementById("profileImageInput");
+
+
+// ===============================
+// CURRENT USER
+// ===============================
 
 let currentUser = null;
 
-onAuthStateChanged(auth, async(user)=>{
 
-    if(!user){
+// ===============================
+// AUTH
+// ===============================
 
-        window.location.href="login.html";
+onAuthStateChanged(auth, async (user) => {
+
+    if (!user) {
+
+        window.location.href = "login.html";
+
         return;
-
     }
 
     currentUser = user;
 
-    email.value = user.email;
-    userEmail.textContent = user.email;
+    console.log(
+        "PROFILE USER UID:",
+        user.uid
+    );
 
-    loadProfile();
+    console.log(
+        "PROFILE USER EMAIL:",
+        user.email
+    );
+
+    await loadProfile(user.uid);
 
 });
 
-async function loadProfile(){
 
-    try{
+// ===============================
+// LOAD PROFILE
+// ===============================
 
-        const userRef = doc(db,"users",currentUser.uid);
+async function loadProfile(uid) {
 
-        const userSnap = await getDoc(userRef);
+    try {
 
-        if(userSnap.exists()){
+        const userRef =
+            doc(db, "users", uid);
 
-            const data = userSnap.data();
+        const userSnap =
+            await getDoc(userRef);
 
-            displayName.textContent = data.fullName || "Ziba User";
 
-            fullName.value = data.fullName || "";
-            phone.value = data.phone || "";
-            location.value = data.location || "";
-            bio.value = data.bio || "";
+        if (!userSnap.exists()) {
 
-        }else{
+            alert("User profile not found.");
 
-            displayName.textContent = "New User";
+            return;
+        }
+
+
+        const data =
+            userSnap.data();
+
+
+        const name =
+            data.fullName ||
+            data.name ||
+            "Ziba User";
+
+
+        const type =
+            data.accountType ||
+            "user";
+
+
+        profileName.textContent =
+            name;
+
+        profileEmail.textContent =
+            data.email ||
+            currentUser.email ||
+            "";
+
+        accountType.textContent =
+            type;
+
+        fullName.value =
+            name;
+
+        email.value =
+            data.email ||
+            currentUser.email ||
+            "";
+
+        accountTypeInput.value =
+            type;
+
+
+        // ===============================
+        // PROFILE PICTURE
+        // ===============================
+
+        const photo =
+            data.profilePicture ||
+            data.photoURL ||
+            "";
+
+
+        if (photo) {
+
+            profileImage.src =
+                photo;
+
+            profileImage.style.display =
+                "block";
+
+            profileInitial.style.display =
+                "none";
+
+        } else {
+
+            profileImage.style.display =
+                "none";
+
+            profileInitial.style.display =
+                "block";
+
+            profileInitial.textContent =
+                name
+                    .charAt(0)
+                    .toUpperCase();
 
         }
 
-    }catch(error){
+    } catch (error) {
 
-        console.log(error);
+        console.error(
+            "Load profile error:",
+            error
+        );
+
+        alert(
+            "Unable to load profile."
+        );
 
     }
 
 }
 
-profileForm.addEventListener("submit",async(e)=>{
 
-    e.preventDefault();
+// ===============================
+// PROFILE IMAGE UPLOAD
+// ===============================
 
-    try{
+profileImageInput.addEventListener(
+    "change",
+    async () => {
 
-        await setDoc(doc(db,"users",currentUser.uid),{
+        const file =
+            profileImageInput.files[0];
 
-            fullName: fullName.value,
-            email: currentUser.email,
-            phone: phone.value,
-            location: location.value,
-            bio: bio.value
 
-        },{merge:true});
+        if (!file) return;
 
-        displayName.textContent = fullName.value;
 
-        alert("Profile updated successfully!");
+        if (!currentUser) {
 
-    }catch(error){
+            alert(
+                "Please login again."
+            );
 
-        console.log(error);
+            return;
+        }
 
-        alert("Unable to update profile.");
+
+        // Check file type
+
+        if (!file.type.startsWith("image/")) {
+
+            alert(
+                "Please select an image."
+            );
+
+            profileImageInput.value = "";
+
+            return;
+        }
+
+
+        // Check file size
+        // Maximum 5MB
+
+        if (file.size > 5 * 1024 * 1024) {
+
+            alert(
+                "Image must be smaller than 5MB."
+            );
+
+            profileImageInput.value = "";
+
+            return;
+        }
+
+
+        try {
+
+            console.log(
+                "Uploading profile picture..."
+            );
+
+
+            // Show preview immediately
+
+            const preview =
+                URL.createObjectURL(file);
+
+            profileImage.src =
+                preview;
+
+            profileImage.style.display =
+                "block";
+
+            profileInitial.style.display =
+                "none";
+
+
+            // ===============================
+            // CLOUDINARY
+            // ===============================
+
+            const formData =
+                new FormData();
+
+            formData.append(
+                "file",
+                file
+            );
+
+            formData.append(
+                "upload_preset",
+                "Ziba_upload"
+            );
+
+
+            const response =
+                await fetch(
+                    "https://api.cloudinary.com/v1_1/eym2eljf/image/upload",
+                    {
+                        method: "POST",
+                        body: formData
+                    }
+                );
+
+
+            const result =
+                await response.json();
+
+
+            console.log(
+                "Cloudinary response:",
+                result
+            );
+
+
+            if (!response.ok) {
+
+                console.error(
+                    "Cloudinary error:",
+                    result
+                );
+
+                throw new Error(
+                    result.error?.message ||
+                    "Cloudinary upload failed."
+                );
+
+            }
+
+
+            const imageUrl =
+                result.secure_url;
+
+
+            if (!imageUrl) {
+
+                throw new Error(
+                    "Cloudinary did not return an image URL."
+                );
+
+            }
+
+
+            console.log(
+                "Profile image URL:",
+                imageUrl
+            );
+
+
+            // ===============================
+            // SAVE URL TO FIRESTORE
+            // ===============================
+
+            const userRef =
+                doc(
+                    db,
+                    "users",
+                    currentUser.uid
+                );
+
+
+            await updateDoc(
+                userRef,
+                {
+                    profilePicture:
+                        imageUrl
+                }
+            );
+
+
+            console.log(
+                "Profile picture saved."
+            );
+
+
+            alert(
+                "Profile picture updated successfully!"
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "Profile picture upload error:",
+                error
+            );
+
+
+            alert(
+                "Unable to upload profile picture: " +
+                error.message
+            );
+
+
+            // Return to initial
+
+            profileImage.style.display =
+                "none";
+
+            profileInitial.style.display =
+                "block";
+
+
+            profileImageInput.value = "";
+
+        }
 
     }
+);
 
-});
 
-logoutBtn.addEventListener("click",async()=>{
+// ===============================
+// SAVE PROFILE
+// ===============================
 
-    if(confirm("Do you want to logout?")){
+saveBtn.addEventListener(
+    "click",
+    async () => {
 
-        await signOut(auth);
+        const newName =
+            fullName.value.trim();
 
-        window.location.href="login.html";
+
+        if (!newName) {
+
+            alert(
+                "Please enter your full name."
+            );
+
+            return;
+        }
+
+
+        if (!currentUser) {
+
+            alert(
+                "Please login again."
+            );
+
+            return;
+        }
+
+
+        try {
+
+            saveBtn.disabled =
+                true;
+
+            saveBtn.innerHTML =
+                `<i class="fas fa-spinner fa-spin"></i> Saving...`;
+
+
+            const userRef =
+                doc(
+                    db,
+                    "users",
+                    currentUser.uid
+                );
+
+
+            await updateDoc(
+                userRef,
+                {
+                    fullName: newName
+                }
+            );
+
+
+            // Get account type
+
+            const updatedSnap =
+                await getDoc(userRef);
+
+            const updatedData =
+                updatedSnap.data();
+
+
+            if (
+                updatedData.accountType ===
+                "seller"
+            ) {
+
+                window.location.href =
+                    "seller-dashboard.html";
+
+            } else {
+
+                window.location.href =
+                    "buyer-dashboard.html";
+
+            }
+
+        } catch (error) {
+
+            console.error(
+                "Save profile error:",
+                error
+            );
+
+            alert(
+                "Unable to update profile."
+            );
+
+
+            saveBtn.disabled =
+                false;
+
+            saveBtn.innerHTML =
+                `<i class="fas fa-save"></i> Save Changes`;
+
+        }
 
     }
+);
 
-});
 
-document.querySelector(".my-products").addEventListener("click",()=>{
+// ===============================
+// LOGOUT
+// ===============================
 
-    window.location.href="manage-products.html";
+logoutBtn.addEventListener(
+    "click",
+    async () => {
 
-});
+        try {
 
-document.querySelector(".wishlist").addEventListener("click",()=>{
+            await signOut(auth);
 
-    window.location.href="wishlist.html";
+            window.location.href =
+                "login.html";
 
-});
+        } catch (error) {
 
-document.querySelector(".messages").addEventListener("click",()=>{
+            console.error(
+                "Logout error:",
+                error
+            );
 
-    window.location.href="chat.html";
+            alert(
+                "Unable to logout."
+            );
 
-});
+        }
+
+    }
+);
 

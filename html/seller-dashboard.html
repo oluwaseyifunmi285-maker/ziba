@@ -1,95 +1,697 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ziba Seller Dashboard</title>
 
-<link rel="stylesheet" href="./css/seller.css">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Ziba Seller Dashboard</title>
+
+    <link rel="stylesheet" href="./css/seller.css">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
 </head>
 
 <body>
 
-<div class="sidebar">
 
-    <h2>ZIBA</h2>
+<!-- ================= TOP HEADER ================= -->
 
-    <ul>
+<header class="top-header">
 
-        <li class="active">🏠 Dashboard</li>
+    <a href="seller-dashboard.html" class="logo">
+        ZIBA
+    </a>
 
-        <li>📦 Products</li>
 
-        <li>➕ Add Product</li>
+    <nav class="main-nav">
 
-        <li><a style="color: white;
-        text-decoration: none;" href="./seller-orders.html">📑 Orders</a></li>
+        <a href="seller-dashboard.html" class="active">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
 
-        <li>💰 Earnings</li>
+        <a href="marketplace.html">
+            <i class="fas fa-store"></i>
+            <span>Marketplace</span>
+        </a>
 
-        <li>⚙ Settings</li>
+        <a href="community.html">
+            <i class="fas fa-users"></i>
+            <span>Community</span>
+        </a>
 
-        <li id="logoutBtn">🚪 Logout</li>
+        <a href="chat.html">
+            <i class="fas fa-comments"></i>
+            <span>Messages</span>
+        </a>
 
-    </ul>
+        <a href="manage-products.html">
+            <i class="fas fa-box"></i>
+            <span>Products</span>
+        </a>
 
-</div>
+        <a href="seller-orders.html">
+            <i class="fas fa-receipt"></i>
+            <span>Orders</span>
+        </a>
 
-<div class="main">
+        <a href="create-post.html">
+            <i class="fas fa-plus-circle"></i>
+            <span>Create Post</span>
+        </a>
 
-    <header>
+    </nav>
 
-        <h1>Seller Dashboard</h1>
 
-        <p id="sellerName">Welcome Seller</p>
+    <!-- ================= HEADER ACTIONS ================= -->
 
-    </header>
+    <div class="header-actions">
 
-    <div class="cards">
+        <a href="upgrade.html" class="upgrade-link">
 
-        <div class="card">
-            <h2>Products</h2>
-            <h1 id="totalProducts">0</h1>
-        </div>
+            <i class="fas fa-crown"></i>
 
-        <div class="card">
-            <h2>Orders</h2>
-            <h1>0</h1>
-        </div>
+            Upgrade
 
-        <div class="card">
-            <h2>Earnings</h2>
-            <h1>₦0</h1>
-        </div>
+        </a>
 
-        <div class="card">
-            <h2>Plan</h2>
-            <h1 id="sellerPlan">Free</h1>
-        </div>
+
+        <a href="profile.html" class="profile-link">
+
+            <img
+                id="sellerProfileImage"
+                src=""
+                alt="Profile"
+            >
+
+            <i
+                id="sellerProfileIcon"
+                class="fas fa-user"
+            ></i>
+
+        </a>
 
     </div>
 
-    <div class="actions">
+</header>
 
-        <button onclick="location.href='post.html'">
-            ➕ Add Product
-        </button>
 
-        <button >
-          <a style="color: white;
-          text-decoration: none;" href="./manage-products.html">📦 Manage Products</a>  
-        </button>
 
-    </div>
-<section class="my-products">
-   <h2> My Products</h2>
-   <div id="productsContainer">
-    <p>Loading products...</p>
-   </div>
-</section>
+<!-- ================= MAIN ================= -->
+
+<main class="main">
+
+
+    <!-- ================= DASHBOARD HEADER ================= -->
+
+    <section class="dashboard-header">
+
+        <div>
+
+            <h1>
+                Seller Dashboard
+            </h1>
+
+            <p id="sellerName">
+                Welcome Seller
+            </p>
+
+        </div>
+
+
+        <a href="post.html" class="add-product-btn">
+
+            <i class="fas fa-plus"></i>
+
+            Add Product
+
+        </a>
+
+    </section>
+
+
+
+    <!-- ================= STAT CARDS ================= -->
+
+    <section class="cards">
+
+
+        <!-- PRODUCTS -->
+
+        <div class="card">
+
+            <div class="card-icon">
+
+                <i class="fas fa-box"></i>
+
+            </div>
+
+            <h2>
+                Products
+            </h2>
+
+            <h1 id="totalProducts">
+                0
+            </h1>
+
+        </div>
+
+
+
+        <!-- ORDERS -->
+
+        <div class="card">
+
+            <div class="card-icon">
+
+                <i class="fas fa-shopping-bag"></i>
+
+            </div>
+
+            <h2>
+                Orders
+            </h2>
+
+            <h1 id="totalOrders">
+                0
+            </h1>
+
+        </div>
+
+
+
+        <!-- PLAN -->
+
+        <div class="card">
+
+            <div class="card-icon">
+
+                <i class="fas fa-crown"></i>
+
+            </div>
+
+            <h2>
+                Plan
+            </h2>
+
+            <h1 id="sellerPlan">
+                Free
+            </h1>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ==================================================
+         SELLER PAYMENT NOTIFICATION
+    ================================================== -->
+
+    <section
+        id="paymentNotificationSection"
+        class="payment-notification-section"
+        style="display: none;"
+    >
+
+        <div class="payment-notification-icon">
+
+            <i class="fas fa-money-bill-transfer"></i>
+
+        </div>
+
+
+        <div class="payment-notification-content">
+
+            <strong>
+                Payment Confirmation
+            </strong>
+
+            <p id="paymentNotificationText">
+                A buyer has confirmed a payment.
+            </p>
+
+
+            <a href="seller-orders.html">
+
+                View Order
+
+                <i class="fas fa-arrow-right"></i>
+
+            </a>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ==================================================
+         SELLER BANK ACCOUNT
+    ================================================== -->
+
+    <section class="bank-account-section">
+
+
+        <div class="section-title">
+
+            <div>
+
+                <h2>
+                    Payment Account
+                </h2>
+
+                <p>
+                    Add the bank account where buyers will send payment.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- MESSAGE -->
+
+        <div
+            id="bankAccountMessage"
+            class="bank-account-message"
+        >
+        </div>
+
+
+        <!-- CONNECTED ACCOUNT -->
+
+        <div
+            id="connectedBankAccount"
+            class="connected-bank-account"
+            style="display: none;"
+        >
+
+            <div class="connected-bank-icon">
+
+                <i class="fas fa-circle-check"></i>
+
+            </div>
+
+
+            <div>
+
+                <strong>
+                    Bank Account Connected
+                </strong>
+
+                <p id="connectedBankDetails">
+                    Account information loading...
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- BANK FORM -->
+
+        <form
+            id="bankAccountForm"
+            class="bank-account-form"
+        >
+
+
+            <!-- BANK NAME -->
+
+            <div class="form-group">
+
+                <label for="bankName">
+                    Bank Name
+                </label>
+
+                <input
+                    type="text"
+                    id="bankName"
+                    name="bankName"
+                    placeholder="e.g. GTBank"
+                    required
+                >
+
+            </div>
+
+
+
+            <!-- ACCOUNT NAME -->
+
+            <div class="form-group">
+
+                <label for="accountName">
+                    Account Name
+                </label>
+
+                <input
+                    type="text"
+                    id="accountName"
+                    name="accountName"
+                    placeholder="Name on bank account"
+                    required
+                >
+
+            </div>
+
+
+
+            <!-- ACCOUNT NUMBER -->
+
+            <div class="form-group">
+
+                <label for="accountNumber">
+                    Account Number
+                </label>
+
+                <input
+                    type="text"
+                    id="accountNumber"
+                    name="accountNumber"
+                    maxlength="10"
+                    minlength="10"
+                    inputmode="numeric"
+                    placeholder="10 digit account number"
+                    required
+                >
+
+            </div>
+
+
+
+            <!-- BANK CODE -->
+
+            <div class="form-group">
+
+                <label for="bankCode">
+                    Bank Code
+                </label>
+
+                <input
+                    type="text"
+                    id="bankCode"
+                    name="bankCode"
+                    placeholder="Bank code"
+                >
+
+            </div>
+
+
+
+            <!-- SAVE -->
+
+            <button
+                type="submit"
+                id="saveBankAccountBtn"
+                class="save-bank-btn"
+            >
+
+                <i class="fas fa-building-columns"></i>
+
+                Save Bank Account
+
+            </button>
+
+        </form>
+
+    </section>
+
+
+
+    <!-- ================= QUICK ACTIONS ================= -->
+
+    <section class="quick-actions">
+
+
+        <!-- ADD PRODUCT -->
+
+        <a href="post.html">
+
+            <i class="fas fa-plus-circle"></i>
+
+            <div>
+
+                <strong>
+                    Add Product
+                </strong>
+
+                <span>
+                    List something for sale
+                </span>
+
+            </div>
+
+        </a>
+
+
+
+        <!-- MANAGE PRODUCTS -->
+
+        <a href="manage-products.html">
+
+            <i class="fas fa-boxes-stacked"></i>
+
+            <div>
+
+                <strong>
+                    Manage Products
+                </strong>
+
+                <span>
+                    Edit your listings
+                </span>
+
+            </div>
+
+        </a>
+
+
+
+        <!-- ORDERS -->
+
+        <a href="seller-orders.html">
+
+            <i class="fas fa-receipt"></i>
+
+            <div>
+
+                <strong>
+                    Orders
+                </strong>
+
+                <span>
+                    Manage customer orders
+                </span>
+
+            </div>
+
+        </a>
+
+
+
+        <!-- MESSAGES -->
+
+        <a
+            href="chat.html"
+            class="messages-link"
+        >
+
+            <i class="fas fa-comments"></i>
+
+            <div>
+
+                <strong>
+                    Messages
+                </strong>
+
+                <span>
+                    Chat with buyers
+                </span>
+
+            </div>
+
+
+            <span
+                id="messageBadge"
+                class="message-badge"
+            >
+                0
+            </span>
+
+        </a>
+
+
+
+        <!-- UPGRADE -->
+
+        <a href="upgrade.html">
+
+            <i class="fas fa-crown"></i>
+
+            <div>
+
+                <strong>
+                    Upgrade
+                </strong>
+
+                <span>
+                    Unlock more features
+                </span>
+
+            </div>
+
+        </a>
+
+    </section>
+
+
+
+    <!-- ================= MY PRODUCTS ================= -->
+
+    <section class="my-products">
+
+
+        <div class="section-title">
+
+            <div>
+
+                <h2>
+                    My Products
+                </h2>
+
+                <p>
+                    Products you have posted on Ziba
+                </p>
+
+            </div>
+
+
+            <a href="manage-products.html">
+
+                View All
+
+                <i class="fas fa-arrow-right"></i>
+
+            </a>
+
+        </div>
+
+
+
+        <div id="productsContainer">
+
+            <p>
+                Loading products...
+            </p>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+
+<!-- ================= MOBILE NAV ================= -->
+
+<div class="mobile-nav">
+
+
+    <a
+        href="seller-dashboard.html"
+        class="active"
+    >
+
+        <i class="fas fa-home"></i>
+
+        <span>
+            Home
+        </span>
+
+    </a>
+
+
+
+    <a href="marketplace.html">
+
+        <i class="fas fa-store"></i>
+
+        <span>
+            Market
+        </span>
+
+    </a>
+
+
+
+    <!-- CHAT -->
+
+    <a
+        href="chat.html"
+        class="messages-link"
+    >
+
+        <i class="fas fa-comments"></i>
+
+        <span>
+            Chat
+        </span>
+
+
+        <span
+            id="mobileMessageBadge"
+            class="message-badge"
+        >
+            0
+        </span>
+
+    </a>
+
+
+
+    <!-- PROFILE -->
+
+    <a href="profile.html">
+
+        <i class="fas fa-user"></i>
+
+        <span>
+            Profile
+        </span>
+
+    </a>
+
 </div>
 
-<script type="module" src="./js/seller.js"></script>
+
+
+<!-- ================= LOGOUT ================= -->
+
+<button
+    id="logoutBtn"
+    class="logout-btn"
+>
+
+    <i class="fas fa-right-from-bracket"></i>
+
+    Logout
+
+</button>
+
+
+
+<!-- ================= JAVASCRIPT ================= -->
+
+<script
+    type="module"
+    src="./js/seller.js"
+></script>
 
 </body>
+
 </html>

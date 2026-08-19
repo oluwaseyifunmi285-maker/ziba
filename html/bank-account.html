@@ -1,0 +1,213 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Bank Account - Ziba</title>
+
+    <link rel="stylesheet" href="./css/bank-account.css">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+
+<body>
+
+<header class="header">
+
+    <a href="seller-dashboard.html" class="logo">
+        ZIBA
+    </a>
+
+    <a href="profile.html" class="back-btn">
+        <i class="fas fa-arrow-left"></i>
+        Back
+    </a>
+
+</header>
+
+
+<main class="container">
+
+    <section class="bank-card">
+
+        <div class="bank-icon">
+            <i class="fas fa-building-columns"></i>
+        </div>
+
+        <h1>Bank Account</h1>
+
+        <p class="description">
+            Add your bank account so you can receive payments from Ziba.
+        </p>
+
+
+        <form id="bankForm">
+
+            <!-- BANK -->
+
+            <div class="form-group">
+
+                <label for="bankCode">
+                    Bank
+                </label>
+
+                <select id="bankCode" required>
+
+                    <option value="">
+                        Select your bank
+                    </option>
+
+                    <option value="044">
+                        Access Bank
+                    </option>
+
+                    <option value="063">
+                        Access Bank (Diamond)
+                    </option>
+
+                    <option value="050">
+                        Ecobank
+                    </option>
+
+                    <option value="011">
+                        First Bank
+                    </option>
+
+                    <option value="214">
+                        First City Monument Bank
+                    </option>
+
+                    <option value="070">
+                        Fidelity Bank
+                    </option>
+
+                    <option value="058">
+                        GTBank
+                    </option>
+
+                    <option value="082">
+                        Keystone Bank
+                    </option>
+
+                    <option value="076">
+                        Polaris Bank
+                    </option>
+
+                    <option value="221">
+                        Stanbic IBTC
+                    </option>
+
+                    <option value="068">
+                        Standard Chartered
+                    </option>
+
+                    <option value="232">
+                        Sterling Bank
+                    </option>
+
+                    <option value="100">
+                        SunTrust Bank
+                    </option>
+
+                    <option value="032">
+                        Union Bank
+                    </option>
+
+                    <option value="033">
+                        United Bank for Africa
+                    </option>
+
+                    <option value="215">
+                        Unity Bank
+                    </option>
+
+                    <option value="035">
+                        Wema Bank
+                    </option>
+
+                    <option value="057">
+                        Zenith Bank
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- ACCOUNT NUMBER -->
+
+            <div class="form-group">
+
+                <label for="accountNumber">
+                    Account Number
+                </label>
+
+                <input
+                    type="text"
+                    id="accountNumber"
+                    maxlength="10"
+                    inputmode="numeric"
+                    placeholder="Enter your 10-digit account number"
+                    required
+                >
+
+            </div>
+
+
+            <!-- ACCOUNT NAME -->
+
+            <div
+                id="accountNameBox"
+                class="account-name-box"
+                style="display:none;"
+            >
+
+                <span>
+                    Account Name
+                </span>
+
+                <strong id="accountName">
+                    -
+                </strong>
+
+            </div>
+
+
+            <!-- STATUS -->
+
+            <p id="statusMessage"></p>
+
+
+            <!-- BUTTON -->
+
+            <button
+                type="submit"
+                id="saveBankBtn"
+            >
+
+                <i class="fas fa-lock"></i>
+
+                Save Bank Account
+
+            </button>
+
+        </form>
+
+    </section>
+
+</main>
+
+
+<script
+    type="module"
+    src="./js/bank-account.js"
+></script>
+
+</body>
+
+</html>
+

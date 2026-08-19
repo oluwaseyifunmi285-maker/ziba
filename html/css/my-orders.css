@@ -39,7 +39,25 @@ body {
 .order-card p {
     margin: 10px 0;
 }
+.payment-status {
+    font-weight: 600;
+}
 
+.payment-pending {
+    color: #f59e0b;
+}
+
+.payment-buyer-confirmed {
+    color: #2563eb;
+}
+
+.payment-seller-confirmed {
+    color: #d97706;
+}
+
+.payment-paid {
+    color: #16a34a;
+}
 @media (max-width: 900px) {
     #ordersContainer {
         grid-template-columns: repeat(2, 1fr);

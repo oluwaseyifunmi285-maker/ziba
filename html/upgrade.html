@@ -1,18 +1,14 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
 
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Upgrade Account | Ziba</title>
 
-    <link rel="stylesheet"
-          href="./css/upgrade.css">
+    <link rel="stylesheet" href="./css/upgrade.css">
 
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
@@ -21,234 +17,393 @@
 
 <body>
 
-    <div class="upgrade-container">
+<div class="upgrade-container">
 
-        <!-- Header -->
+    <div class="upgrade-header">
 
-        <div class="upgrade-header">
+        <a href="seller-dashboard.html" class="ziba-logo">
+            ZIBA
+        </a>
 
-            <span class="ziba-logo">
-                ZIBA
+        <h1>Upgrade Your Ziba Account</h1>
+
+        <p>
+            Choose a plan that gives you more.
+        </p>
+
+    </div>
+
+
+    <!-- ================= PLANS ================= -->
+
+    <div class="plans">
+
+
+        <!-- FREE -->
+
+        <div class="plan">
+
+            <div class="plan-icon">
+                <i class="fas fa-user"></i>
+            </div>
+
+            <h2>Free</h2>
+
+            <div class="price">₦0</div>
+
+            <span class="period">
+                Free account
             </span>
 
-            <h1>
-                Upgrade Your Ziba Account
-            </h1>
-
-            <p>
-                Choose a plan that gives you more.
+            <p class="plan-description">
+                Perfect for getting started.
             </p>
 
-        </div>
+            <ul>
 
+                <li>
+                    <i class="fas fa-check"></i>
+                    Basic account
+                </li>
 
-        <!-- Plans -->
+                <li>
+                    <i class="fas fa-check"></i>
+                    3 posts per day
+                </li>
 
-        <div class="plans">
+                <li>
+                    <i class="fas fa-check"></i>
+                    Buy products
+                </li>
 
+                <li>
+                    <i class="fas fa-check"></i>
+                    Basic profile
+                </li>
 
-            <!-- FREE -->
+            </ul>
 
-            <div class="plan">
-
-                <div class="plan-icon">
-                    <i class="fas fa-user"></i>
-                </div>
-
-                <h2>Free</h2>
-
-                <div class="price">
-                    ₦0
-                    <span>/month</span>
-                </div>
-
-                <p class="plan-description">
-                    Perfect for getting started.
-                </p>
-
-                <ul>
-
-                    <li>
-                        <i class="fas fa-check"></i>
-                        Basic account
-                    </li>
-
-                    <li>
-                        <i class="fas fa-check"></i>
-                        3 post per day
-                    </li>
-
-                    <li>
-                        <i class="fas fa-check"></i>
-                        Buy products
-                    </li>
-
-                    <li>
-                        <i class="fas fa-check"></i>
-                        Basic profile
-                    </li>
-
-                </ul>
-
-                <button
-                    class="plan-btn current-plan"
-                    disabled>
-
-                    Current Plan
-
-                </button>
-
-            </div>
-
-
-            <!-- PRO -->
-
-            <div class="plan popular">
-
-                <div class="popular-label">
-                    MOST POPULAR
-                </div>
-
-                <div class="plan-icon">
-                    <i class="fas fa-star"></i>
-                </div>
-
-                <h2>Ziba Pro</h2>
-
-                <div class="price">
-                    ₦5,000
-                    <span>/month</span>
-                </div>
-
-                <p class="plan-description">
-                    For active sellers and buyers.
-                </p>
-
-                <ul>
-
-                    <li>
-                        <i class="fas fa-check"></i>
-                        Unlimited Posting
-                    </li>
-
-                    <li>
-                        <i class="fas fa-check"></i>
-                        More product listings
-                    </li>
-
-                    <li>
-                        <i class="fas fa-check"></i>
-                        Featured products
-                    </li>
-
-                    <li>
-                        <i class="fas fa-check"></i>
-                        Seller analytics
-                    </li>
-
-                    <li>
-                        <i class="fas fa-check"></i>
-                        Priority support
-                    </li>
-
-                </ul>
-
-                <button
-                    class="plan-btn upgrade-btn"
-                    data-plan="pro"
-                    data-price="5000">
-
-                    Upgrade to Pro
-
-                </button>
-
-            </div>
-
-
-            <!-- BUSINESS -->
-
-            <div class="plan">
-
-                <div class="plan-icon business-icon">
-                    <i class="fas fa-crown"></i>
-                </div>
-
-                <h2>Business</h2>
-
-                <div class="price">
-                    ₦15,000
-                    <span>/month</span>
-                </div>
-
-                <p class="plan-description">
-                    For serious marketplace sellers.
-                </p>
-
-                <ul>
-
-                    <li>
-                        <i class="fas fa-check"></i>
-                        Everything in Pro
-                    </li>
-
-                    <li>
-                        <i class="fas fa-check"></i>
-                        Unlimited listings
-                    </li>
-
-                    <li>
-                        <i class="fas fa-check"></i>
-                        Advanced analytics
-                    </li>
-
-                    <li>
-                        <i class="fas fa-check"></i>
-                        Priority product placement
-                    </li>
-
-                    <li>
-                        <i class="fas fa-check"></i>
-                        Business badge
-                    </li>
-
-                </ul>
-
-                <button
-                    class="plan-btn upgrade-btn"
-                    data-plan="business"
-                    data-price="15000">
-
-                    Upgrade to Business
-
-                </button>
-
-            </div>
+            <button class="plan-btn current-plan" disabled>
+                Current Plan
+            </button>
 
         </div>
 
 
-        <!-- Security -->
+        <!-- DAILY -->
 
-        <div class="secure">
+        <div class="plan">
 
-            <i class="fas fa-shield-alt"></i>
+            <div class="plan-icon">
+                <i class="fas fa-bolt"></i>
+            </div>
 
-            Secure payments powered by Paystack
+            <h2>1 Day</h2>
+
+            <div class="price">₦500</div>
+
+            <span class="period">24 hours</span>
+
+            <p class="plan-description">
+                Try Ziba premium features for one day.
+            </p>
+
+            <ul>
+
+                <li>
+                    <i class="fas fa-check"></i>
+                    Unlimited posting
+                </li>
+
+                <li>
+                    <i class="fas fa-check"></i>
+                    More product listings
+                </li>
+
+                <li>
+                    <i class="fas fa-check"></i>
+                    Seller analytics
+                </li>
+
+                <li>
+                    <i class="fas fa-check"></i>
+                    Premium features
+                </li>
+
+            </ul>
+
+            <button
+                class="plan-btn upgrade-btn"
+                data-plan="daily"
+                data-price="500"
+                data-duration="1">
+
+                Upgrade for 1 Day
+
+            </button>
+
+        </div>
+
+
+        <!-- WEEKLY -->
+
+        <div class="plan popular">
+
+            <div class="popular-label">
+                MOST POPULAR
+            </div>
+
+            <div class="plan-icon">
+                <i class="fas fa-star"></i>
+            </div>
+
+            <h2>1 Week</h2>
+
+            <div class="price">₦3,000</div>
+
+            <span class="period">7 days</span>
+
+            <p class="plan-description">
+                Great for active sellers.
+            </p>
+
+            <ul>
+
+                <li>
+                    <i class="fas fa-check"></i>
+                    Unlimited posting
+                </li>
+
+                <li>
+                    <i class="fas fa-check"></i>
+                    More product listings
+                </li>
+
+                <li>
+                    <i class="fas fa-check"></i>
+                    Featured products
+                </li>
+
+                <li>
+                    <i class="fas fa-check"></i>
+                    Seller analytics
+                </li>
+
+                <li>
+                    <i class="fas fa-check"></i>
+                    Priority support
+                </li>
+
+            </ul>
+
+            <button
+                class="plan-btn upgrade-btn"
+                data-plan="weekly"
+                data-price="3000"
+                data-duration="7">
+
+                Upgrade for 1 Week
+
+            </button>
+
+        </div>
+
+
+        <!-- MONTHLY -->
+
+        <div class="plan">
+
+            <div class="plan-icon business-icon">
+                <i class="fas fa-crown"></i>
+            </div>
+
+            <h2>1 Month</h2>
+
+            <div class="price">₦10,000</div>
+
+            <span class="period">30 days</span>
+
+            <p class="plan-description">
+                For serious Ziba sellers.
+            </p>
+
+            <ul>
+
+                <li>
+                    <i class="fas fa-check"></i>
+                    Unlimited listings
+                </li>
+
+                <li>
+                    <i class="fas fa-check"></i>
+                    Advanced analytics
+                </li>
+
+                <li>
+                    <i class="fas fa-check"></i>
+                    Priority product placement
+                </li>
+
+                <li>
+                    <i class="fas fa-check"></i>
+                    Business badge
+                </li>
+
+                <li>
+                    <i class="fas fa-check"></i>
+                    Priority support
+                </li>
+
+            </ul>
+
+            <button
+                class="plan-btn upgrade-btn"
+                data-plan="monthly"
+                data-price="10000"
+                data-duration="30">
+
+                Upgrade for 1 Month
+
+            </button>
 
         </div>
 
     </div>
 
 
-    <script
-        src="https://js.paystack.co/v2/inline.js">
-    </script>
+    <!-- ================= PAYMENT MODAL ================= -->
 
-    <script
-        type="module"
-        src="./js/upgrade.js">
-    </script>
+    <div id="paymentModal" class="payment-modal">
+
+        <div class="payment-box">
+
+            <button
+                id="closePayment"
+                class="close-payment">
+                ×
+            </button>
+
+            <h2>
+                Complete Your Payment
+            </h2>
+
+            <p class="payment-subtitle">
+                Transfer the exact amount to the Ziba account below.
+            </p>
+
+
+            <!-- BANK DETAILS -->
+
+            <div class="bank-details">
+
+                <div class="bank-row">
+
+                    <span>Bank</span>
+
+                    <strong id="bankName">
+                        GTBank
+                    </strong>
+
+                </div>
+
+
+                <div class="bank-row">
+
+                    <span>Account Name</span>
+
+                    <strong id="accountName">
+                        Ziba Technologies
+                    </strong>
+
+                </div>
+
+
+                <div class="bank-row">
+
+                    <span>Account Number</span>
+
+                    <strong id="accountNumber">
+                        0123456789
+                    </strong>
+
+                </div>
+
+
+                <div class="bank-row amount-row">
+
+                    <span>Amount</span>
+
+                    <strong id="paymentAmount">
+                        ₦0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- TRANSFER FORM -->
+
+            <form id="paymentForm">
+
+                <input
+                    type="text"
+                    id="senderName"
+                    placeholder="Name used for the transfer"
+                    required
+                >
+
+                <input
+                    type="text"
+                    id="transferReference"
+                    placeholder="Transfer reference"
+                    required
+                >
+
+                <button
+                    type="submit"
+                    id="submitPayment"
+                    class="submit-payment">
+
+                    I Have Made The Transfer
+
+                </button>
+
+            </form>
+
+
+            <p class="verification-note">
+
+                Your payment will remain pending until Ziba verifies
+                the transfer.
+
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div id="paymentMessage"
+         class="payment-message">
+    </div>
+
+
+    <div class="secure">
+
+        <i class="fas fa-shield-halved"></i>
+
+        Payments are manually verified by Ziba.
+
+    </div>
+
+</div>
+
+
+<script
+    type="module"
+    src="./js/upgrade.js">
+</script>
 
 </body>
-
 </html>

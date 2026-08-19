@@ -1,44 +1,59 @@
-
-import { app } from "./firebase.js";
+import { auth, db } from "./firebase-config.js";
 
 import {
-    getAuth,
     onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
 
 import {
-    getFirestore,
-    doc,
-    updateDoc,
+    collection,
+    addDoc,
     serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
 
 
-// ==========================================
-// FIREBASE
-// ==========================================
-
-const auth = getAuth(app);
-const db = getFirestore(app);
-
-
-// ==========================================
-// PAYSTACK PUBLIC KEY
-// ==========================================
-
-const PAYSTACK_PUBLIC_KEY =
-    "YOUR_PAYSTACK_PUBLIC_KEY";
-
-
-// ==========================================
-// CURRENT USER
-// ==========================================
-
 let currentUser = null;
 
+let selectedPlan = null;
+let selectedPrice = 0;
+let selectedDuration = 0;
+
 
 // ==========================================
-// CHECK LOGIN
+// BANK DETAILS
+// ==========================================
+
+const BANK_NAME = "GTBank";
+
+const ACCOUNT_NAME = "Ziba Technologies";
+
+const ACCOUNT_NUMBER = "0123456789";
+
+
+// ==========================================
+// ELEMENTS
+// ==========================================
+
+const modal =
+    document.getElementById("paymentModal");
+
+const closePayment =
+    document.getElementById("closePayment");
+
+const paymentForm =
+    document.getElementById("paymentForm");
+
+const paymentAmount =
+    document.getElementById("paymentAmount");
+
+const senderName =
+    document.getElementById("senderName");
+
+const transferReference =
+    document.getElementById("transferReference");
+
+
+// ==========================================
+// AUTH
 // ==========================================
 
 onAuthStateChanged(auth, (user) => {
@@ -48,119 +63,104 @@ onAuthStateChanged(auth, (user) => {
         window.location.href = "login.html";
 
         return;
-
     }
 
     currentUser = user;
 
+    console.log(
+        "Upgrade user:",
+        currentUser.uid
+    );
+
 });
 
 
 // ==========================================
-// PLAN BUTTONS
+// UPGRADE BUTTONS
 // ==========================================
 
-const upgradeButtons =
-    document.querySelectorAll(".upgrade-btn");
+document
+    .querySelectorAll(".upgrade-btn")
+    .forEach((button) => {
+
+        button.addEventListener("click", () => {
+
+            selectedPlan =
+                button.dataset.plan;
+
+            selectedPrice =
+                Number(button.dataset.price);
+
+            selectedDuration =
+                Number(button.dataset.duration);
 
 
-// ==========================================
-// PLAN INFORMATION
-// ==========================================
-
-const plans = {
-
-    pro: {
-
-        name: "Ziba Pro",
-
-        price: 5000,
-
-        duration: "monthly"
-
-    },
-
-    business: {
-
-        name: "Ziba Business",
-
-        price: 15000,
-
-        duration: "monthly"
-
-    }
-
-};
+            paymentAmount.textContent =
+                `₦${selectedPrice.toLocaleString()}`;
 
 
-// ==========================================
-// BUTTON CLICK
-// ==========================================
+            modal.classList.add("show");
 
-upgradeButtons.forEach((button) => {
-
-    button.addEventListener("click", () => {
-
-        const planId =
-            button.dataset.plan;
-
-        const plan =
-            plans[planId];
-
-
-        if (!plan) {
-
-            alert(
-                "Invalid upgrade plan."
-            );
-
-            return;
-
-        }
-
-
-        startPayment(
-            button,
-            planId,
-            plan
-        );
+        });
 
     });
 
+
+// ==========================================
+// CLOSE MODAL
+// ==========================================
+
+closePayment.addEventListener("click", () => {
+
+    modal.classList.remove("show");
+
 });
 
 
 // ==========================================
-// START PAYMENT
+// CLICK OUTSIDE
 // ==========================================
 
-function startPayment(
-    button,
-    planId,
-    plan
-) {
+modal.addEventListener("click", (event) => {
+
+    if (event.target === modal) {
+
+        modal.classList.remove("show");
+
+    }
+
+});
+
+
+// ==========================================
+// PAYMENT SUBMISSION
+// ==========================================
+
+paymentForm.addEventListener("submit", async (event) => {
+
+    event.preventDefault();
+
 
     if (!currentUser) {
 
-        alert(
-            "Please log in before upgrading your account."
-        );
-
-        window.location.href =
-            "login.html";
+        alert("Please login first.");
 
         return;
 
     }
 
 
-    if (
-        PAYSTACK_PUBLIC_KEY ===
-        "YOUR_PAYSTACK_PUBLIC_KEY"
-    ) {
+    const sender =
+        senderName.value.trim();
+
+    const reference =
+        transferReference.value.trim();
+
+
+    if (!sender || !reference) {
 
         alert(
-            "Please add your Paystack public key to upgrade.js."
+            "Please enter your transfer name and reference."
         );
 
         return;
@@ -168,236 +168,96 @@ function startPayment(
     }
 
 
-    // Disable button
-
-    button.disabled = true;
-
-    button.classList.add("loading");
-
-    button.innerHTML = `
-        <i class="fas fa-spinner fa-spin"></i>
-        Opening payment...
-    `;
+    const submitButton =
+        document.getElementById("submitPayment");
 
 
-    // ==========================================
-    // PAYSTACK
-    // ==========================================
+    try {
 
-    const paystack =
-        new PaystackPop();
+        submitButton.disabled = true;
+
+        submitButton.textContent =
+            "Submitting...";
 
 
-    paystack.newTransaction({
-
-        key:
-            PAYSTACK_PUBLIC_KEY,
-
-        email:
-            currentUser.email,
-
-        amount:
-            plan.price * 100,
-
-        currency:
-            "NGN",
-
-        metadata: {
+        const paymentData = {
 
             userId:
                 currentUser.uid,
 
-            plan:
-                planId,
+            email:
+                currentUser.email,
 
-            planName:
-                plan.name,
+            type:
+                "upgrade",
+
+            plan:
+                selectedPlan,
+
+            amount:
+                selectedPrice,
 
             duration:
-                plan.duration
+                selectedDuration,
 
-        },
+            senderName:
+                sender,
 
+            transferReference:
+                reference,
 
-        // ==========================================
-        // SUCCESS
-        // ==========================================
+            bankName:
+                BANK_NAME,
 
-        onSuccess:
-            async (transaction) => {
+            accountName:
+                ACCOUNT_NAME,
 
-                console.log(
-                    "Upgrade payment successful:",
-                    transaction
-                );
+            accountNumber:
+                ACCOUNT_NUMBER,
 
+            status:
+                "pending",
 
-                try {
+            createdAt:
+                serverTimestamp()
 
-                    // ==================================
-                    // UPDATE USER ACCOUNT
-                    // ==================================
+        };
 
-                    const userRef =
-                        doc(
-                            db,
-                            "users",
-                            currentUser.uid
-                        );
 
+        await addDoc(
+            collection(db, "payments"),
+            paymentData
+        );
 
-                    await updateDoc(
-                        userRef,
-                        {
 
-                            accountPlan:
-                                planId,
+        alert(
+            "Payment submitted successfully. Ziba will verify your transfer."
+        );
 
-                            planName:
-                                plan.name,
 
-                            planPrice:
-                                plan.price,
+        paymentForm.reset();
 
-                            planDuration:
-                                plan.duration,
+        modal.classList.remove("show");
 
-                            planStatus:
-                                "active",
 
-                            upgradePaymentReference:
-                                transaction.reference,
+    } catch (error) {
 
-                            upgradedAt:
-                                serverTimestamp()
+        console.error(
+            "Payment submission error:",
+            error
+        );
 
-                        }
-                    );
+        alert(
+            "Unable to submit payment. Please try again."
+        );
 
+    } finally {
 
-                    // ==================================
-                    // SUCCESS MESSAGE
-                    // ==================================
+        submitButton.disabled = false;
 
-                    alert(
-                        `Congratulations! 🎉
-
-Your account has been upgraded to ${plan.name}.`
-                    );
-
-
-                    // ==================================
-                    // REDIRECT
-                    // ==================================
-
-                    window.location.href =
-                        "profile.html";
-
-
-                } catch (error) {
-
-                    console.error(
-                        "Account upgrade error:",
-                        error
-                    );
-
-
-                    alert(
-                        "Payment was successful, but your account could not be updated. Payment reference: " +
-                        transaction.reference
-                    );
-
-
-                    resetButton(button);
-
-                }
-
-            },
-
-
-        // ==========================================
-        // PAYMENT LOADED
-        // ==========================================
-
-        onLoad:
-            () => {
-
-                button.innerHTML = `
-                    <i class="fas fa-credit-card"></i>
-                    Complete Payment
-                `;
-
-            },
-
-
-        // ==========================================
-        // CANCELLED
-        // ==========================================
-
-        onCancel:
-            () => {
-
-                alert(
-                    "Upgrade payment was cancelled."
-                );
-
-                resetButton(button);
-
-            },
-
-
-        // ==========================================
-        // ERROR
-        // ==========================================
-
-        onError:
-            (error) => {
-
-                console.error(
-                    "Paystack upgrade error:",
-                    error
-                );
-
-                alert(
-                    "Payment failed. Please try again."
-                );
-
-                resetButton(button);
-
-            }
-
-    });
-
-}
-
-
-// ==========================================
-// RESET BUTTON
-// ==========================================
-
-function resetButton(button) {
-
-    button.disabled = false;
-
-    button.classList.remove("loading");
-
-
-    const planId =
-        button.dataset.plan;
-
-
-    if (planId === "pro") {
-
-        button.innerHTML =
-            "Upgrade to Pro";
+        submitButton.textContent =
+            "I Have Made The Transfer";
 
     }
 
-    else if (planId === "business") {
-
-        button.innerHTML =
-            "Upgrade to Business";
-
-    }
-
-}
+});

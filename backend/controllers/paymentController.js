@@ -1,3 +1,4 @@
+
 import { db } from "../firebase-admin.js";
 
 
@@ -162,6 +163,9 @@ export const createOrder = async (req, res) => {
                     buyerConfirmed:
                         false,
 
+                    sellerConfirmed:
+                        false,
+
                     adminVerified:
                         false,
 
@@ -184,6 +188,10 @@ export const createOrder = async (req, res) => {
                     sellerAmount:
                         0,
 
+
+                    // ==========================
+                    // TIMESTAMPS
+                    // ==========================
 
                     createdAt:
                         new Date(),
@@ -341,7 +349,7 @@ export const buyerConfirmPayment = async (req, res) => {
 
 
         // ======================================
-        // ALREADY VERIFIED
+        // ALREADY ADMIN VERIFIED
         // ======================================
 
         if (
@@ -361,7 +369,7 @@ export const buyerConfirmPayment = async (req, res) => {
 
 
         // ======================================
-        // ALREADY SUBMITTED
+        // ALREADY CONFIRMED BY BUYER
         // ======================================
 
         if (
@@ -390,7 +398,7 @@ export const buyerConfirmPayment = async (req, res) => {
                 true,
 
             paymentStatus:
-                "buyer_confirmed",
+             "seller_confirmed",
 
             orderStatus:
                 "payment_verification",
@@ -413,7 +421,7 @@ export const buyerConfirmPayment = async (req, res) => {
             status: true,
 
             message:
-                "Payment submitted successfully. Waiting for admin verification.",
+                "Payment submitted. Seller must now verify the payment before admin verification.",
 
             orderId
 
@@ -446,8 +454,11 @@ export const buyerConfirmPayment = async (req, res) => {
 
 
 // ==========================================
-// GET PENDING PAYMENTS
+// GET PAYMENTS WAITING FOR ADMIN
 // ADMIN
+// ==========================================
+//
+// Admin receives orders after seller verification.
 // ==========================================
 
 export const getPendingPayments = async (req, res) => {
@@ -460,7 +471,7 @@ export const getPendingPayments = async (req, res) => {
                 .where(
                     "paymentStatus",
                     "==",
-                    "buyer_confirmed"
+                    "seller_confirmed"
                 )
                 .get();
 
@@ -517,8 +528,18 @@ export const getPendingPayments = async (req, res) => {
 
 
 // ==========================================
-// VERIFY PAYMENT
-// ADMIN
+// ADMIN VERIFY PAYMENT
+// ==========================================
+//
+// Buyer confirmed
+//       ↓
+// Seller confirmed
+//       ↓
+// ADMIN verifies
+//       ↓
+// Payment becomes paid
+//       ↓
+// Seller receives sellerAmount
 // ==========================================
 
 export const verifyPayment = async (req, res) => {
@@ -583,7 +604,7 @@ export const verifyPayment = async (req, res) => {
 
 
         // ======================================
-        // BUYER MUST CONFIRM FIRST
+        // BUYER MUST CONFIRM
         // ======================================
 
         if (
@@ -603,6 +624,26 @@ export const verifyPayment = async (req, res) => {
 
 
         // ======================================
+        // SELLER MUST CONFIRM
+        // ======================================
+
+        if (
+            order.sellerConfirmed !== true
+        ) {
+
+            return res.status(400).json({
+
+                status: false,
+
+                message:
+                    "Seller has not verified this payment yet."
+
+            });
+
+        }
+
+
+        // ======================================
         // CALCULATE COMMISSION
         // ======================================
 
@@ -612,7 +653,27 @@ export const verifyPayment = async (req, res) => {
             );
 
 
-        // Ziba commission = 10%
+        if (
+            !Number.isFinite(amount) ||
+            amount <= 0
+        ) {
+
+            return res.status(400).json({
+
+                status: false,
+
+                message:
+                    "Invalid payment amount."
+
+            });
+
+        }
+
+
+        // ======================================
+        // ZIBA COMMISSION
+        // ======================================
+
         const commissionRate =
             0.10;
 
@@ -709,7 +770,7 @@ export const verifyPayment = async (req, res) => {
             status: true,
 
             message:
-                "Payment verified successfully.",
+                "Payment verified successfully. Seller can now process the order.",
 
             orderId:
                 paymentId,
@@ -745,3 +806,4 @@ export const verifyPayment = async (req, res) => {
     }
 
 };
+

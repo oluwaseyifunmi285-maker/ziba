@@ -1,167 +1,1384 @@
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Poppins',sans-serif;
+/* =========================================
+   ZIBA SELLER DASHBOARD
+========================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', Arial, sans-serif;
 }
 
-body{
-    display:flex;
-    min-height:100vh;
-    background:#f4f6f9;
+body {
+    min-height: 100vh;
+    background: #f4f6f9;
+    color: #222;
 }
 
-/* Sidebar */
 
-.sidebar{
-    width:260px;
-    background:#111;
-    color:#fff;
-    padding:30px 20px;
+/* =========================================
+   TOP HEADER
+========================================= */
+
+.top-header {
+    width: 100%;
+    min-height: 72px;
+
+    background: #111;
+
+    display: flex;
+    align-items: center;
+
+    gap: 25px;
+
+    padding: 12px 25px;
+
+    position: sticky;
+    top: 0;
+
+    z-index: 1000;
 }
 
-.sidebar h2{
-    color:#FDBF2D;
-    text-align:center;
-    margin-bottom:40px;
-    font-size:30px;
+
+/* =========================================
+   LOGO
+========================================= */
+
+.logo {
+    color: #FDBF2D;
+
+    font-size: 28px;
+
+    font-weight: 800;
+
+    text-decoration: none;
+
+    flex-shrink: 0;
 }
-.product-card img {
-    width: 180px;
-    height: 150px;
+
+
+/* =========================================
+   MAIN NAVIGATION
+========================================= */
+
+.main-nav {
+    display: flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    flex: 1;
+
+    overflow-x: auto;
+}
+
+.main-nav::-webkit-scrollbar {
+    display: none;
+}
+
+.main-nav a {
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    color: #ddd;
+
+    text-decoration: none;
+
+    padding: 10px 12px;
+
+    border-radius: 8px;
+
+    white-space: nowrap;
+
+    font-size: 14px;
+
+    transition: .3s;
+}
+
+.main-nav a:hover,
+.main-nav a.active {
+    background: #FDBF2D;
+
+    color: #111;
+}
+
+.main-nav a i {
+    font-size: 15px;
+}
+
+
+/* =========================================
+   HEADER ACTIONS
+========================================= */
+
+.header-actions {
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    flex-shrink: 0;
+}
+
+
+/* =========================================
+   UPGRADE
+========================================= */
+
+.upgrade-link {
+    color: #111;
+
+    background: #FDBF2D;
+
+    padding: 9px 15px;
+
+    border-radius: 20px;
+
+    text-decoration: none;
+
+    font-weight: bold;
+
+    font-size: 13px;
+
+    transition: .3s;
+}
+
+.upgrade-link:hover {
+    background: #fff;
+
+    transform: translateY(-2px);
+}
+
+
+/* =========================================
+   PROFILE
+========================================= */
+
+.profile-link {
+    width: 40px;
+    height: 40px;
+
+    border-radius: 50%;
+
+    background: #FDBF2D;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    color: #111;
+
+    text-decoration: none;
+
+    overflow: hidden;
+
+    flex-shrink: 0;
+
+    border: 2px solid #fff;
+
+    transition: .3s;
+}
+
+.profile-link:hover {
+    transform: scale(1.05);
+
+    border-color: #FDBF2D;
+}
+
+.profile-link img {
+    width: 100%;
+    height: 100%;
+
     object-fit: cover;
+
+    display: none;
+}
+
+.profile-link i {
+    font-size: 17px;
+}
+
+
+/* =========================================
+   MAIN
+========================================= */
+
+.main {
+    width: 100%;
+
+    padding: 35px;
+}
+
+
+/* =========================================
+   DASHBOARD HEADER
+========================================= */
+
+.dashboard-header {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 30px;
+
+    gap: 20px;
+}
+
+.dashboard-header h1 {
+    font-size: 30px;
+
+    margin-bottom: 7px;
+}
+
+.dashboard-header p {
+    color: #777;
+
+    font-size: 17px;
+}
+
+.add-product-btn {
+    background: #FDBF2D;
+
+    color: #111;
+
+    padding: 13px 20px;
+
+    border-radius: 10px;
+
+    text-decoration: none;
+
+    font-weight: bold;
+
+    white-space: nowrap;
+
+    transition: .3s;
+}
+
+.add-product-btn:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 5px 15px rgba(0, 0, 0, .12);
+}
+
+.add-product-btn i {
+    margin-right: 7px;
+}
+
+
+/* =========================================
+   STAT CARDS
+========================================= */
+
+.cards {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 20px;
+}
+
+.card {
+    background: #fff;
+
+    padding: 25px;
+
+    border-radius: 15px;
+
+    box-shadow:
+        0 5px 15px rgba(0, 0, 0, .08);
+
+    transition: .3s;
+
+    position: relative;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+
+    box-shadow:
+        0 8px 20px rgba(0, 0, 0, .11);
+}
+
+
+/* =========================================
+   CARD ICON
+========================================= */
+
+.card-icon {
+    width: 45px;
+    height: 45px;
+
     border-radius: 12px;
+
+    background: #fff5d6;
+
+    color: #d89f00;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    margin-bottom: 15px;
+}
+
+.card-icon i {
+    font-size: 18px;
+}
+
+
+/* =========================================
+   CARD TEXT
+========================================= */
+
+.card h2 {
+    color: #666;
+
+    margin-bottom: 10px;
+
+    font-size: 17px;
+}
+
+.card h1 {
+    color: #d89f00;
+
+    font-size: 34px;
+
+    word-break: break-word;
+}
+
+
+/* =========================================
+   PAYMENT NOTIFICATION
+========================================= */
+
+.payment-notification-section {
+    width: 100%;
+
+    margin-top: 30px;
+
+    background: #fff;
+
+    border-left: 5px solid #FDBF2D;
+
+    border-radius: 14px;
+
+    padding: 20px 22px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 18px;
+
+    box-shadow:
+        0 5px 15px rgba(0, 0, 0, .07);
+}
+
+.payment-notification-icon {
+    width: 50px;
+    height: 50px;
+
+    border-radius: 12px;
+
+    background: #fff5d6;
+
+    color: #d89f00;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+}
+
+.payment-notification-icon i {
+    font-size: 21px;
+}
+
+.payment-notification-content {
+    flex: 1;
+}
+
+.payment-notification-content strong {
     display: block;
+
+    font-size: 16px;
+
+    margin-bottom: 5px;
+
+    color: #222;
 }
 
-.sidebar ul{
-    list-style:none;
+.payment-notification-content p {
+    color: #777;
+
+    font-size: 13px;
+
+    margin-bottom: 8px;
 }
 
-.sidebar ul li{
-    padding:16px;
-    margin:10px 0;
-    border-radius:10px;
-    cursor:pointer;
-    transition:.3s;
+.payment-notification-content a {
+    color: #c18d00;
+
+    text-decoration: none;
+
+    font-size: 13px;
+
+    font-weight: 700;
 }
 
-.sidebar ul li:hover,
-.sidebar ul li.active{
-    background:#FDBF2D;
-    color:#111;
-    font-weight:bold;
+.payment-notification-content a:hover {
+    color: #111;
 }
 
-/* Main */
-
-.main{
-    flex:1;
-    padding:35px;
+.payment-notification-content a i {
+    margin-left: 5px;
 }
 
-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:35px;
+
+/* =========================================
+   BANK ACCOUNT SECTION
+========================================= */
+
+.bank-account-section {
+    margin-top: 35px;
 }
 
-header h1{
-    color:#222;
+.bank-account-section .section-title {
+    margin-bottom: 20px;
 }
 
-header p{
-    color:#777;
-    font-size:18px;
+
+/* =========================================
+   BANK ACCOUNT MESSAGE
+========================================= */
+
+.bank-account-message {
+    display: none;
+
+    width: 100%;
+
+    padding: 13px 15px;
+
+    margin-bottom: 18px;
+
+    border-radius: 9px;
+
+    font-size: 13px;
 }
 
-/* Cards */
+.bank-account-message.success {
+    display: block;
 
-.cards{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:20px;
+    background: #eaf8ef;
+
+    color: #218838;
 }
 
-.card{
-    background:#fff;
-    padding:30px;
-    border-radius:15px;
-    box-shadow:0 5px 15px rgba(0,0,0,.08);
-    transition:.3s;
+.bank-account-message.error {
+    display: block;
+
+    background: #fff0f0;
+
+    color: #dc3545;
 }
 
-.card:hover{
-    transform:translateY(-6px);
+
+/* =========================================
+   CONNECTED BANK ACCOUNT
+========================================= */
+
+.connected-bank-account {
+    width: 100%;
+
+    background: #fff;
+
+    border: 1px solid #e4e4e4;
+
+    border-radius: 14px;
+
+    padding: 18px 20px;
+
+    margin-bottom: 20px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    box-shadow:
+        0 3px 10px rgba(0, 0, 0, .04);
 }
 
-.card h2{
-    color:#666;
-    margin-bottom:15px;
-    font-size:20px;
+.connected-bank-icon {
+    width: 46px;
+    height: 46px;
+
+    border-radius: 50%;
+
+    background: #eaf8ef;
+
+    color: #218838;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
 }
 
-.card h1{
-    color:#FDBF2D;
-    font-size:38px;
+.connected-bank-icon i {
+    font-size: 21px;
 }
 
-/* Action Buttons */
+.connected-bank-account strong {
+    display: block;
 
-.actions{
-    margin-top:40px;
-    display:flex;
-    gap:20px;
-    flex-wrap:wrap;
+    color: #222;
+
+    font-size: 15px;
+
+    margin-bottom: 5px;
 }
 
-.actions button{
-    padding:15px 30px;
-    border:none;
-    border-radius:10px;
-    background:#FDBF2D;
-    color:#fff;
-    font-size:17px;
-    cursor:pointer;
-    transition:.3s;
+.connected-bank-account p {
+    color: #777;
+
+    font-size: 13px;
+
+    line-height: 1.5;
+
+    word-break: break-word;
 }
 
-.actions button:hover{
-    background:#e0a500;
-    transform:translateY(-3px);
+
+/* =========================================
+   BANK ACCOUNT FORM
+========================================= */
+
+.bank-account-form {
+    width: 100%;
+
+    background: #fff;
+
+    padding: 25px;
+
+    border-radius: 15px;
+
+    box-shadow:
+        0 5px 15px rgba(0, 0, 0, .08);
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 20px;
 }
 
-/* Mobile */
 
-@media(max-width:900px){
+/* =========================================
+   FORM GROUP
+========================================= */
 
-body{
-    flex-direction:column;
+.bank-account-form .form-group {
+    display: flex;
+
+    flex-direction: column;
 }
 
-.sidebar{
-    width:100%;
+.bank-account-form .form-group label {
+    font-size: 14px;
+
+    font-weight: 600;
+
+    color: #333;
+
+    margin-bottom: 7px;
 }
 
-header{
-    flex-direction:column;
-    align-items:flex-start;
-    gap:10px;
+.bank-account-form .form-group input {
+    width: 100%;
+
+    padding: 13px 14px;
+
+    border: 1px solid #ddd;
+
+    border-radius: 9px;
+
+    background: #fafafa;
+
+    color: #222;
+
+    font-size: 14px;
+
+    outline: none;
+
+    transition: .3s;
 }
 
-.actions{
-    flex-direction:column;
+.bank-account-form .form-group input:focus {
+    border-color: #FDBF2D;
+
+    background: #fff;
+
+    box-shadow:
+        0 0 0 3px rgba(253, 191, 45, .15);
 }
 
-.actions button{
-    width:100%;
+.bank-account-form .form-group input::placeholder {
+    color: #aaa;
 }
 
+
+/* =========================================
+   ACCOUNT NUMBER
+========================================= */
+
+#accountNumber {
+    letter-spacing: 1px;
 }
-@media (max-width: 600px) {
+
+
+/* =========================================
+   SAVE BANK ACCOUNT
+========================================= */
+
+.save-bank-btn {
+    grid-column: 1 / -1;
+
+    width: 100%;
+
+    border: none;
+
+    background: #FDBF2D;
+
+    color: #111;
+
+    padding: 14px 20px;
+
+    border-radius: 9px;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: .3s;
+}
+
+.save-bank-btn:hover {
+    background: #111;
+
+    color: #fff;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 5px 15px rgba(0, 0, 0, .12);
+}
+
+.save-bank-btn i {
+    margin-right: 7px;
+}
+
+
+/* =========================================
+   QUICK ACTIONS
+========================================= */
+
+.quick-actions {
+    margin-top: 30px;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 15px;
+}
+
+.quick-actions a {
+    background: #fff;
+
+    border-radius: 14px;
+
+    padding: 20px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    text-decoration: none;
+
+    color: #222;
+
+    box-shadow:
+        0 3px 12px rgba(0, 0, 0, .06);
+
+    transition: .3s;
+
+    position: relative;
+}
+
+.quick-actions a:hover {
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 6px 18px rgba(0, 0, 0, .1);
+}
+
+.quick-actions a > i {
+    width: 45px;
+    height: 45px;
+
+    border-radius: 12px;
+
+    background: #fff5d6;
+
+    color: #d89f00;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+}
+
+.quick-actions strong {
+    display: block;
+
+    margin-bottom: 5px;
+
+    font-size: 15px;
+}
+
+.quick-actions span {
+    color: #777;
+
+    font-size: 13px;
+}
+
+
+/* =========================================
+   MY PRODUCTS
+========================================= */
+
+.my-products {
+    margin-top: 35px;
+}
+
+.section-title {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-bottom: 20px;
+
+    gap: 15px;
+}
+
+.section-title h2 {
+    margin-bottom: 5px;
+
+    font-size: 23px;
+}
+
+.section-title p {
+    color: #777;
+
+    font-size: 14px;
+}
+
+.section-title a {
+    color: #c18d00;
+
+    text-decoration: none;
+
+    font-weight: bold;
+
+    white-space: nowrap;
+
+    transition: .3s;
+}
+
+.section-title a:hover {
+    color: #111;
+}
+
+
+/* =========================================
+   PRODUCTS CONTAINER
+========================================= */
+
+#productsContainer {
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fill, minmax(220px, 1fr));
+
+    gap: 20px;
+}
+
+#productsContainer > p {
+    background: #fff;
+
+    padding: 30px;
+
+    border-radius: 12px;
+
+    color: #777;
+
+    box-shadow:
+        0 4px 12px rgba(0, 0, 0, .06);
+}
+
+
+/* =========================================
+   PRODUCT CARD
+========================================= */
+
+.product-card {
+    background: #fff;
+
+    border-radius: 15px;
+
+    padding: 15px;
+
+    box-shadow:
+        0 4px 12px rgba(0, 0, 0, .07);
+
+    transition: .3s;
+
+    overflow: hidden;
+}
+
+.product-card:hover {
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 7px 18px rgba(0, 0, 0, .1);
+}
+
+.product-card img {
+    width: 100%;
+
+    height: 180px;
+
+    object-fit: cover;
+
+    border-radius: 12px;
+
+    display: block;
+
+    margin-bottom: 12px;
+}
+
+.product-info h3 {
+    margin-bottom: 8px;
+
+    font-size: 17px;
+}
+
+.product-info p {
+    margin-top: 5px;
+
+    color: #777;
+
+    font-size: 13px;
+}
+
+.product-info p:first-of-type {
+    color: #d89f00;
+
+    font-weight: bold;
+
+    font-size: 18px;
+}
+
+
+/* =========================================
+   MESSAGE BADGE
+========================================= */
+
+.messages-link {
+    position: relative;
+}
+
+.message-badge {
+    position: absolute;
+
+    top: -8px;
+
+    right: -10px;
+
+    min-width: 20px;
+
+    height: 20px;
+
+    padding: 0 5px;
+
+    background: #FDBF2D;
+
+    color: #000;
+
+    border-radius: 50%;
+
+    display: none;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    border: 2px solid #fff;
+}
+
+
+/* =========================================
+   LOGOUT
+========================================= */
+
+.logout-btn {
+    position: fixed;
+
+    right: 25px;
+
+    bottom: 25px;
+
+    border: none;
+
+    background: #111;
+
+    color: #fff;
+
+    padding: 11px 17px;
+
+    border-radius: 25px;
+
+    cursor: pointer;
+
+    z-index: 900;
+
+    font-weight: 600;
+
+    transition: .3s;
+}
+
+.logout-btn:hover {
+    background: #FDBF2D;
+
+    color: #111;
+}
+
+
+/* =========================================
+   MOBILE NAV
+========================================= */
+
+.mobile-nav {
+    display: none;
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 1100px) {
+
+    .main-nav a span {
+        display: none;
+    }
+
+    .main-nav a {
+        padding: 10px 13px;
+    }
+
+    .cards {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+    .quick-actions {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 768px) {
+
+    body {
+        padding-bottom: 75px;
+    }
+
+
+    /* HEADER */
+
+    .top-header {
+        padding: 12px 15px;
+
+        min-height: 65px;
+
+        gap: 12px;
+    }
+
+    .logo {
+        font-size: 24px;
+    }
+
+    .main-nav {
+        display: none;
+    }
+
+    .header-actions {
+        margin-left: auto;
+    }
+
+    .upgrade-link {
+        display: none;
+    }
+
+
+    /* PROFILE */
+
+    .profile-link {
+        width: 40px;
+        height: 40px;
+    }
+
+
+    /* MAIN */
+
+    .main {
+        padding: 20px 15px 90px;
+    }
+
+
+    /* DASHBOARD HEADER */
+
+    .dashboard-header {
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        margin-bottom: 25px;
+    }
+
+    .dashboard-header h1 {
+        font-size: 25px;
+    }
+
+    .dashboard-header p {
+        font-size: 14px;
+    }
+
+    .add-product-btn {
+        width: 100%;
+
+        text-align: center;
+    }
+
+
+    /* CARDS */
+
+    .cards {
+        grid-template-columns:
+            repeat(2, 1fr);
+
+        gap: 12px;
+    }
+
+    .card {
+        padding: 18px;
+
+        border-radius: 13px;
+    }
+
+    .card-icon {
+        width: 40px;
+
+        height: 40px;
+
+        margin-bottom: 12px;
+    }
+
+    .card h2 {
+        font-size: 14px;
+    }
+
+    .card h1 {
+        font-size: 25px;
+    }
+
+
+    /* PAYMENT NOTIFICATION */
+
+    .payment-notification-section {
+        margin-top: 25px;
+
+        padding: 17px;
+
+        gap: 13px;
+
+        align-items: flex-start;
+    }
+
+    .payment-notification-icon {
+        width: 42px;
+        height: 42px;
+    }
+
+    .payment-notification-icon i {
+        font-size: 17px;
+    }
+
+    .payment-notification-content strong {
+        font-size: 14px;
+    }
+
+    .payment-notification-content p {
+        font-size: 12px;
+    }
+
+
+    /* BANK ACCOUNT */
+
+    .bank-account-section {
+        margin-top: 25px;
+    }
+
+    .bank-account-section .section-title {
+        align-items: flex-start;
+    }
+
+    .bank-account-form {
+        grid-template-columns: 1fr;
+
+        padding: 18px;
+
+        gap: 16px;
+
+        border-radius: 13px;
+    }
+
+    .save-bank-btn {
+        grid-column: auto;
+    }
+
+    .connected-bank-account {
+        padding: 15px;
+
+        align-items: flex-start;
+    }
+
+    .connected-bank-account p {
+        font-size: 12px;
+    }
+
+
+    /* QUICK ACTIONS */
+
+    .quick-actions {
+        grid-template-columns: 1fr;
+
+        gap: 12px;
+    }
+
+    .quick-actions a {
+        padding: 16px;
+    }
+
+
+    /* PRODUCTS */
+
+    #productsContainer {
+        grid-template-columns: 1fr;
+    }
+
     .product-card img {
-        width: 120px;
-        height: 100px;
+        height: 210px;
+    }
+
+
+    /* SECTION */
+
+    .section-title {
+        align-items: flex-start;
+    }
+
+    .section-title h2 {
+        font-size: 20px;
+    }
+
+    .section-title p {
+        font-size: 12px;
+    }
+
+
+    /* LOGOUT */
+
+    .logout-btn {
+        display: none;
+    }
+
+
+    /* MOBILE NAV */
+
+    .mobile-nav {
+        position: fixed;
+
+        bottom: 0;
+
+        left: 0;
+
+        width: 100%;
+
+        height: 65px;
+
+        background: #111;
+
+        display: flex;
+
+        justify-content: space-around;
+
+        align-items: center;
+
+        z-index: 2000;
+
+        box-shadow:
+            0 -2px 10px rgba(0, 0, 0, .15);
+    }
+
+    .mobile-nav a {
+        color: #aaa;
+
+        text-decoration: none;
+
+        text-align: center;
+
+        font-size: 10px;
+
+        position: relative;
+    }
+
+    .mobile-nav i {
+        display: block;
+
+        font-size: 18px;
+
+        margin-bottom: 4px;
+    }
+
+    .mobile-nav a.active,
+    .mobile-nav a:hover {
+        color: #FDBF2D;
+    }
+
+    .mobile-nav .message-badge {
+        top: -8px;
+
+        right: 4px;
+    }
+}
+
+
+/* =========================================
+   SMALL PHONES
+========================================= */
+
+@media (max-width: 400px) {
+
+    .main {
+        padding-left: 12px;
+
+        padding-right: 12px;
+    }
+
+    .cards {
+        grid-template-columns: 1fr;
+    }
+
+    .card {
+        padding: 20px;
+    }
+
+    .card h1 {
+        font-size: 28px;
+    }
+
+
+    /* PAYMENT */
+
+    .payment-notification-section {
+        padding: 15px;
+    }
+
+    .payment-notification-icon {
+        width: 38px;
+        height: 38px;
+    }
+
+    .payment-notification-content strong {
+        font-size: 13px;
+    }
+
+
+    /* BANK */
+
+    .bank-account-form {
+        padding: 15px;
+    }
+
+    .bank-account-form .form-group input {
+        padding: 12px;
+    }
+
+    .connected-bank-account {
+        padding: 13px;
+    }
+
+
+    /* PRODUCTS */
+
+    .product-card img {
+        height: 200px;
+    }
+
+    .mobile-nav {
+        height: 63px;
     }
 }

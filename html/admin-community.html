@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Ziba Community Management</title>
+
+    <link rel="stylesheet"
+          href="./css/admin-community.css">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
+
+</head>
+
+<body>
+
+
+<!-- ================= SIDEBAR ================= -->
+
+<aside class="sidebar">
+
+    <div class="logo">
+
+        <h2>ZIBA</h2>
+
+        <p>Admin Panel</p>
+
+    </div>
+
+
+    <ul>
+
+        <li>
+
+            <a href="admin.html">
+
+                <i class="fas fa-chart-line"></i>
+
+                Dashboard
+
+            </a>
+
+        </li>
+
+
+        <li>
+
+            <a href="#">
+
+                <i class="fas fa-users"></i>
+
+                Users
+
+            </a>
+
+        </li>
+
+
+        <li class="active">
+
+            <a href="admin-community.html">
+
+                <i class="fas fa-users"></i>
+
+                Community
+
+            </a>
+
+        </li>
+
+
+        <li>
+
+            <a href="#">
+
+                <i class="fas fa-box"></i>
+
+                Products
+
+            </a>
+
+        </li>
+
+
+        <li>
+
+            <a href="chat.html">
+
+                <i class="fas fa-comments"></i>
+
+                Chats
+
+            </a>
+
+        </li>
+
+
+        <li>
+
+            <a href="#">
+
+                <i class="fas fa-flag"></i>
+
+                Reports
+
+            </a>
+
+        </li>
+
+
+        <li>
+
+            <a href="#">
+
+                <i class="fas fa-cog"></i>
+
+                Settings
+
+            </a>
+
+        </li>
+
+
+        <li>
+
+            <a href="#" id="logoutBtn">
+
+                <i class="fas fa-sign-out-alt"></i>
+
+                Logout
+
+            </a>
+
+        </li>
+
+    </ul>
+
+</aside>
+
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="main-content">
+
+
+    <!-- HEADER -->
+
+    <header class="page-header">
+
+        <div>
+
+            <h1>Community Management</h1>
+
+            <p>
+                Manage posts and content on the Ziba Community.
+            </p>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- ================= STATISTICS ================= -->
+
+    <section class="stats">
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+
+                <i class="fas fa-newspaper"></i>
+
+            </div>
+
+            <div>
+
+                <h3 id="totalPosts">
+                    0
+                </h3>
+
+                <p>
+                    Total Posts
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+
+                <i class="fas fa-box"></i>
+
+            </div>
+
+            <div>
+
+                <h3 id="productPosts">
+                    0
+                </h3>
+
+                <p>
+                    Product Posts
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+
+                <i class="fas fa-comment"></i>
+
+            </div>
+
+            <div>
+
+                <h3 id="experiencePosts">
+                    0
+                </h3>
+
+                <p>
+                    Experience Posts
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+
+                <i class="fas fa-bullhorn"></i>
+
+            </div>
+
+            <div>
+
+                <h3 id="generalPosts">
+                    0
+                </h3>
+
+                <p>
+                    General Posts
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= FILTER ================= -->
+
+    <section class="community-controls">
+
+        <div class="filters">
+
+            <button
+                class="filter-btn active"
+                data-filter="all">
+
+                All
+
+            </button>
+
+
+            <button
+                class="filter-btn"
+                data-filter="product">
+
+                Products
+
+            </button>
+
+
+            <button
+                class="filter-btn"
+                data-filter="experience">
+
+                Experiences
+
+            </button>
+
+
+            <button
+                class="filter-btn"
+                data-filter="general">
+
+                General
+
+            </button>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= POSTS ================= -->
+
+    <section class="admin-posts">
+
+        <div id="adminCommunityFeed">
+
+            <div class="loading">
+
+                <i class="fas fa-spinner fa-spin"></i>
+
+                <p>
+                    Loading community posts...
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+
+<script
+    type="module"
+    src="./js/admin-community.js">
+</script>
+
+</body>
+
+</html>

@@ -1,34 +1,31 @@
+/* =========================================
+   ZIBA UPGRADE
+========================================= */
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Poppins", sans-serif;
+    font-family: Arial, sans-serif;
 }
 
 body {
     min-height: 100vh;
-    background: #f7f7f7;
-    display: flex;
-    justify-content: center;
-    padding: 40px 20px;
-    color: #222;
+    background: #f4f5f7;
+    color: #111;
 }
-
-
-/* ==========================================
-   CONTAINER
-========================================== */
 
 .upgrade-container {
     width: 100%;
-    max-width: 1200px;
+    max-width: 1250px;
+    margin: auto;
+    padding: 45px 25px 60px;
 }
 
 
-/* ==========================================
+/* =========================================
    HEADER
-========================================== */
+========================================= */
 
 .upgrade-header {
     text-align: center;
@@ -37,285 +34,646 @@ body {
 
 .ziba-logo {
     display: inline-block;
-    font-size: 30px;
-    font-weight: 800;
-    color: #ff7a00;
-    letter-spacing: 2px;
-    margin-bottom: 15px;
+
+    color: #FDBF2D;
+    background: #111;
+
+    padding: 8px 18px;
+
+    border-radius: 8px;
+
+    font-size: 25px;
+    font-weight: 900;
+
+    text-decoration: none;
+
+    margin-bottom: 20px;
 }
 
 .upgrade-header h1 {
     font-size: 34px;
     margin-bottom: 10px;
-    color: #222;
 }
 
 .upgrade-header p {
     color: #777;
-    font-size: 16px;
+    font-size: 15px;
 }
 
 
-/* ==========================================
+/* =========================================
    PLANS
-========================================== */
+========================================= */
 
 .plans {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 25px;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 20px;
+
     align-items: stretch;
 }
 
-
-/* ==========================================
-   PLAN CARD
-========================================== */
-
 .plan {
     position: relative;
-    background: #ffffff;
-    border: 1px solid #e7e7e7;
-    border-radius: 20px;
-    padding: 35px 28px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
-    transition: 0.3s ease;
+
+    background: #fff;
+
+    border-radius: 18px;
+
+    padding: 30px 23px;
+
+    box-shadow:
+        0 5px 20px rgba(0,0,0,.07);
+
     display: flex;
+
     flex-direction: column;
+
+    transition: .3s;
+
+    border: 2px solid transparent;
 }
 
 .plan:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.10);
+    transform: translateY(-5px);
+
+    box-shadow:
+        0 10px 28px rgba(0,0,0,.12);
 }
-
-
-/* ==========================================
-   POPULAR PLAN
-========================================== */
 
 .plan.popular {
-    border: 2px solid #ff7a00;
-    transform: translateY(-8px);
-}
-
-.plan.popular:hover {
-    transform: translateY(-13px);
+    border-color: #FDBF2D;
 }
 
 .popular-label {
     position: absolute;
-    top: -14px;
+
+    top: 0;
     left: 50%;
-    transform: translateX(-50%);
-    background: #ff7a00;
-    color: #fff;
-    padding: 7px 18px;
-    border-radius: 30px;
-    font-size: 11px;
-    font-weight: 700;
+
+    transform:
+        translate(-50%, -50%);
+
+    background: #FDBF2D;
+
+    color: #111;
+
+    padding: 6px 13px;
+
+    border-radius: 20px;
+
+    font-size: 10px;
+
+    font-weight: 800;
+
     white-space: nowrap;
 }
 
 
-/* ==========================================
+/* =========================================
    ICON
-========================================== */
+========================================= */
 
 .plan-icon {
-    width: 60px;
-    height: 60px;
-    border-radius: 15px;
-    background: #fff2e6;
-    color: #ff7a00;
+    width: 52px;
+    height: 52px;
+
+    border-radius: 50%;
+
+    background: #fff5d6;
+
+    color: #d89f00;
+
     display: flex;
-    justify-content: center;
+
     align-items: center;
-    font-size: 25px;
-    margin-bottom: 20px;
+
+    justify-content: center;
+
+    font-size: 21px;
+
+    margin-bottom: 17px;
 }
 
 .business-icon {
-    background: #fff2e6;
-    color: #ff7a00;
+    background: #111;
+    color: #FDBF2D;
 }
 
 
-/* ==========================================
-   PLAN TITLE
-========================================== */
+/* =========================================
+   TEXT
+========================================= */
 
 .plan h2 {
-    font-size: 24px;
-    margin-bottom: 12px;
-}
-
-
-/* ==========================================
-   PRICE
-========================================== */
-
-.price {
-    font-size: 32px;
-    font-weight: 800;
-    color: #222;
+    font-size: 22px;
     margin-bottom: 10px;
 }
 
-.price span {
-    font-size: 14px;
-    color: #777;
-    font-weight: 400;
+.price {
+    font-size: 29px;
+    font-weight: 800;
+    margin-bottom: 3px;
 }
 
-
-/* ==========================================
-   DESCRIPTION
-========================================== */
+.period {
+    color: #888;
+    font-size: 12px;
+}
 
 .plan-description {
     color: #777;
-    font-size: 14px;
-    line-height: 1.6;
-    margin-bottom: 25px;
+
+    font-size: 13px;
+
+    line-height: 1.5;
+
+    margin: 15px 0 20px;
 }
 
 
-/* ==========================================
+/* =========================================
    FEATURES
-========================================== */
+========================================= */
 
 .plan ul {
     list-style: none;
-    margin-bottom: 30px;
+
+    margin-bottom: 25px;
+
     flex: 1;
 }
 
-.plan ul li {
+.plan li {
     display: flex;
+
     align-items: center;
-    gap: 10px;
+
+    gap: 9px;
+
+    font-size: 13px;
+
+    margin-bottom: 13px;
+
     color: #555;
-    font-size: 14px;
-    margin-bottom: 15px;
 }
 
-.plan ul li i {
-    color: #ff7a00;
-    font-size: 14px;
+.plan li i {
+    color: #FDBF2D;
 }
 
 
-/* ==========================================
+/* =========================================
    BUTTON
-========================================== */
+========================================= */
 
 .plan-btn {
     width: 100%;
-    padding: 15px;
-    border-radius: 12px;
+
     border: none;
-    background: #ff7a00;
-    color: #fff;
-    font-size: 15px;
-    font-weight: 600;
+
+    padding: 13px;
+
+    border-radius: 9px;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
     cursor: pointer;
-    transition: 0.3s ease;
+
+    transition: .3s;
 }
-
-.plan-btn:hover {
-    background: #e96d00;
-    transform: translateY(-2px);
-}
-
-.plan-btn:active {
-    transform: translateY(0);
-}
-
-
-/* ==========================================
-   CURRENT PLAN
-========================================== */
 
 .current-plan {
-    background: #eeeeee;
+    background: #eee;
     color: #777;
+    cursor: default;
+}
+
+.upgrade-btn {
+    background: #FDBF2D;
+    color: #111;
+}
+
+.upgrade-btn:hover {
+    background: #111;
+    color: #FDBF2D;
+}
+
+.upgrade-btn:disabled {
+    opacity: .6;
     cursor: not-allowed;
 }
 
-.current-plan:hover {
-    background: #eeeeee;
-    transform: none;
+
+/* =========================================
+   PAYMENT MODAL
+========================================= */
+
+.payment-modal {
+    position: fixed;
+
+    inset: 0;
+
+    background:
+        rgba(0,0,0,.65);
+
+    display: none;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 20px;
+
+    z-index: 5000;
+}
+
+.payment-modal.show {
+    display: flex;
 }
 
 
-/* ==========================================
-   DISABLED BUTTON
-========================================== */
+/* =========================================
+   PAYMENT BOX
+========================================= */
 
-.plan-btn:disabled {
-    opacity: 0.8;
+.payment-box {
+    width: 100%;
+
+    max-width: 500px;
+
+    max-height: 90vh;
+
+    overflow-y: auto;
+
+    background: #fff;
+
+    border-radius: 18px;
+
+    padding: 30px;
+
+    position: relative;
+
+    box-shadow:
+        0 20px 50px rgba(0,0,0,.25);
 }
 
 
-/* ==========================================
-   LOADING STATE
-========================================== */
+/* =========================================
+   CLOSE
+========================================= */
 
-.plan-btn.loading {
-    opacity: 0.7;
-    pointer-events: none;
+.close-payment {
+    position: absolute;
+
+    top: 15px;
+
+    right: 15px;
+
+    width: 35px;
+
+    height: 35px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: #f1f1f1;
+
+    cursor: pointer;
+
+    font-size: 15px;
+}
+
+.close-payment:hover {
+    background: #FDBF2D;
 }
 
 
-/* ==========================================
-   SECURITY
-========================================== */
+/* =========================================
+   PAYMENT ICON
+========================================= */
+
+.payment-icon {
+    width: 60px;
+
+    height: 60px;
+
+    margin: 0 auto 15px;
+
+    border-radius: 50%;
+
+    background: #111;
+
+    color: #FDBF2D;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 23px;
+}
+
+.payment-box h2 {
+    text-align: center;
+
+    font-size: 24px;
+
+    margin-bottom: 7px;
+}
+
+.payment-subtitle {
+    text-align: center;
+
+    color: #777;
+
+    font-size: 13px;
+
+    margin-bottom: 20px;
+}
+
+
+/* =========================================
+   SUMMARY
+========================================= */
+
+.payment-summary {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 10px;
+
+    margin-bottom: 15px;
+}
+
+.payment-summary div {
+    background: #fff8df;
+
+    padding: 14px;
+
+    border-radius: 10px;
+}
+
+.payment-summary span {
+    display: block;
+
+    color: #777;
+
+    font-size: 11px;
+
+    margin-bottom: 5px;
+}
+
+.payment-summary strong {
+    font-size: 16px;
+}
+
+
+/* =========================================
+   BANK DETAILS
+========================================= */
+
+.bank-details {
+    background: #111;
+
+    color: #fff;
+
+    border-radius: 12px;
+
+    padding: 18px;
+
+    margin-bottom: 15px;
+}
+
+.bank-row {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 15px;
+
+    padding: 10px 0;
+
+    border-bottom:
+        1px solid #333;
+}
+
+.bank-row:last-child {
+    border-bottom: none;
+}
+
+.bank-row span {
+    color: #aaa;
+
+    font-size: 12px;
+}
+
+.bank-row strong {
+    color: #FDBF2D;
+
+    font-size: 13px;
+
+    text-align: right;
+}
+
+
+/* =========================================
+   WARNING
+========================================= */
+
+.payment-warning {
+    display: flex;
+
+    gap: 10px;
+
+    background: #fff8df;
+
+    color: #555;
+
+    padding: 13px;
+
+    border-radius: 9px;
+
+    margin-bottom: 18px;
+
+    font-size: 12px;
+
+    line-height: 1.5;
+}
+
+.payment-warning i {
+    color: #d89f00;
+
+    margin-top: 2px;
+}
+
+
+/* =========================================
+   INPUT
+========================================= */
+
+.payment-box label {
+    display: block;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    margin-bottom: 7px;
+}
+
+.payment-box input {
+    width: 100%;
+
+    padding: 13px;
+
+    border: 1px solid #ddd;
+
+    border-radius: 9px;
+
+    outline: none;
+
+    font-size: 13px;
+
+    margin-bottom: 15px;
+}
+
+.payment-box input:focus {
+    border-color: #FDBF2D;
+
+    box-shadow:
+        0 0 0 3px rgba(253,191,45,.15);
+}
+
+
+/* =========================================
+   SUBMIT
+========================================= */
+
+.submit-payment {
+    width: 100%;
+
+    border: none;
+
+    background: #FDBF2D;
+
+    color: #111;
+
+    padding: 14px;
+
+    border-radius: 9px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    font-size: 14px;
+}
+
+.submit-payment:hover {
+    background: #111;
+
+    color: #FDBF2D;
+}
+
+.submit-payment:disabled {
+    opacity: .6;
+
+    cursor: not-allowed;
+}
+
+
+/* =========================================
+   MESSAGE
+========================================= */
+
+.payment-message {
+    display: none;
+
+    margin-top: 15px;
+
+    padding: 12px;
+
+    border-radius: 8px;
+
+    text-align: center;
+
+    font-size: 12px;
+
+    line-height: 1.5;
+}
+
+.payment-message.success {
+    display: block;
+
+    background: #e8f8ee;
+
+    color: #1b7a3a;
+}
+
+.payment-message.error {
+    display: block;
+
+    background: #ffe9e9;
+
+    color: #c62828;
+}
+
+
+/* =========================================
+   SECURE
+========================================= */
 
 .secure {
-    margin-top: 35px;
     text-align: center;
+
+    margin-top: 35px;
+
     color: #777;
+
     font-size: 13px;
 }
 
 .secure i {
-    color: #2e7d32;
+    color: #FDBF2D;
+
     margin-right: 6px;
 }
 
 
-/* ==========================================
+/* =========================================
    TABLET
-========================================== */
+========================================= */
 
-@media (max-width: 950px) {
+@media (max-width: 1000px) {
 
     .plans {
-        grid-template-columns: 1fr;
-        max-width: 600px;
-        margin: auto;
-    }
-
-    .plan.popular {
-        transform: none;
-    }
-
-    .plan.popular:hover {
-        transform: translateY(-8px);
+        grid-template-columns:
+            repeat(2, 1fr);
     }
 
 }
 
 
-/* ==========================================
+/* =========================================
    MOBILE
-========================================== */
+========================================= */
 
-@media (max-width: 500px) {
+@media (max-width: 600px) {
 
-    body {
-        padding: 25px 15px;
+    .upgrade-container {
+        padding: 30px 15px 50px;
     }
 
     .upgrade-header {
@@ -327,23 +685,54 @@ body {
     }
 
     .upgrade-header p {
-        font-size: 14px;
+        font-size: 13px;
     }
 
-    .ziba-logo {
-        font-size: 26px;
+    .plans {
+        grid-template-columns: 1fr;
+
+        gap: 18px;
     }
 
     .plan {
-        padding: 28px 22px;
+        padding: 25px 20px;
     }
 
-    .plan h2 {
-        font-size: 22px;
+    .popular-label {
+        font-size: 9px;
     }
 
-    .price {
-        font-size: 28px;
+    .payment-box {
+        padding: 25px 18px;
+    }
+
+}
+
+
+/* =========================================
+   SMALL PHONES
+========================================= */
+
+@media (max-width: 380px) {
+
+    .upgrade-header h1 {
+        font-size: 23px;
+    }
+
+    .payment-summary {
+        grid-template-columns: 1fr;
+    }
+
+    .bank-row {
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 4px;
+    }
+
+    .bank-row strong {
+        text-align: left;
     }
 
 }

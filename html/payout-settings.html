@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Bank & Payout Settings | Ziba</title>
+
+    <link rel="stylesheet"
+          href="./css/payout-settings.css">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
+
+</head>
+
+
+<body>
+
+
+<!-- ===============================
+     TOP HEADER
+================================ -->
+
+<header class="top-header">
+
+    <a href="seller-dashboard.html"
+       class="logo">
+
+        ZIBA
+
+    </a>
+
+
+    <nav class="main-nav">
+
+        <a href="seller-dashboard.html">
+
+            <i class="fas fa-home"></i>
+
+            <span>Home</span>
+
+        </a>
+
+
+        <a href="marketplace.html">
+
+            <i class="fas fa-store"></i>
+
+            <span>Marketplace</span>
+
+        </a>
+
+
+        <a href="community.html">
+
+            <i class="fas fa-users"></i>
+
+            <span>Community</span>
+
+        </a>
+
+
+        <a href="chat.html">
+
+            <i class="fas fa-comments"></i>
+
+            <span>Messages</span>
+
+        </a>
+
+
+        <a href="manage-products.html">
+
+            <i class="fas fa-box"></i>
+
+            <span>Products</span>
+
+        </a>
+
+
+        <a href="seller-orders.html">
+
+            <i class="fas fa-receipt"></i>
+
+            <span>Orders</span>
+
+        </a>
+
+
+        <a href="create-post.html">
+
+            <i class="fas fa-plus-circle"></i>
+
+            <span>Create Post</span>
+
+        </a>
+
+    </nav>
+
+
+    <div class="header-actions">
+
+        <a href="upgrade.html"
+           class="upgrade-link">
+
+            <i class="fas fa-crown"></i>
+
+            Upgrade
+
+        </a>
+
+
+        <a href="profile.html"
+           class="profile-link">
+
+            <img id="sellerProfileImage"
+                 src=""
+                 alt="Profile">
+
+            <i id="sellerProfileIcon"
+               class="fas fa-user">
+            </i>
+
+        </a>
+
+    </div>
+
+</header>
+
+
+
+<!-- ===============================
+     MAIN
+================================ -->
+
+<main class="payout-main">
+
+
+    <section class="payout-container">
+
+
+        <!-- PAGE HEADER -->
+
+        <div class="page-header">
+
+            <div class="header-icon">
+
+                <i class="fas fa-building-columns"></i>
+
+            </div>
+
+
+            <div>
+
+                <h1>
+                    Bank & Payout Settings
+                </h1>
+
+                <p>
+                    Add your bank details so Ziba can process your seller payouts.
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- SECURITY NOTICE -->
+
+        <div class="security-notice">
+
+            <i class="fas fa-shield-halved"></i>
+
+            <div>
+
+                <strong>
+                    Your information is secure
+                </strong>
+
+                <p>
+                    Your bank details are stored securely and are only used for payouts.
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- BANK FORM -->
+
+        <form id="payoutForm">
+
+
+            <!-- BANK NAME -->
+
+            <div class="form-group">
+
+                <label for="bankName">
+
+                    Bank Name
+
+                </label>
+
+
+                <div class="input-wrapper">
+
+                    <i class="fas fa-building-columns"></i>
+
+                    <select id="bankName"
+                            required>
+
+                        <option value="">
+                            Select your bank
+                        </option>
+
+                        <option value="Access Bank">
+                            Access Bank
+                        </option>
+
+                        <option value="Citibank Nigeria">
+                            Citibank Nigeria
+                        </option>
+
+                        <option value="Ecobank Nigeria">
+                            Ecobank Nigeria
+                        </option>
+
+                        <option value="Fidelity Bank">
+                            Fidelity Bank
+                        </option>
+
+                        <option value="First Bank">
+                            First Bank
+                        </option>
+
+                        <option value="First City Monument Bank">
+                            FCMB
+                        </option>
+
+                        <option value="Globus Bank">
+                            Globus Bank
+                        </option>
+
+                        <option value="GTBank">
+                            GTBank
+                        </option>
+
+                        <option value="Heritage Bank">
+                            Heritage Bank
+                        </option>
+
+                        <option value="Keystone Bank">
+                            Keystone Bank
+                        </option>
+
+                        <option value="Kuda">
+                            Kuda
+                        </option>
+
+                        <option value="Moniepoint">
+                            Moniepoint
+                        </option>
+
+                        <option value="Opay">
+                            Opay
+                        </option>
+
+                        <option value="PalmPay">
+                            PalmPay
+                        </option>
+
+                        <option value="Polaris Bank">
+                            Polaris Bank
+                        </option>
+
+                        <option value="PremiumTrust Bank">
+                            PremiumTrust Bank
+                        </option>
+
+                        <option value="Providus Bank">
+                            Providus Bank
+                        </option>
+
+                        <option value="Stanbic IBTC">
+                            Stanbic IBTC
+                        </option>
+
+                        <option value="Sterling Bank">
+                            Sterling Bank
+                        </option>
+
+                        <option value="UBA">
+                            UBA
+                        </option>
+
+                        <option value="Union Bank">
+                            Union Bank
+                        </option>
+
+                        <option value="Unity Bank">
+                            Unity Bank
+                        </option>
+
+                        <option value="Wema Bank">
+                            Wema Bank
+                        </option>
+
+                        <option value="Zenith Bank">
+                            Zenith Bank
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ACCOUNT NUMBER -->
+
+            <div class="form-group">
+
+                <label for="accountNumber">
+
+                    Account Number
+
+                </label>
+
+
+                <div class="input-wrapper">
+
+                    <i class="fas fa-credit-card"></i>
+
+                    <input
+                        type="text"
+                        id="accountNumber"
+                        placeholder="Enter 10-digit account number"
+                        maxlength="10"
+                        inputmode="numeric"
+                        autocomplete="off"
+                        required>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ACCOUNT NAME -->
+
+            <div class="form-group">
+
+                <label for="accountName">
+
+                    Account Name
+
+                </label>
+
+
+                <div class="input-wrapper">
+
+                    <i class="fas fa-user"></i>
+
+                    <input
+                        type="text"
+                        id="accountName"
+                        placeholder="Enter account holder name"
+                        autocomplete="name"
+                        required>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- PAYOUT METHOD -->
+
+            <div class="form-group">
+
+                <label for="payoutMethod">
+
+                    Payout Method
+
+                </label>
+
+
+                <div class="input-wrapper">
+
+                    <i class="fas fa-money-bill-transfer"></i>
+
+                    <select id="payoutMethod"
+                            required>
+
+                        <option value="bank">
+
+                            Bank Transfer
+
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- PAYOUT INFORMATION -->
+
+            <div class="payout-info">
+
+                <div class="info-icon">
+
+                    <i class="fas fa-circle-info"></i>
+
+                </div>
+
+
+                <div>
+
+                    <strong>
+                        How payouts work
+                    </strong>
+
+                    <p>
+                        Money from completed marketplace orders can be
+                        paid to your registered bank account according
+                        to Ziba's payout schedule.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- SUBMIT -->
+
+            <button
+                type="submit"
+                id="savePayoutBtn">
+
+                <i class="fas fa-save"></i>
+
+                Save Bank Details
+
+            </button>
+
+
+            <!-- STATUS -->
+
+            <div id="payoutMessage"
+                 class="payout-message">
+            </div>
+
+
+        </form>
+
+
+        <!-- EXISTING DETAILS -->
+
+        <div id="savedDetails"
+             class="saved-details"
+             style="display:none;">
+
+
+            <div class="saved-header">
+
+                <h2>
+
+                    <i class="fas fa-circle-check"></i>
+
+                    Payout Account
+
+                </h2>
+
+            </div>
+
+
+            <div class="saved-card">
+
+                <div>
+
+                    <span>
+                        Bank
+                    </span>
+
+                    <strong id="savedBank">
+                        —
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        Account Name
+                    </span>
+
+                    <strong id="savedAccountName">
+                        —
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        Account Number
+                    </span>
+
+                    <strong id="savedAccountNumber">
+                        —
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <button
+                type="button"
+                id="editPayoutBtn"
+                class="edit-btn">
+
+                <i class="fas fa-pen"></i>
+
+                Edit Details
+
+            </button>
+
+
+        </div>
+
+
+    </section>
+
+</main>
+
+
+
+<!-- ===============================
+     MOBILE NAV
+================================ -->
+
+<nav class="mobile-nav">
+
+
+    <a href="seller-dashboard.html">
+
+        <i class="fas fa-home"></i>
+
+        <span>Home</span>
+
+    </a>
+
+
+    <a href="marketplace.html">
+
+        <i class="fas fa-store"></i>
+
+        <span>Market</span>
+
+    </a>
+
+
+    <a href="community.html">
+
+        <i class="fas fa-users"></i>
+
+        <span>Community</span>
+
+    </a>
+
+
+    <a href="chat.html">
+
+        <i class="fas fa-comments"></i>
+
+        <span>Chat</span>
+
+    </a>
+
+
+    <a href="profile.html">
+
+        <i class="fas fa-user"></i>
+
+        <span>Profile</span>
+
+    </a>
+
+
+</nav>
+
+
+
+<script
+    type="module"
+    src="./js/payout-settings.js">
+</script>
+
+
+</body>
+
+</html>

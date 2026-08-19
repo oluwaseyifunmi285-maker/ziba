@@ -126,98 +126,89 @@ if (buyBtn) {
 
 
 // ===============================
-// CHAT SELLER
+// UNIVERSAL CHAT
 // ===============================
 
 if (chatBtn) {
 
     chatBtn.addEventListener("click", async () => {
 
-        if (!auth.currentUser) {
+        const currentUser = auth.currentUser;
 
+        if (!currentUser) {
             alert("Please login first.");
             return;
-
         }
 
         if (!product) {
-
             alert("Product is still loading. Please try again.");
             return;
-
         }
 
         if (!product.sellerId) {
-
             alert("Seller information is unavailable.");
             return;
-
         }
 
+        const currentUserId = currentUser.uid;
+        const otherUserId = product.sellerId;
 
-        const buyerId =
-            auth.currentUser.uid;
+        // Prevent users from messaging themselves
+        if (currentUserId === otherUserId) {
+            alert("This is your own product.");
+            return;
+        }
 
-        const sellerId =
-            product.sellerId;
-
-
-        const chatId =
-            [buyerId, sellerId]
-                .sort()
-                .join("_");
-
+        // Same chat ID regardless of who starts the conversation
+        const chatId = [currentUserId, otherUserId]
+            .sort()
+            .join("_");
 
         try {
 
-            const chatRef =
-                doc(db, "chats", chatId);
+            const chatRef = doc(db, "chats", chatId);
 
-            const chatSnap =
-                await getDoc(chatRef);
-
+            const chatSnap = await getDoc(chatRef);
 
             if (!chatSnap.exists()) {
 
                 await setDoc(chatRef, {
 
                     participants: [
-                        buyerId,
-                        sellerId
+                        currentUserId,
+                        otherUserId
                     ],
 
-                    createdAt:
-                        serverTimestamp(),
+                    createdAt: serverTimestamp(),
 
-                    lastMessage: ""
+                    lastMessage: "",
+
+                    lastMessageAt: serverTimestamp()
 
                 });
 
-            }
+                console.log("Universal chat created:", chatId);
 
+            } else {
+
+                console.log("Existing chat opened:", chatId);
+
+            }
 
             window.location.href =
                 `conversation.html?chatId=${chatId}`;
 
-
         } catch (error) {
 
-            console.error(
-                "Chat error:",
-                error
-            );
+            console.error("Universal chat error:", error);
 
-            alert(
-                "Unable to start chat."
-            );
+            alert("Unable to start chat.");
 
         }
 
     });
 
 }
-
-
 // ===============================
 // SAVE ITEM
 // ===============================
