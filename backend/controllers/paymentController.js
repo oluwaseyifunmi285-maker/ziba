@@ -45,7 +45,7 @@ export const initializePayment = async (req, res) => {
         // BASIC VALIDATION
         // ======================================
 
-        if (!email || !amount) {
+        if (!email || amount === undefined) {
 
             return res.status(400).json({
 
@@ -85,11 +85,10 @@ export const initializePayment = async (req, res) => {
         // ======================================
 
         const isUpgrade =
-            plan && userId;
-
+            Boolean(plan && userId);
 
         const isProductPayment =
-            productId && sellerId;
+            Boolean(productId && sellerId);
 
 
         if (
@@ -115,9 +114,13 @@ export const initializePayment = async (req, res) => {
 
         let metadata;
 
+        // This will contain the seller's
+        // Paystack subaccount for product payments.
+        let subaccountCode = null;
+
 
         // ======================================
-        // UPGRADE
+        // UPGRADE PAYMENT
         // ======================================
 
         if (isUpgrade) {
@@ -140,10 +143,68 @@ export const initializePayment = async (req, res) => {
 
 
         // ======================================
-        // PRODUCT
+        // PRODUCT PAYMENT
         // ======================================
 
         if (isProductPayment) {
+
+            // ==================================
+            // GET SELLER
+            // ==================================
+
+            const sellerRef =
+                db
+                    .collection("users")
+                    .doc(sellerId);
+
+
+            const sellerSnap =
+                await sellerRef.get();
+
+
+            if (!sellerSnap.exists) {
+
+                return res.status(404).json({
+
+                    status: false,
+
+                    message:
+                        "Seller account not found."
+
+                });
+
+            }
+
+
+            const sellerData =
+                sellerSnap.data();
+
+
+            // ==================================
+            // GET SUBACCOUNT
+            // ==================================
+
+            subaccountCode =
+                sellerData.subaccountCode;
+
+
+            if (!subaccountCode) {
+
+                return res.status(400).json({
+
+                    status: false,
+
+                    message:
+                        "Seller does not have a Paystack subaccount."
+
+                });
+
+            }
+
+
+            // ==================================
+            // PRODUCT METADATA
+            // ==================================
 
             metadata = {
 
@@ -168,6 +229,17 @@ export const initializePayment = async (req, res) => {
 
             };
 
+
+            console.log(
+                "Seller ID:",
+                sellerId
+            );
+
+            console.log(
+                "Seller subaccount:",
+                subaccountCode
+            );
+
         }
 
 
@@ -175,36 +247,103 @@ export const initializePayment = async (req, res) => {
         // PAYSTACK REQUEST
         // ======================================
 
+        const paymentData = {
+
+            email,
+
+            amount:
+                Math.round(
+                    paymentAmount * 100
+                ),
+
+            callback_url:
+                process.env.PAYSTACK_CALLBACK_URL,
+
+            metadata
+
+        };
+
+
+        // ======================================
+        // ADD SUBACCOUNT
+        // ======================================
+
+        if (isProductPayment) {
+
+            paymentData.subaccount =
+                subaccountCode;
+
+        }
+
+
+        // ======================================
+        // DEBUG
+        // ======================================
+
+        console.log(
+            "PAYSTACK PAYMENT DATA:"
+        );
+
+        console.log(
+            JSON.stringify(
+                paymentData,
+                null,
+                2
+            )
+        );
+
+
+        // ======================================
+        // INITIALIZE WITH PAYSTACK
+        // ======================================
+
         const response =
             await axios.post(
 
                 "https://api.paystack.co/transaction/initialize",
 
-                {
-
-                    email,
-
-                    amount:
-                        paymentAmount * 100,
-
-                    callback_url:
-                        process.env.PAYSTACK_CALLBACK_URL,
-
-                    metadata
-
-                },
+                paymentData,
 
                 {
+
                     headers:
                         paystackHeaders
+
                 }
 
             );
 
 
         // ======================================
-        // RESPONSE
+        // CHECK RESPONSE
         // ======================================
+
+        if (
+            !response.data.status
+        ) {
+
+            return res.status(400).json({
+
+                status: false,
+
+                message:
+                    response.data.message ||
+                    "Unable to initialize payment."
+
+            });
+
+        }
+
+
+        // ======================================
+        // SUCCESS
+        // ======================================
+
+        console.log(
+            "Paystack payment initialized:",
+            response.data.data.reference
+        );
+
 
         return res.json({
 
@@ -232,20 +371,30 @@ export const initializePayment = async (req, res) => {
     } catch (error) {
 
         console.error(
+
             "Paystack initialize error:",
 
             error.response?.data ||
             error.message
+
         );
 
 
-        return res.status(500).json({
+        return res.status(
+
+            error.response?.status || 500
+
+        ).json({
 
             status: false,
 
             message:
                 error.response?.data?.message ||
-                "Payment initialization failed."
+                "Payment initialization failed.",
+
+            error:
+                error.response?.data ||
+                error.message
 
         });
 
@@ -269,6 +418,24 @@ export const verifyPayment = async (req, res) => {
 
 
         // ======================================
+        // VALIDATE REFERENCE
+        // ======================================
+
+        if (!reference) {
+
+            return res.status(400).json({
+
+                status: false,
+
+                message:
+                    "Payment reference is required."
+
+            });
+
+        }
+
+
+        // ======================================
         // VERIFY WITH PAYSTACK
         // ======================================
 
@@ -278,16 +445,43 @@ export const verifyPayment = async (req, res) => {
                 `https://api.paystack.co/transaction/verify/${reference}`,
 
                 {
+
                     headers:
                         paystackHeaders
+
                 }
 
             );
 
 
+        // ======================================
+        // PAYSTACK RESPONSE
+        // ======================================
+
+        if (
+            !response.data.status
+        ) {
+
+            return res.status(400).json({
+
+                status: false,
+
+                message:
+                    response.data.message ||
+                    "Unable to verify payment."
+
+            });
+
+        }
+
+
         const transaction =
             response.data.data;
 
+
+        // ======================================
+        // CHECK PAYMENT STATUS
+        // ======================================
 
         if (
             transaction.status !==
@@ -347,6 +541,10 @@ export const verifyPayment = async (req, res) => {
             }
 
 
+            // ==================================
+            // GET USER
+            // ==================================
+
             const userRef =
                 db
                     .collection("users")
@@ -392,7 +590,9 @@ export const verifyPayment = async (req, res) => {
                     60 *
                     1000;
 
-            } else if (
+            }
+
+            else if (
                 plan === "weekly"
             ) {
 
@@ -403,7 +603,9 @@ export const verifyPayment = async (req, res) => {
                     60 *
                     1000;
 
-            } else if (
+            }
+
+            else if (
                 plan === "monthly"
             ) {
 
@@ -414,7 +616,9 @@ export const verifyPayment = async (req, res) => {
                     60 *
                     1000;
 
-            } else {
+            }
+
+            else {
 
                 return res.status(400).json({
 
@@ -428,19 +632,25 @@ export const verifyPayment = async (req, res) => {
             }
 
 
+            // ==================================
+            // DATES
+            // ==================================
+
             const now =
                 new Date();
 
 
             const expiresAt =
                 new Date(
+
                     now.getTime() +
                     durationMs
+
                 );
 
 
             // ==================================
-            // UPDATE SELLER
+            // UPDATE USER
             // ==================================
 
             await userRef.update({
@@ -476,6 +686,10 @@ export const verifyPayment = async (req, res) => {
 
             });
 
+
+            // ==================================
+            // RESPONSE
+            // ==================================
 
             return res.json({
 
@@ -522,6 +736,10 @@ export const verifyPayment = async (req, res) => {
                 metadata.productId;
 
 
+            // ==================================
+            // VALIDATION
+            // ==================================
+
             if (
                 !sellerId ||
                 !productId
@@ -567,28 +785,38 @@ export const verifyPayment = async (req, res) => {
             }
 
 
+            const sellerData =
+                sellerSnap.data();
+
+
+            // ==================================
+            // GET SUBACCOUNT
+            // ==================================
+
+            const subaccountCode =
+                sellerData.subaccountCode;
+
+
+            if (!subaccountCode) {
+
+                return res.status(400).json({
+
+                    status: false,
+
+                    message:
+                        "Seller does not have a Paystack subaccount."
+
+                });
+
+            }
+
+
             // ==================================
             // AMOUNT
             // ==================================
 
             const paidAmount =
                 transaction.amount / 100;
-
-
-            /*
-             * FOR NOW:
-             *
-             * The money is received by Ziba's
-             * Paystack account.
-             *
-             * We record the seller's share in
-             * availableBalance.
-             *
-             * Later, when your Paystack business
-             * account/subaccount is approved,
-             * we can change this to automatic
-             * Paystack splitting.
-             */
 
 
             // ==================================
@@ -604,41 +832,6 @@ export const verifyPayment = async (req, res) => {
             const sellerAmount =
                 paidAmount -
                 zibaCommission;
-
-
-            // ==================================
-            // GET CURRENT BALANCE
-            // ==================================
-
-            const sellerData =
-                sellerSnap.data();
-
-
-            const currentBalance =
-                Number(
-                    sellerData.availableBalance ||
-                    0
-                );
-
-
-            const newBalance =
-                currentBalance +
-                sellerAmount;
-
-
-            // ==================================
-            // UPDATE SELLER BALANCE
-            // ==================================
-
-            await sellerRef.update({
-
-                availableBalance:
-                    newBalance,
-
-                updatedAt:
-                    new Date()
-
-            });
 
 
             // ==================================
@@ -678,6 +871,8 @@ export const verifyPayment = async (req, res) => {
 
                 zibaCommission,
 
+                subaccountCode,
+
                 paymentReference:
                     transaction.reference,
 
@@ -702,7 +897,7 @@ export const verifyPayment = async (req, res) => {
                 status: true,
 
                 message:
-                    "Payment verified and seller balance updated.",
+                    "Payment verified and order created successfully.",
 
                 orderId:
                     orderRef.id,
@@ -714,8 +909,10 @@ export const verifyPayment = async (req, res) => {
 
                 zibaCommission,
 
-                sellerBalance:
-                    newBalance
+                subaccountCode,
+
+                paymentReference:
+                    transaction.reference
 
             });
 
@@ -748,11 +945,16 @@ export const verifyPayment = async (req, res) => {
         );
 
 
-        return res.status(500).json({
+        return res.status(
+
+            error.response?.status || 500
+
+        ).json({
 
             status: false,
 
             message:
+                error.response?.data?.message ||
                 "Payment verification failed."
 
         });
