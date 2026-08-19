@@ -2,9 +2,15 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 
-import paymentRoutes from "./routes/paymentRoutes.js";
+import paymentRoutes
+    from "./routes/paymentRoutes.js";
+
+import bankAccountRoutes
+    from "./routes/bankAccount.js";
+
 
 dotenv.config();
+
 
 const app = express();
 
@@ -17,20 +23,26 @@ app.use(cors());
 
 app.use(express.json());
 
-app.use(express.urlencoded({
-    extended: true
-}));
+app.use(
+    express.urlencoded({
+        extended: true
+    })
+);
 
 
 // ==========================================
-// HEALTH CHECK
+// TEST ROUTE
 // ==========================================
 
 app.get("/", (req, res) => {
 
     res.json({
+
         status: true,
-        message: "Ziba backend is running."
+
+        message:
+            "Ziba backend is running."
+
     });
 
 });
@@ -47,6 +59,16 @@ app.use(
 
 
 // ==========================================
+// BANK ACCOUNT ROUTES
+// ==========================================
+
+app.use(
+    "/api/bank-account",
+    bankAccountRoutes
+);
+
+
+// ==========================================
 // ERROR HANDLER
 // ==========================================
 
@@ -56,6 +78,7 @@ app.use((err, req, res, next) => {
         "Server error:",
         err
     );
+
 
     res.status(500).json({
 
@@ -70,7 +93,7 @@ app.use((err, req, res, next) => {
 
 
 // ==========================================
-// PORT
+// SERVER
 // ==========================================
 
 const PORT =
@@ -82,5 +105,17 @@ app.listen(PORT, () => {
     console.log(
         `🚀 Ziba backend running on port ${PORT}`
     );
+
+});
+app.get("/api/payment/test", (req, res) => {
+
+    res.json({
+
+        status: true,
+
+        message:
+            "Payment routes are working."
+
+    });
 
 });

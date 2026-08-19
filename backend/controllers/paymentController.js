@@ -1,71 +1,60 @@
-import axios from "axios";
 import { db } from "../firebase-admin.js";
 
 
 // ==========================================
-// PAYSTACK HEADERS
+// CREATE PRODUCT ORDER
+// BUYER CLICKS "BUY NOW"
 // ==========================================
 
-const paystackHeaders = {
-    Authorization:
-        `Bearer ${process.env.PAYSTACK_SECRET_KEY}`,
-
-    "Content-Type":
-        "application/json"
-};
-
-
-// ==========================================
-// INITIALIZE PAYMENT
-// ==========================================
-
-export const initializePayment = async (req, res) => {
+export const createOrder = async (req, res) => {
 
     try {
 
         const {
-            email,
-            amount,
-
-            // Upgrade information
-            plan,
-            userId,
-
-            // Product information
+            buyerId,
+            buyerName,
+            buyerEmail,
+            sellerId,
             productId,
             productName,
-            buyerName,
-            buyerId,
-            sellerId
-
+            amount
         } = req.body;
 
 
         // ======================================
-        // BASIC VALIDATION
+        // VALIDATION
         // ======================================
 
-        if (!email || amount === undefined) {
+        if (
+            !buyerId ||
+            !buyerName ||
+            !buyerEmail ||
+            !sellerId ||
+            !productId ||
+            !productName ||
+            amount === undefined ||
+            amount === null
+        ) {
 
             return res.status(400).json({
 
                 status: false,
 
                 message:
-                    "Email and amount are required."
+                    "Missing required order information."
 
             });
 
         }
 
 
-        const paymentAmount =
+        const numericAmount =
             Number(amount);
 
 
         if (
-            !Number.isFinite(paymentAmount) ||
-            paymentAmount <= 0
+            !Number.isFinite(numericAmount) ||
+            numericAmount <= 0
         ) {
 
             return res.status(400).json({
@@ -73,7 +62,7 @@ export const initializePayment = async (req, res) => {
                 status: false,
 
                 message:
-                    "Invalid payment amount."
+                    "Invalid order amount."
 
             });
 
@@ -81,245 +70,46 @@ export const initializePayment = async (req, res) => {
 
 
         // ======================================
-        // DETERMINE PAYMENT TYPE
+        // GET SELLER
         // ======================================
 
-        const isUpgrade =
-            Boolean(plan && userId);
+        const sellerRef =
+            db
+                .collection("users")
+                .doc(sellerId);
 
-        const isProductPayment =
-            Boolean(productId && sellerId);
+
+        const sellerSnap =
+            await sellerRef.get();
 
 
-        if (
-            !isUpgrade &&
-            !isProductPayment
-        ) {
+        if (!sellerSnap.exists) {
 
-            return res.status(400).json({
+            return res.status(404).json({
 
                 status: false,
 
                 message:
-                    "Invalid payment information."
+                    "Seller account not found."
 
             });
 
         }
 
 
-        // ======================================
-        // METADATA
-        // ======================================
-
-        let metadata;
-
-        // This will contain the seller's
-        // Paystack subaccount for product payments.
-        let subaccountCode = null;
+        const seller =
+            sellerSnap.data();
 
 
         // ======================================
-        // UPGRADE PAYMENT
-        // ======================================
-
-        if (isUpgrade) {
-
-            metadata = {
-
-                paymentType:
-                    "upgrade",
-
-                userId,
-
-                plan,
-
-                amount:
-                    paymentAmount
-
-            };
-
-        }
-
-
-        // ======================================
-        // PRODUCT PAYMENT
-        // ======================================
-
-        if (isProductPayment) {
-
-            // ==================================
-            // GET SELLER
-            // ==================================
-
-            const sellerRef =
-                db
-                    .collection("users")
-                    .doc(sellerId);
-
-
-            const sellerSnap =
-                await sellerRef.get();
-
-
-            if (!sellerSnap.exists) {
-
-                return res.status(404).json({
-
-                    status: false,
-
-                    message:
-                        "Seller account not found."
-
-                });
-
-            }
-
-
-            const sellerData =
-                sellerSnap.data();
-
-
-            // ==================================
-            // GET SUBACCOUNT
-            // ==================================
-
-            subaccountCode =
-                sellerData.subaccountCode;
-
-
-            if (!subaccountCode) {
-
-                return res.status(400).json({
-
-                    status: false,
-
-                    message:
-                        "Seller does not have a Paystack subaccount."
-
-                });
-
-            }
-
-
-            // ==================================
-            // PRODUCT METADATA
-            // ==================================
-
-            metadata = {
-
-                paymentType:
-                    "product",
-
-                buyerId:
-                    buyerId || null,
-
-                buyerName:
-                    buyerName || "",
-
-                sellerId,
-
-                productId,
-
-                productName:
-                    productName || "",
-
-                amount:
-                    paymentAmount
-
-            };
-
-
-            console.log(
-                "Seller ID:",
-                sellerId
-            );
-
-            console.log(
-                "Seller subaccount:",
-                subaccountCode
-            );
-
-        }
-
-
-        // ======================================
-        // PAYSTACK REQUEST
-        // ======================================
-
-        const paymentData = {
-
-            email,
-
-            amount:
-                Math.round(
-                    paymentAmount * 100
-                ),
-
-            callback_url:
-                process.env.PAYSTACK_CALLBACK_URL,
-
-            metadata
-
-        };
-
-
-        // ======================================
-        // ADD SUBACCOUNT
-        // ======================================
-
-        if (isProductPayment) {
-
-            paymentData.subaccount =
-                subaccountCode;
-
-        }
-
-
-        // ======================================
-        // DEBUG
-        // ======================================
-
-        console.log(
-            "PAYSTACK PAYMENT DATA:"
-        );
-
-        console.log(
-            JSON.stringify(
-                paymentData,
-                null,
-                2
-            )
-        );
-
-
-        // ======================================
-        // INITIALIZE WITH PAYSTACK
-        // ======================================
-
-        const response =
-            await axios.post(
-
-                "https://api.paystack.co/transaction/initialize",
-
-                paymentData,
-
-                {
-
-                    headers:
-                        paystackHeaders
-
-                }
-
-            );
-
-
-        // ======================================
-        // CHECK RESPONSE
+        // CHECK SELLER BANK ACCOUNT
         // ======================================
 
         if (
-            !response.data.status
+            !seller.bankConnected ||
+            !seller.bankName ||
+            !seller.accountName ||
+            !seller.accountNumber
         ) {
 
             return res.status(400).json({
@@ -327,74 +117,396 @@ export const initializePayment = async (req, res) => {
                 status: false,
 
                 message:
-                    response.data.message ||
-                    "Unable to initialize payment."
+                    "Seller has not connected a complete bank account."
 
             });
 
         }
+
+
+        // ======================================
+        // CREATE ORDER
+        // ======================================
+
+        const orderRef =
+            await db
+                .collection("orders")
+                .add({
+
+                    buyerId,
+
+                    buyerName,
+
+                    buyerEmail,
+
+                    sellerId,
+
+                    productId,
+
+                    productName,
+
+                    amount:
+                        numericAmount,
+
+
+                    // ==========================
+                    // PAYMENT
+                    // ==========================
+
+                    paymentMethod:
+                        "bank_transfer",
+
+                    paymentStatus:
+                        "awaiting_payment",
+
+                    buyerConfirmed:
+                        false,
+
+                    adminVerified:
+                        false,
+
+
+                    // ==========================
+                    // ORDER
+                    // ==========================
+
+                    orderStatus:
+                        "pending",
+
+
+                    // ==========================
+                    // MONEY
+                    // ==========================
+
+                    commission:
+                        0,
+
+                    sellerAmount:
+                        0,
+
+
+                    createdAt:
+                        new Date(),
+
+                    updatedAt:
+                        new Date()
+
+                });
+
+
+        // ======================================
+        // RETURN SELLER BANK DETAILS
+        // ======================================
+
+        return res.status(201).json({
+
+            status: true,
+
+            message:
+                "Order created successfully.",
+
+            orderId:
+                orderRef.id,
+
+
+            paymentDetails: {
+
+                amount:
+                    numericAmount,
+
+                bankName:
+                    seller.bankName,
+
+                accountName:
+                    seller.accountName,
+
+                accountNumber:
+                    seller.accountNumber
+
+            }
+
+        });
+
+    }
+
+
+    catch (error) {
+
+        console.error(
+            "Create order error:",
+            error
+        );
+
+
+        return res.status(500).json({
+
+            status: false,
+
+            message:
+                "Unable to create order."
+
+        });
+
+    }
+
+};
+
+
+
+// ==========================================
+// BUYER CONFIRMS BANK TRANSFER
+// ==========================================
+
+export const buyerConfirmPayment = async (req, res) => {
+
+    try {
+
+        const {
+            orderId,
+            buyerId
+        } = req.body;
+
+
+        // ======================================
+        // VALIDATION
+        // ======================================
+
+        if (
+            !orderId ||
+            !buyerId
+        ) {
+
+            return res.status(400).json({
+
+                status: false,
+
+                message:
+                    "Order ID and buyer ID are required."
+
+            });
+
+        }
+
+
+        // ======================================
+        // GET ORDER
+        // ======================================
+
+        const orderRef =
+            db
+                .collection("orders")
+                .doc(orderId);
+
+
+        const orderSnap =
+            await orderRef.get();
+
+
+        if (!orderSnap.exists) {
+
+            return res.status(404).json({
+
+                status: false,
+
+                message:
+                    "Order not found."
+
+            });
+
+        }
+
+
+        const order =
+            orderSnap.data();
+
+
+        // ======================================
+        // CHECK BUYER
+        // ======================================
+
+        if (
+            order.buyerId !== buyerId
+        ) {
+
+            return res.status(403).json({
+
+                status: false,
+
+                message:
+                    "You are not authorized to confirm this order."
+
+            });
+
+        }
+
+
+        // ======================================
+        // ALREADY VERIFIED
+        // ======================================
+
+        if (
+            order.adminVerified === true
+        ) {
+
+            return res.status(400).json({
+
+                status: false,
+
+                message:
+                    "This payment has already been verified."
+
+            });
+
+        }
+
+
+        // ======================================
+        // ALREADY SUBMITTED
+        // ======================================
+
+        if (
+            order.buyerConfirmed === true
+        ) {
+
+            return res.status(400).json({
+
+                status: false,
+
+                message:
+                    "Payment has already been submitted for verification."
+
+            });
+
+        }
+
+
+        // ======================================
+        // UPDATE ORDER
+        // ======================================
+
+        await orderRef.update({
+
+            buyerConfirmed:
+                true,
+
+            paymentStatus:
+                "buyer_confirmed",
+
+            orderStatus:
+                "payment_verification",
+
+            buyerConfirmedAt:
+                new Date(),
+
+            updatedAt:
+                new Date()
+
+        });
 
 
         // ======================================
         // SUCCESS
         // ======================================
 
-        console.log(
-            "Paystack payment initialized:",
-            response.data.data.reference
+        return res.json({
+
+            status: true,
+
+            message:
+                "Payment submitted successfully. Waiting for admin verification.",
+
+            orderId
+
+        });
+
+    }
+
+
+    catch (error) {
+
+        console.error(
+            "Buyer confirmation error:",
+            error
         );
+
+
+        return res.status(500).json({
+
+            status: false,
+
+            message:
+                "Unable to submit payment confirmation."
+
+        });
+
+    }
+
+};
+
+
+
+// ==========================================
+// GET PENDING PAYMENTS
+// ADMIN
+// ==========================================
+
+export const getPendingPayments = async (req, res) => {
+
+    try {
+
+        const snapshot =
+            await db
+                .collection("orders")
+                .where(
+                    "paymentStatus",
+                    "==",
+                    "buyer_confirmed"
+                )
+                .get();
+
+
+        const payments = [];
+
+
+        snapshot.forEach((orderDoc) => {
+
+            payments.push({
+
+                id:
+                    orderDoc.id,
+
+                ...orderDoc.data()
+
+            });
+
+        });
 
 
         return res.json({
 
             status: true,
 
-            message:
-                "Payment initialized successfully.",
-
-            data: {
-
-                authorization_url:
-                    response.data.data.authorization_url,
-
-                access_code:
-                    response.data.data.access_code,
-
-                reference:
-                    response.data.data.reference
-
-            }
+            payments
 
         });
 
+    }
 
-    } catch (error) {
+
+    catch (error) {
 
         console.error(
-
-            "Paystack initialize error:",
-
-            error.response?.data ||
-            error.message
-
+            "Get pending payments error:",
+            error
         );
 
 
-        return res.status(
-
-            error.response?.status || 500
-
-        ).json({
+        return res.status(500).json({
 
             status: false,
 
             message:
-                error.response?.data?.message ||
-                "Payment initialization failed.",
-
-            error:
-                error.response?.data ||
-                error.message
+                "Unable to load pending payments."
 
         });
 
@@ -406,6 +518,7 @@ export const initializePayment = async (req, res) => {
 
 // ==========================================
 // VERIFY PAYMENT
+// ADMIN
 // ==========================================
 
 export const verifyPayment = async (req, res) => {
@@ -413,22 +526,56 @@ export const verifyPayment = async (req, res) => {
     try {
 
         const {
-            reference
+            paymentId
         } = req.params;
 
 
         // ======================================
-        // VALIDATE REFERENCE
+        // GET ORDER
         // ======================================
 
-        if (!reference) {
+        const orderRef =
+            db
+                .collection("orders")
+                .doc(paymentId);
+
+
+        const orderSnap =
+            await orderRef.get();
+
+
+        if (!orderSnap.exists) {
+
+            return res.status(404).json({
+
+                status: false,
+
+                message:
+                    "Order not found."
+
+            });
+
+        }
+
+
+        const order =
+            orderSnap.data();
+
+
+        // ======================================
+        // ALREADY VERIFIED
+        // ======================================
+
+        if (
+            order.adminVerified === true
+        ) {
 
             return res.status(400).json({
 
                 status: false,
 
                 message:
-                    "Payment reference is required."
+                    "Payment has already been verified."
 
             });
 
@@ -436,526 +583,162 @@ export const verifyPayment = async (req, res) => {
 
 
         // ======================================
-        // VERIFY WITH PAYSTACK
+        // BUYER MUST CONFIRM FIRST
         // ======================================
 
-        const response =
-            await axios.get(
+        if (
+            order.buyerConfirmed !== true
+        ) {
 
-                `https://api.paystack.co/transaction/verify/${reference}`,
+            return res.status(400).json({
 
-                {
+                status: false,
 
-                    headers:
-                        paystackHeaders
+                message:
+                    "Buyer has not confirmed payment yet."
 
-                }
+            });
 
+        }
+
+
+        // ======================================
+        // CALCULATE COMMISSION
+        // ======================================
+
+        const amount =
+            Number(
+                order.amount || 0
             );
 
 
-        // ======================================
-        // PAYSTACK RESPONSE
-        // ======================================
-
-        if (
-            !response.data.status
-        ) {
-
-            return res.status(400).json({
-
-                status: false,
-
-                message:
-                    response.data.message ||
-                    "Unable to verify payment."
-
-            });
-
-        }
+        // Ziba commission = 10%
+        const commissionRate =
+            0.10;
 
 
-        const transaction =
-            response.data.data;
+        const commission =
+            amount *
+            commissionRate;
+
+
+        const sellerAmount =
+            amount -
+            commission;
 
 
         // ======================================
-        // CHECK PAYMENT STATUS
+        // UPDATE ORDER
         // ======================================
 
-        if (
-            transaction.status !==
-            "success"
-        ) {
+        await orderRef.update({
 
-            return res.json({
+            paymentStatus:
+                "paid",
 
-                status: false,
+            orderStatus:
+                "pending",
 
-                message:
-                    "Payment was not successful."
+            adminVerified:
+                true,
 
-            });
+            commission:
+                commission,
 
-        }
-
-
-        // ======================================
-        // GET METADATA
-        // ======================================
-
-        const metadata =
-            transaction.metadata || {};
-
-
-        // ======================================
-        // UPGRADE PAYMENT
-        // ======================================
-
-        if (
-            metadata.paymentType ===
-            "upgrade"
-        ) {
-
-            const userId =
-                metadata.userId;
-
-            const plan =
-                metadata.plan;
-
-
-            if (
-                !userId ||
-                !plan
-            ) {
-
-                return res.status(400).json({
-
-                    status: false,
-
-                    message:
-                        "Upgrade information is missing."
-
-                });
-
-            }
-
-
-            // ==================================
-            // GET USER
-            // ==================================
-
-            const userRef =
-                db
-                    .collection("users")
-                    .doc(userId);
-
-
-            const userSnap =
-                await userRef.get();
-
-
-            if (!userSnap.exists) {
-
-                return res.status(404).json({
-
-                    status: false,
-
-                    message:
-                        "User account not found."
-
-                });
-
-            }
-
-
-            const existingUser =
-                userSnap.data();
-
-
-            // ==================================
-            // PLAN DURATION
-            // ==================================
-
-            let durationMs;
-
-
-            if (
-                plan === "daily"
-            ) {
-
-                durationMs =
-                    24 *
-                    60 *
-                    60 *
-                    1000;
-
-            }
-
-            else if (
-                plan === "weekly"
-            ) {
-
-                durationMs =
-                    7 *
-                    24 *
-                    60 *
-                    60 *
-                    1000;
-
-            }
-
-            else if (
-                plan === "monthly"
-            ) {
-
-                durationMs =
-                    30 *
-                    24 *
-                    60 *
-                    60 *
-                    1000;
-
-            }
-
-            else {
-
-                return res.status(400).json({
-
-                    status: false,
-
-                    message:
-                        "Invalid plan."
-
-                });
-
-            }
-
-
-            // ==================================
-            // DATES
-            // ==================================
-
-            const now =
-                new Date();
-
-
-            const expiresAt =
-                new Date(
-
-                    now.getTime() +
-                    durationMs
-
-                );
-
-
-            // ==================================
-            // UPDATE USER
-            // ==================================
-
-            await userRef.update({
-
-                accountType:
-                    String(
-                        existingUser.accountType ||
-                        "seller"
-                    ).trim(),
-
-                plan,
-
-                isPremium:
-                    true,
-
-                lastPaymentAmount:
-                    transaction.amount / 100,
-
-                lastPaymentReference:
-                    transaction.reference,
-
-                lastPaymentStatus:
-                    "paid",
-
-                planStartedAt:
-                    now,
-
-                planExpiresAt:
-                    expiresAt,
-
-                updatedAt:
-                    now
-
-            });
-
-
-            // ==================================
-            // RESPONSE
-            // ==================================
-
-            return res.json({
-
-                status: true,
-
-                message:
-                    "Payment verified and account upgraded.",
-
-                userId,
-
-                plan,
-
-                accountType:
-                    String(
-                        existingUser.accountType ||
-                        "seller"
-                    ).trim(),
-
-                planExpiresAt:
-                    expiresAt.toISOString()
-
-            });
-
-        }
-
-
-
-        // ======================================
-        // PRODUCT PAYMENT
-        // ======================================
-
-        if (
-            metadata.paymentType ===
-            "product"
-        ) {
-
-            const sellerId =
-                metadata.sellerId;
-
-            const buyerId =
-                metadata.buyerId;
-
-            const productId =
-                metadata.productId;
-
-
-            // ==================================
-            // VALIDATION
-            // ==================================
-
-            if (
-                !sellerId ||
-                !productId
-            ) {
-
-                return res.status(400).json({
-
-                    status: false,
-
-                    message:
-                        "Product payment information is missing."
-
-                });
-
-            }
-
-
-            // ==================================
-            // GET SELLER
-            // ==================================
-
-            const sellerRef =
-                db
-                    .collection("users")
-                    .doc(sellerId);
-
-
-            const sellerSnap =
-                await sellerRef.get();
-
-
-            if (!sellerSnap.exists) {
-
-                return res.status(404).json({
-
-                    status: false,
-
-                    message:
-                        "Seller account not found."
-
-                });
-
-            }
-
-
-            const sellerData =
-                sellerSnap.data();
-
-
-            // ==================================
-            // GET SUBACCOUNT
-            // ==================================
-
-            const subaccountCode =
-                sellerData.subaccountCode;
-
-
-            if (!subaccountCode) {
-
-                return res.status(400).json({
-
-                    status: false,
-
-                    message:
-                        "Seller does not have a Paystack subaccount."
-
-                });
-
-            }
-
-
-            // ==================================
-            // AMOUNT
-            // ==================================
-
-            const paidAmount =
-                transaction.amount / 100;
-
-
-            // ==================================
-            // ZIBA COMMISSION
-            // ==================================
-
-            const zibaCommission =
-                Math.round(
-                    paidAmount * 0.05
-                );
-
-
-            const sellerAmount =
-                paidAmount -
-                zibaCommission;
-
-
-            // ==================================
-            // CREATE ORDER
-            // ==================================
-
-            const orderRef =
-                db
-                    .collection("orders")
-                    .doc();
-
-
-            await orderRef.set({
-
-                buyerId:
-                    buyerId || null,
-
-                buyerName:
-                    metadata.buyerName || "",
-
-                buyerEmail:
-                    transaction.customer?.email ||
-                    "",
-
-                sellerId,
-
-                productId,
-
-                productName:
-                    metadata.productName ||
-                    "",
-
-                amount:
-                    paidAmount,
-
+            sellerAmount:
                 sellerAmount,
 
-                zibaCommission,
+            paidAt:
+                new Date(),
 
-                subaccountCode,
+            verifiedAt:
+                new Date(),
 
-                paymentReference:
-                    transaction.reference,
-
-                paymentStatus:
-                    "paid",
-
-                orderStatus:
-                    "pending",
-
-                createdAt:
-                    new Date()
-
-            });
-
-
-            // ==================================
-            // RESPONSE
-            // ==================================
-
-            return res.json({
-
-                status: true,
-
-                message:
-                    "Payment verified and order created successfully.",
-
-                orderId:
-                    orderRef.id,
-
-                amount:
-                    paidAmount,
-
-                sellerAmount,
-
-                zibaCommission,
-
-                subaccountCode,
-
-                paymentReference:
-                    transaction.reference
-
-            });
-
-        }
-
-
-        // ======================================
-        // UNKNOWN PAYMENT
-        // ======================================
-
-        return res.status(400).json({
-
-            status: false,
-
-            message:
-                "Unknown payment type."
+            updatedAt:
+                new Date()
 
         });
 
 
-    } catch (error) {
+        // ======================================
+        // UPDATE SELLER BALANCE
+        // ======================================
+
+        const sellerRef =
+            db
+                .collection("users")
+                .doc(order.sellerId);
+
+
+        const sellerSnap =
+            await sellerRef.get();
+
+
+        if (sellerSnap.exists) {
+
+            const seller =
+                sellerSnap.data();
+
+
+            const currentBalance =
+                Number(
+                    seller.balance || 0
+                );
+
+
+            await sellerRef.update({
+
+                balance:
+                    currentBalance +
+                    sellerAmount,
+
+                updatedAt:
+                    new Date()
+
+            });
+
+        }
+
+
+        // ======================================
+        // SUCCESS
+        // ======================================
+
+        return res.json({
+
+            status: true,
+
+            message:
+                "Payment verified successfully.",
+
+            orderId:
+                paymentId,
+
+            amount,
+
+            commission,
+
+            sellerAmount
+
+        });
+
+    }
+
+
+    catch (error) {
 
         console.error(
-
-            "Payment verification error:",
-
-            error.response?.data ||
-            error.message
-
+            "Verify payment error:",
+            error
         );
 
 
-        return res.status(
-
-            error.response?.status || 500
-
-        ).json({
+        return res.status(500).json({
 
             status: false,
 
             message:
-                error.response?.data?.message ||
-                "Payment verification failed."
+                "Unable to verify payment."
 
         });
 

@@ -1,18 +1,4 @@
-import axios from "axios";
 import { db } from "../firebase-admin.js";
-
-
-// ==========================================
-// PAYSTACK HEADERS
-// ==========================================
-
-const paystackHeaders = {
-    Authorization:
-        `Bearer ${process.env.PAYSTACK_SECRET_KEY}`,
-
-    "Content-Type":
-        "application/json"
-};
 
 
 // ==========================================
@@ -25,16 +11,11 @@ export const getBankAccount = async (req, res) => {
 
         const { userId } = req.params;
 
-
         if (!userId) {
 
             return res.status(400).json({
-
                 status: false,
-
-                message:
-                    "User ID is required."
-
+                message: "User ID is required."
             });
 
         }
@@ -43,7 +24,6 @@ export const getBankAccount = async (req, res) => {
         const userRef =
             db.collection("users").doc(userId);
 
-
         const userSnap =
             await userRef.get();
 
@@ -51,12 +31,8 @@ export const getBankAccount = async (req, res) => {
         if (!userSnap.exists) {
 
             return res.status(404).json({
-
                 status: false,
-
-                message:
-                    "User account not found."
-
+                message: "Seller account not found."
             });
 
         }
@@ -66,30 +42,18 @@ export const getBankAccount = async (req, res) => {
             userSnap.data();
 
 
-        // ======================================
-        // NO BANK ACCOUNT
-        // ======================================
-
         if (
             !userData.bankCode ||
             !userData.accountNumber
         ) {
 
             return res.status(404).json({
-
                 status: false,
-
-                message:
-                    "No bank account connected."
-
+                message: "No bank account connected."
             });
 
         }
 
-
-        // ======================================
-        // RETURN SAVED BANK ACCOUNT
-        // ======================================
 
         return res.json({
 
@@ -104,23 +68,22 @@ export const getBankAccount = async (req, res) => {
             accountName:
                 userData.accountName || "",
 
-            subaccountCode:
-                userData.subaccountCode || "",
+            bankName:
+                userData.bankName || "",
 
             bankConnected:
                 userData.bankConnected || false
 
         });
 
+    }
 
-    } catch (error) {
+    catch (error) {
 
         console.error(
             "Get bank account error:",
-            error.response?.data ||
-            error.message
+            error
         );
-
 
         return res.status(500).json({
 
@@ -138,7 +101,7 @@ export const getBankAccount = async (req, res) => {
 
 
 // ==========================================
-// VERIFY + CREATE PAYSTACK SUBACCOUNT
+// SAVE SELLER BANK ACCOUNT
 // ==========================================
 
 export const verifyBankAccount = async (req, res) => {
@@ -147,8 +110,9 @@ export const verifyBankAccount = async (req, res) => {
 
         const {
             userId,
-            email,
+            bankName,
             bankCode,
+            accountName,
             accountNumber
         } = req.body;
 
@@ -159,7 +123,8 @@ export const verifyBankAccount = async (req, res) => {
 
         if (
             !userId ||
-            !bankCode ||
+            !bankName ||
+            !accountName ||
             !accountNumber
         ) {
 
@@ -168,7 +133,7 @@ export const verifyBankAccount = async (req, res) => {
                 status: false,
 
                 message:
-                    "Bank code, account number and user ID are required."
+                    "Bank name, account name, account number and user ID are required."
 
             });
 
@@ -176,7 +141,7 @@ export const verifyBankAccount = async (req, res) => {
 
 
         // ======================================
-        // VALIDATE ACCOUNT NUMBER
+        // ACCOUNT NUMBER VALIDATION
         // ======================================
 
         if (
@@ -196,32 +161,11 @@ export const verifyBankAccount = async (req, res) => {
 
 
         // ======================================
-        // CHECK PAYSTACK KEY
-        // ======================================
-
-        if (
-            !process.env.PAYSTACK_SECRET_KEY
-        ) {
-
-            return res.status(500).json({
-
-                status: false,
-
-                message:
-                    "Paystack secret key is not configured."
-
-            });
-
-        }
-
-
-        // ======================================
         // GET USER
         // ======================================
 
         const userRef =
             db.collection("users").doc(userId);
-
 
         const userSnap =
             await userRef.get();
@@ -241,252 +185,23 @@ export const verifyBankAccount = async (req, res) => {
         }
 
 
-        const userData =
-            userSnap.data();
-
-
         // ======================================
-        // VERIFY BANK ACCOUNT WITH PAYSTACK
-        // ======================================
-
-        console.log(
-            "Verifying bank account:",
-            bankCode,
-            accountNumber
-        );
-
-
-        const resolveResponse =
-            await axios.get(
-
-                "https://api.paystack.co/bank/resolve",
-
-                {
-
-                    params: {
-
-                        account_number:
-                            accountNumber,
-
-                        bank_code:
-                            bankCode
-
-                    },
-
-                    headers:
-                        paystackHeaders
-
-                }
-
-            );
-
-
-        if (
-            !resolveResponse.data.status
-        ) {
-
-            return res.status(400).json({
-
-                status: false,
-
-                message:
-                    resolveResponse.data.message ||
-                    "Unable to verify bank account."
-
-            });
-
-        }
-
-
-        const resolvedAccount =
-            resolveResponse.data.data;
-
-
-        const verifiedAccountName =
-            resolvedAccount.account_name;
-
-
-        console.log(
-            "Account resolved:",
-            verifiedAccountName
-        );
-
-
-        // ======================================
-        // CHECK IF SELLER ALREADY HAS SUBACCOUNT
-        // ======================================
-
-        if (
-            userData.subaccountCode &&
-            userData.bankCode === bankCode &&
-            userData.accountNumber === accountNumber
-        ) {
-
-            console.log(
-                "Seller already has a Paystack subaccount:",
-                userData.subaccountCode
-            );
-
-
-            // Update the verified account information
-            await userRef.update({
-
-                accountName:
-                    verifiedAccountName,
-
-                bankConnected:
-                    true,
-
-                updatedAt:
-                    new Date()
-
-            });
-
-
-            return res.json({
-
-                status: true,
-
-                message:
-                    "Bank account verified successfully.",
-
-                accountName:
-                    verifiedAccountName,
-
-                bankCode:
-                    bankCode,
-
-                accountNumber:
-                    accountNumber,
-
-                subaccountCode:
-                    userData.subaccountCode
-
-            });
-
-        }
-
-
-        // ======================================
-        // CREATE PAYSTACK SUBACCOUNT
-        // ======================================
-
-        console.log(
-            "Creating Paystack subaccount..."
-        );
-
-
-        const subaccountResponse =
-            await axios.post(
-
-                "https://api.paystack.co/subaccount",
-
-                {
-
-                    business_name:
-                        verifiedAccountName,
-
-                    settlement_bank:
-                        bankCode,
-
-                    account_number:
-                        accountNumber,
-
-                    percentage_charge:
-                        5,
-
-                    description:
-                        "Ziba marketplace seller",
-
-                    primary_contact_email:
-                        email ||
-                        userData.email ||
-                        ""
-
-                },
-
-                {
-
-                    headers:
-                        paystackHeaders
-
-                }
-
-            );
-
-
-        if (
-            !subaccountResponse.data.status
-        ) {
-
-            return res.status(400).json({
-
-                status: false,
-
-                message:
-                    subaccountResponse.data.message ||
-                    "Unable to create Paystack subaccount."
-
-            });
-
-        }
-
-
-        // ======================================
-        // GET SUBACCOUNT DATA
-        // ======================================
-
-        const subaccount =
-            subaccountResponse.data.data;
-
-
-        const subaccountCode =
-            subaccount.subaccount_code;
-
-
-        if (!subaccountCode) {
-
-            console.error(
-                "Paystack did not return a subaccount code:",
-                subaccountResponse.data
-            );
-
-
-            return res.status(500).json({
-
-                status: false,
-
-                message:
-                    "Paystack created the subaccount but did not return a subaccount code."
-
-            });
-
-        }
-
-
-        console.log(
-            "Paystack subaccount created:",
-            subaccountCode
-        );
-
-
-        // ======================================
-        // SAVE SELLER BANK + SUBACCOUNT
+        // SAVE BANK DETAILS
         // ======================================
 
         await userRef.update({
 
-            bankCode:
-                bankCode,
+            bankName:
+                bankName.trim(),
 
-            accountNumber:
-                accountNumber,
+            bankCode:
+                bankCode || "",
 
             accountName:
-                verifiedAccountName,
+                accountName.trim(),
 
-            subaccountCode:
-                subaccountCode,
+            accountNumber:
+                accountNumber.trim(),
 
             bankConnected:
                 true,
@@ -504,58 +219,42 @@ export const verifyBankAccount = async (req, res) => {
         // SUCCESS
         // ======================================
 
-        console.log(
-            "Bank account connected successfully:",
-            verifiedAccountName
-        );
-
-
         return res.json({
 
             status: true,
 
             message:
-                "Bank account verified and Paystack subaccount created successfully.",
+                "Bank account saved successfully.",
 
-            accountName:
-                verifiedAccountName,
+            bankName:
+                bankName.trim(),
 
             bankCode:
-                bankCode,
+                bankCode || "",
+
+            accountName:
+                accountName.trim(),
 
             accountNumber:
-                accountNumber,
-
-            subaccountCode:
-                subaccountCode
+                accountNumber.trim()
 
         });
 
+    }
 
-    } catch (error) {
+    catch (error) {
 
         console.error(
-            "Bank verification error:",
-            error.response?.data ||
-            error.message
+            "Save bank account error:",
+            error
         );
 
-
-        return res.status(
-
-            error.response?.status || 500
-
-        ).json({
+        return res.status(500).json({
 
             status: false,
 
             message:
-                error.response?.data?.message ||
-                "Unable to verify bank account.",
-
-            error:
-                error.response?.data ||
-                error.message
+                "Unable to save bank account."
 
         });
 
