@@ -107,15 +107,3 @@ app.listen(PORT, () => {
     );
 
 });
-app.get("/api/payment/test", (req, res) => {
-
-    res.json({
-
-        status: true,
-
-        message:
-            "Payment routes are working."
-
-    });
-
-});
