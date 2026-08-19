@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 
 import paymentRoutes from "./routes/payment.js";
 import withdrawRoutes from "./routes/withdraw.js";
+import bankAccountRoutes from "./routes/bankAccount.js";
 
 dotenv.config();
 
@@ -23,7 +24,7 @@ app.get("/", (req, res) => {
 
 
 // ==========================================
-// PRODUCT PAYMENTS
+// PAYMENT
 // ==========================================
 
 app.use(
@@ -33,12 +34,22 @@ app.use(
 
 
 // ==========================================
-// SELLER WITHDRAWALS
+// WITHDRAWAL
 // ==========================================
 
 app.use(
     "/api/withdraw",
     withdrawRoutes
+);
+
+
+// ==========================================
+// BANK ACCOUNT
+// ==========================================
+
+app.use(
+    "/api/bank-account",
+    bankAccountRoutes
 );
 
 

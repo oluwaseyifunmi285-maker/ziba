@@ -363,30 +363,33 @@ export const withdrawFunds = async (req, res) => {
 
         });
 
+} catch (error) {
 
-    } catch (error) {
+    console.error(
+        "Withdrawal error:",
+        error.response?.data ||
+        error.message
+    );
 
-        console.error(
-            "Withdrawal error:",
-            error.response?.data ||
-            error.message
-        );
+    const paystackMessage =
+        error.response?.data?.message ||
+        error.message ||
+        "Withdrawal failed.";
 
+    return res.status(
+        error.response?.status || 500
+    ).json({
 
-        return res.status(500).json({
+        status: false,
 
-            status: false,
+        message:
+            paystackMessage,
 
-            message:
-                error.response?.data?.message ||
-                "Withdrawal failed.",
+        error:
+            error.response?.data || null
 
-            error:
-                error.response?.data ||
-                error.message
+    });
 
-        });
-
-    }
+}
 
 };
