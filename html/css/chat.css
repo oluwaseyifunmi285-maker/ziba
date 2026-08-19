@@ -7,7 +7,9 @@
 
 body {
     background: #f5f5f5;
+    color: #222;
 }
+
 
 /* ===============================
    HEADER
@@ -43,14 +45,17 @@ header h2 {
 /* ===============================
    CHAT CARD
 ================================ */
+
 .chat-card {
     background: #fff;
 
     display: flex;
     align-items: center;
 
-    padding: 18px;
-    margin-bottom: 15px;
+    width: 100%;
+
+    padding: 14px 18px;
+    margin-bottom: 12px;
 
     border-radius: 15px;
 
@@ -60,6 +65,16 @@ header h2 {
     box-shadow: 0 3px 10px rgba(0, 0, 0, .08);
 }
 
+.chat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, .12);
+}
+
+
+/* ===============================
+   LEFT SIDE
+================================ */
+
 .chat-left {
     display: flex;
     align-items: center;
@@ -67,16 +82,73 @@ header h2 {
     min-width: 0;
 }
 
-.chat-right {
-    margin-left: auto;
+
+/* ===============================
+   PROFILE IMAGE / AVATAR
+================================ */
+
+.chat-avatar {
+    width: 55px;
+    height: 55px;
+
+    min-width: 55px;
+    max-width: 55px;
+
+    border-radius: 50%;
+
+    overflow: hidden;
+
+    background: #FDBF2D;
+
+    color: #000;
 
     display: flex;
-    flex-direction: column;
-    align-items: flex-end;
+    align-items: center;
+    justify-content: center;
 
-    text-align: right;
+    font-size: 20px;
+    font-weight: 700;
+
+    margin-right: 14px;
+
     flex-shrink: 0;
 }
+
+
+/* IMPORTANT:
+   Prevent the actual image from becoming huge
+*/
+
+.chat-avatar img {
+    width: 100%;
+    height: 100%;
+
+    max-width: 100%;
+    max-height: 100%;
+
+    object-fit: cover;
+
+    display: block;
+
+    border-radius: 50%;
+}
+
+
+/* FALLBACK LETTER */
+
+.chat-avatar span {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* ===============================
+   CHAT INFORMATION
+================================ */
 
 .chat-info {
     min-width: 0;
@@ -85,20 +157,63 @@ header h2 {
 
 .chat-info h3 {
     color: #222;
-    margin-bottom: 6px;
-}
 
-.chat-info p {
-    color: #777;
-    font-size: 14px;
+    margin-bottom: 5px;
+
+    font-size: 17px;
 
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
+.chat-info p {
+    color: #777;
+
+    font-size: 14px;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    max-width: 100%;
+}
+
+
+/* ===============================
+   RIGHT SIDE
+================================ */
+
+.chat-right {
+    margin-left: 15px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+
+    text-align: right;
+
+    flex-shrink: 0;
+}
+
+
+/* ===============================
+   TIME
+================================ */
+
+.time {
+    color: #999;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+
+/* ===============================
+   UNREAD BADGE
+================================ */
+
 .badge {
-    margin-top: 8px;
+    margin-top: 7px;
 
     min-width: 24px;
     height: 24px;
@@ -117,6 +232,8 @@ header h2 {
     font-size: 12px;
     font-weight: 700;
 }
+
+
 /* ===============================
    UNREAD CHAT
 ================================ */
@@ -136,23 +253,33 @@ header h2 {
 
 
 /* ===============================
-   EMPTY
+   EMPTY STATE
 ================================ */
 
 .empty {
     text-align: center;
+
     margin-top: 120px;
+
     color: #777;
 }
 
 .empty i {
     font-size: 80px;
+
     color: #FDBF2D;
+
     margin-bottom: 20px;
 }
 
 .empty h3 {
     margin-bottom: 10px;
+
+    color: #333;
+}
+
+.empty p {
+    font-size: 14px;
 }
 
 
@@ -175,22 +302,28 @@ header h2 {
     }
 
     .chat-card {
-        padding: 15px;
+        padding: 13px;
     }
 
     .chat-avatar {
         width: 50px;
         height: 50px;
-        font-size: 18px;
+
+        min-width: 50px;
+        max-width: 50px;
+
         margin-right: 12px;
+
+        font-size: 18px;
     }
 
     .chat-info h3 {
-        font-size: 17px;
+        font-size: 16px;
     }
 
     .chat-info p {
         font-size: 13px;
+
         max-width: 180px;
     }
 
@@ -201,6 +334,7 @@ header h2 {
     .badge {
         min-width: 22px;
         height: 22px;
+
         font-size: 11px;
     }
 }
@@ -217,13 +351,19 @@ header h2 {
     }
 
     .chat-card {
-        padding: 12px;
+        padding: 11px;
     }
 
     .chat-avatar {
         width: 45px;
         height: 45px;
+
+        min-width: 45px;
+        max-width: 45px;
+
         margin-right: 10px;
+
+        font-size: 16px;
     }
 
     .chat-info h3 {
@@ -232,6 +372,15 @@ header h2 {
 
     .chat-info p {
         max-width: 130px;
+
         font-size: 12px;
+    }
+
+    .chat-right {
+        margin-left: 8px;
+    }
+
+    .time {
+        font-size: 10px;
     }
 }
