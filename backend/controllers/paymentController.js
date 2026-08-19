@@ -1,39 +1,10 @@
-
 import axios from "axios";
-
 import { db } from "../firebase-admin.js";
 
 
-// ==========================================
-// ZIBA PREMIUM PLANS
-// ==========================================
-
-const PLANS = {
-
-    daily: {
-        amount: 500,
-        durationDays: 1,
-        name: "Ziba Daily"
-    },
-
-    weekly: {
-        amount: 3000,
-        durationDays: 7,
-        name: "Ziba Weekly"
-    },
-
-    monthly: {
-        amount: 10000,
-        durationDays: 30,
-        name: "Ziba Monthly"
-    }
-
-};
-
-
-// ==========================================
+// =====================================================
 // INITIALIZE PAYMENT
-// ==========================================
+// =====================================================
 
 export const initializePayment = async (req, res) => {
 
@@ -42,84 +13,99 @@ export const initializePayment = async (req, res) => {
         const {
             email,
             amount,
-            plan,
-            userId,
 
-            // Product payment fields
+            // Product payment
             productId,
             productName,
             buyerName,
             buyerId,
-            sellerId
+            sellerId,
+
+            // Upgrade payment
+            userId,
+            plan,
+            paymentType
 
         } = req.body;
 
 
-        // ======================================
-        // CHECK EMAIL
-        // ======================================
+        // =================================================
+        // BASIC VALIDATION
+        // =================================================
 
         if (!email) {
 
             return res.status(400).json({
-
                 status: false,
-
-                message:
-                    "Email is required."
-
+                message: "Email is required."
             });
 
         }
 
 
-        // ======================================
-        // PREMIUM PLAN PAYMENT
-        // ======================================
+        if (!amount || Number(amount) <= 0) {
 
-        if (plan) {
+            return res.status(400).json({
+                status: false,
+                message: "Valid payment amount is required."
+            });
 
-            const selectedPlan =
-                PLANS[plan];
+        }
 
 
-            if (!selectedPlan) {
+        // =================================================
+        // UPGRADE PAYMENT
+        // =================================================
+
+        if (
+            paymentType === "upgrade"
+        ) {
+
+            if (!userId) {
 
                 return res.status(400).json({
-
                     status: false,
-
-                    message:
-                        "Invalid upgrade plan."
-
+                    message: "User ID is required."
                 });
 
             }
 
 
-            // IMPORTANT:
-            // Never trust the price sent from
-            // the browser.
-            //
-            // We use the server-side price.
+            if (!plan) {
 
-            const planAmount =
-                selectedPlan.amount;
+                return res.status(400).json({
+                    status: false,
+                    message: "Plan is required."
+                });
+
+            }
 
 
-            console.log(
-                "Initializing Ziba upgrade:",
-                {
-                    userId,
-                    plan,
-                    amount: planAmount
-                }
-            );
+            // Only allow your actual plans
+
+            const allowedPlans = [
+                "daily",
+                "weekly",
+                "monthly"
+            ];
+
+
+            if (
+                !allowedPlans.includes(
+                    String(plan).toLowerCase()
+                )
+            ) {
+
+                return res.status(400).json({
+                    status: false,
+                    message: "Invalid upgrade plan."
+                });
+
+            }
 
 
             const response =
                 await axios.post(
-
                     "https://api.paystack.co/transaction/initialize",
 
                     {
@@ -127,7 +113,7 @@ export const initializePayment = async (req, res) => {
                         email,
 
                         amount:
-                            planAmount * 100,
+                            Number(amount) * 100,
 
                         callback_url:
                             process.env.PAYSTACK_CALLBACK_URL,
@@ -137,16 +123,12 @@ export const initializePayment = async (req, res) => {
                             paymentType:
                                 "upgrade",
 
-                            userId:
-                                userId || null,
+                            userId,
 
                             plan,
 
-                            planName:
-                                selectedPlan.name,
-
-                            durationDays:
-                                selectedPlan.durationDays
+                            amount:
+                                Number(amount)
 
                         }
 
@@ -165,61 +147,22 @@ export const initializePayment = async (req, res) => {
                         }
 
                     }
-
                 );
 
 
-            const paystackData =
-                response.data;
-
-
-            // ==================================
-            // RETURN PAYSTACK URL
-            // ==================================
-
-            return res.json({
-
-                status:
-                    paystackData.status,
-
-                message:
-                    paystackData.message,
-
-                authorization_url:
-                    paystackData.data?.authorization_url,
-
-                access_code:
-                    paystackData.data?.access_code,
-
-                reference:
-                    paystackData.data?.reference
-
-            });
+            return res.json(
+                response.data
+            );
 
         }
 
 
-        // ======================================
-        // NORMAL PRODUCT PAYMENT
-        // ======================================
-
-        if (!amount) {
-
-            return res.status(400).json({
-
-                status: false,
-
-                message:
-                    "Amount is required."
-
-            });
-
-        }
-
+        // =================================================
+        // PRODUCT PAYMENT
+        // =================================================
 
         const response =
             await axios.post(
-
                 "https://api.paystack.co/transaction/initialize",
 
                 {
@@ -238,7 +181,7 @@ export const initializePayment = async (req, res) => {
                             "product",
 
                         productId:
-                            productId || null,
+                            productId || "",
 
                         productName:
                             productName || "",
@@ -247,10 +190,10 @@ export const initializePayment = async (req, res) => {
                             buyerName || "",
 
                         buyerId:
-                            buyerId || null,
+                            buyerId || "",
 
                         sellerId:
-                            sellerId || null
+                            sellerId || ""
 
                     }
 
@@ -273,39 +216,17 @@ export const initializePayment = async (req, res) => {
             );
 
 
-        // ======================================
-        // RETURN NORMALIZED RESPONSE
-        // ======================================
-
-        return res.json({
-
-            status:
-                response.data.status,
-
-            message:
-                response.data.message,
-
-            authorization_url:
-                response.data.data?.authorization_url,
-
-            access_code:
-                response.data.data?.access_code,
-
-            reference:
-                response.data.data?.reference
-
-        });
+        return res.json(
+            response.data
+        );
 
 
     } catch (error) {
 
         console.error(
-
             "Payment initialization error:",
-
             error.response?.data ||
             error.message
-
         );
 
 
@@ -314,8 +235,11 @@ export const initializePayment = async (req, res) => {
             status: false,
 
             message:
-                error.response?.data?.message ||
-                "Payment initialization failed."
+                "Payment initialization failed.",
+
+            error:
+                error.response?.data ||
+                error.message
 
         });
 
@@ -324,11 +248,15 @@ export const initializePayment = async (req, res) => {
 };
 
 
-// ==========================================
-// VERIFY PAYMENT
-// ==========================================
 
-export const verifyPayment = async (req, res) => {
+// =====================================================
+// VERIFY PAYMENT
+// =====================================================
+
+export const verifyPayment = async (
+    req,
+    res
+) => {
 
     try {
 
@@ -337,9 +265,9 @@ export const verifyPayment = async (req, res) => {
         } = req.params;
 
 
-        // ======================================
+        // =================================================
         // VERIFY WITH PAYSTACK
-        // ======================================
+        // =================================================
 
         const response =
             await axios.get(
@@ -364,16 +292,16 @@ export const verifyPayment = async (req, res) => {
             response.data.data;
 
 
-        // ======================================
-        // PAYMENT FAILED
-        // ======================================
+        // =================================================
+        // CHECK SUCCESS
+        // =================================================
 
         if (
             transaction.status !==
             "success"
         ) {
 
-            return res.status(400).json({
+            return res.json({
 
                 status: false,
 
@@ -385,17 +313,17 @@ export const verifyPayment = async (req, res) => {
         }
 
 
-        // ======================================
-        // METADATA
-        // ======================================
+        // =================================================
+        // GET METADATA
+        // =================================================
 
         const metadata =
             transaction.metadata || {};
 
 
-        // ======================================
-        // ZIBA ACCOUNT UPGRADE
-        // ======================================
+        // =================================================
+        // UPGRADE PAYMENT
+        // =================================================
 
         if (
             metadata.paymentType ===
@@ -407,20 +335,12 @@ export const verifyPayment = async (req, res) => {
 
 
             const plan =
-                metadata.plan;
+                String(
+                    metadata.plan || ""
+                ).toLowerCase();
 
 
-            const durationDays =
-                Number(
-                    metadata.durationDays
-                );
-
-
-            if (
-                !userId ||
-                !plan ||
-                !durationDays
-            ) {
+            if (!userId || !plan) {
 
                 return res.status(400).json({
 
@@ -434,226 +354,125 @@ export const verifyPayment = async (req, res) => {
             }
 
 
-            // ==================================
-            // GET USER
-            // ==================================
+            // =============================================
+            // DETERMINE PLAN DURATION
+            // =============================================
 
-            const userRef =
-                db
-                    .collection(
-                        "users"
-                    )
-                    .doc(userId);
+            let durationMilliseconds;
 
 
-            const userSnap =
-                await userRef.get();
+            switch (plan) {
+
+                case "daily":
+
+                    durationMilliseconds =
+                        24 *
+                        60 *
+                        60 *
+                        1000;
+
+                    break;
 
 
-            if (
-                !userSnap.exists
-            ) {
+                case "weekly":
 
-                return res.status(404).json({
+                    durationMilliseconds =
+                        7 *
+                        24 *
+                        60 *
+                        60 *
+                        1000;
 
-                    status: false,
-
-                    message:
-                        "User account not found."
-
-                });
-
-            }
+                    break;
 
 
-            const userData =
-                userSnap.data();
+                case "monthly":
+
+                    durationMilliseconds =
+                        30 *
+                        24 *
+                        60 *
+                        60 *
+                        1000;
+
+                    break;
 
 
-            // ==================================
-            // CALCULATE EXPIRY
-            // ==================================
+                default:
 
-            const now =
-                new Date();
+                    return res.status(400).json({
 
+                        status: false,
 
-            let startDate =
-                now;
+                        message:
+                            "Invalid plan."
 
-
-            // If the user already has an
-            // active premium plan, extend
-            // from its expiry date.
-
-            if (
-                userData.planExpiresAt
-            ) {
-
-                const existingExpiry =
-                    userData.planExpiresAt
-                        .toDate
-                        ? userData.planExpiresAt.toDate()
-                        : new Date(
-                            userData.planExpiresAt
-                        );
-
-
-                if (
-                    existingExpiry > now
-                ) {
-
-                    startDate =
-                        existingExpiry;
-
-                }
+                    });
 
             }
 
 
-            const expiresAt =
+            // =============================================
+            // EXPIRATION DATE
+            // =============================================
+
+            const planExpiresAt =
                 new Date(
-                    startDate.getTime() +
-                    durationDays *
-                    24 *
-                    60 *
-                    60 *
-                    1000
+                    Date.now() +
+                    durationMilliseconds
                 );
 
 
-            // ==================================
-            // UPDATE USER PLAN
-            // ==================================
+            // =============================================
+            // UPDATE USER
+            // =============================================
 
-            await userRef.update({
-
-                plan:
-                    plan,
-
-                accountType:
-                    plan,
-
-                isPremium:
-                    true,
-
-                planStartedAt:
-                    now,
-
-                planExpiresAt:
-                    expiresAt,
-
-                lastPaymentReference:
-                    transaction.reference,
-
-                lastPaymentAmount:
-                    transaction.amount / 100,
-
-                lastPaymentStatus:
-                    "paid",
-
-                updatedAt:
-                    now
-
-            });
-
-
-            // ==================================
-            // SAVE PAYMENT
-            // ==================================
-
-            const paymentRef =
-                db
-                    .collection(
-                        "payments"
-                    )
-                    .doc();
-
-
-            await paymentRef.set({
-
-                userId:
-
-                    userId,
-
-                email:
-
-                    transaction
-                        .customer
-                        ?.email ||
-                    "",
-
-                paymentType:
-                    "upgrade",
-
-                plan:
+            await db
+                .collection("users")
+                .doc(userId)
+                .update({
 
                     plan,
 
-                planName:
+                    isPremium:
+                        true,
 
-                    metadata.planName ||
-                    "",
+                    planExpiresAt,
 
-                amount:
+                    lastPaymentReference:
+                        transaction.reference,
 
-                    transaction.amount /
-                    100,
+                    lastPaymentAmount:
+                        transaction.amount / 100,
 
-                reference:
+                    updatedAt:
+                        new Date()
 
-                    transaction.reference,
-
-                paymentStatus:
-                    "paid",
-
-                durationDays:
-
-                    durationDays,
-
-                createdAt:
-                    now,
-
-                expiresAt:
-                    expiresAt
-
-            });
+                });
 
 
             console.log(
-
-                "Ziba plan activated:",
-
-                {
-                    userId,
-                    plan,
-                    expiresAt
-                }
-
+                "✅ Plan activated:",
+                userId,
+                plan
             );
 
-
-            // ==================================
-            // RETURN SUCCESS
-            // ==================================
 
             return res.json({
 
                 status: true,
 
-                paymentType:
+                type:
                     "upgrade",
 
                 message:
                     "Payment verified and account upgraded.",
 
-                plan:
-                    plan,
+                plan,
 
-                expiresAt:
-                    expiresAt,
+                planExpiresAt,
 
-                paymentReference:
+                reference:
                     transaction.reference
 
             });
@@ -661,15 +480,13 @@ export const verifyPayment = async (req, res) => {
         }
 
 
-        // ======================================
-        // NORMAL PRODUCT ORDER
-        // ======================================
+        // =================================================
+        // PRODUCT PAYMENT
+        // =================================================
 
         const orderRef =
             db
-                .collection(
-                    "orders"
-                )
+                .collection("orders")
                 .doc();
 
 
@@ -684,8 +501,7 @@ export const verifyPayment = async (req, res) => {
                 "",
 
             buyerEmail:
-                transaction.customer
-                    ?.email ||
+                transaction.customer?.email ||
                 "",
 
             sellerId:
@@ -723,7 +539,7 @@ export const verifyPayment = async (req, res) => {
 
             status: true,
 
-            paymentType:
+            type:
                 "product",
 
             message:
@@ -763,4 +579,3 @@ export const verifyPayment = async (req, res) => {
     }
 
 };
-

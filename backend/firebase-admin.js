@@ -1,39 +1,96 @@
-import { initializeApp, cert } from "firebase-admin/app";
+import { initializeApp, cert, getApps } from "firebase-admin/app";
 import { getFirestore } from "firebase-admin/firestore";
 import dotenv from "dotenv";
 
 dotenv.config();
 
+
+// ==========================================
+// FIREBASE ADMIN CONFIG
+// ==========================================
+
 const serviceAccount = {
-    type: process.env.FIREBASE_TYPE,
-    project_id: process.env.FIREBASE_PROJECT_ID,
-    private_key_id: process.env.FIREBASE_PRIVATE_KEY_ID,
-   private_key: process.env.FIREBASE_PRIVATE_KEY
-    .replace(/\\n/g, "\n")
-    .replace(/^"|"$/g, ""),
-    client_email: process.env.FIREBASE_CLIENT_EMAIL,
-    client_id: process.env.FIREBASE_CLIENT_ID,
-    auth_uri: process.env.FIREBASE_AUTH_URI,
-    token_uri: process.env.FIREBASE_TOKEN_URI,
+
+    type:
+        process.env.FIREBASE_TYPE,
+
+    project_id:
+        process.env.FIREBASE_PROJECT_ID,
+
+    private_key_id:
+        process.env.FIREBASE_PRIVATE_KEY_ID,
+
+    private_key:
+        process.env.FIREBASE_PRIVATE_KEY
+            ?.replace(/\\n/g, "\n")
+            .replace(/^"|"$/g, ""),
+
+    client_email:
+        process.env.FIREBASE_CLIENT_EMAIL,
+
+    client_id:
+        process.env.FIREBASE_CLIENT_ID,
+
+    auth_uri:
+        process.env.FIREBASE_AUTH_URI,
+
+    token_uri:
+        process.env.FIREBASE_TOKEN_URI,
+
     auth_provider_x509_cert_url:
         process.env.FIREBASE_AUTH_PROVIDER_X509_CERT_URL,
+
     client_x509_cert_url:
         process.env.FIREBASE_CLIENT_X509_CERT_URL
+
 };
-console.log("Firebase project:", serviceAccount.project_id);
-console.log("Firebase account:", serviceAccount.client_email);
-const app = initializeApp({
-    credential: cert(serviceAccount)
-});
 
-const db = getFirestore(app);
-db.collection("test").doc("render-test").set({
-    message: "Render can access Firestore",
-    createdAt: new Date()
-})
-.then(() => console.log("✅ Firestore write successful"))
-.catch(error => console.error("❌ Firestore write failed:", error.message));
 
-console.log("Firebase Admin connected");
+// ==========================================
+// CHECK CONFIG
+// ==========================================
 
-export { db };
+console.log(
+    "Firebase project:",
+    serviceAccount.project_id
+);
+
+console.log(
+    "Firebase account:",
+    serviceAccount.client_email
+);
+
+
+// ==========================================
+// INITIALIZE FIREBASE
+// ==========================================
+
+const app =
+    getApps().length > 0
+
+        ? getApps()[0]
+
+        : initializeApp({
+
+            credential:
+                cert(serviceAccount)
+
+        });
+
+
+// ==========================================
+// FIRESTORE
+// ==========================================
+
+const db =
+    getFirestore(app);
+
+
+console.log(
+    "Firebase Admin connected"
+);
+
+
+export {
+    db
+};
