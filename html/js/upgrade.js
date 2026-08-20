@@ -22,11 +22,11 @@ let selectedDuration = 0;
 // BANK DETAILS
 // ==========================================
 
-const BANK_NAME = "GTBank";
+const BANK_NAME = "Opay";
 
-const ACCOUNT_NAME = "Ziba Technologies";
+const ACCOUNT_NAME = "AGBON DAVID OSEMUDIAMEN";
 
-const ACCOUNT_NUMBER = "0123456789";
+const ACCOUNT_NUMBER = "6548698448";
 
 
 // ==========================================
